@@ -43,7 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">AllSkyCam4OLEODL</a></li>
 </ul>
 
         </div>
@@ -158,7 +158,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
     <span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;IR Camera for Satellite Tracking&quot;</span><span class="p">)</span>
-    <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;370x320+900+5&quot;</span><span class="p">)</span>  <span class="c1"># Increased width to accommodate new options</span>
+    <span class="c1"># Dimensions and position of the settings menu (WidthxHeight+X+Y).</span>
+    <span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s2">&quot;370x320+900+5&quot;</span><span class="p">)</span>
 
     <span class="c1"># Variables</span>
     <span class="n">gain_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
