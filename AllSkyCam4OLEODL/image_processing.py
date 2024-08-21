@@ -467,7 +467,8 @@ def frame_draw(
         )
     cv2.putText(
         frame,
-        f"Brightness {rad*2+1}x{rad*2+1} grid: {int_bright_grid_val:.3f} uw/m^2 -> {max_bright_grid_val} (mean: {mean_bright_grid_val:.1f})",
+        f"Brightness {rad*2+1}x{rad*2+1} grid: {int_bright_grid_val:.3f} uw/m^2 "
+        f"-> {max_bright_grid_val} (mean: {mean_bright_grid_val:.1f})",
         (1, 245),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.25,
@@ -740,11 +741,13 @@ def frame_processing(self, cam, frame) -> None:
     # We only write the frame if the mode selected is Record.
     if self.mode != 0:
         cv2.imwrite(
-            f"{self.p}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
+            f"{self.p}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
+            f"{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
             frame_subs,
         )
         cv2.imwrite(
-            f"{self.pnp}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
+            f"{self.pnp}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
+            f"{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
             frame_temp,
         )
 

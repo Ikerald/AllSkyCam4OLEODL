@@ -173,7 +173,8 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optical loss Tx = </span><span class="si">{</span><span class="n">a_tx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Optical loss onto RFE (incl. splitting) = </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB - We are not taking into account optical loss as the receiver is a camera&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Optical loss onto RFE (incl. splitting) = </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB - We are not &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;taking into account optical loss as the receiver is a camera&quot;</span>
         <span class="p">)</span>
         <span class="c1"># if sat == &quot;OsirisV1&quot;:</span>
         <span class="c1">#    print(</span>
@@ -186,16 +187,19 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tx-antenna gain = + </span><span class="si">{</span><span class="n">g_tx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Freespace Loss  = </span><span class="si">{</span><span class="n">a_fsl</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # axial Intensity a OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after only distance and Tx-internal losses&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # axial Intensity a OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;only distance and Tx-internal losses&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   # Area of Rx-antenna = </span><span class="si">{</span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> m^2&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;a_fsl, g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;atmosph. atten. = </span><span class="si">{</span><span class="n">a_atm</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;mean BeamWander loss = </span><span class="si">{</span><span class="n">a_bw</span><span class="si">}</span><span class="s2"> dB - Being the receiver a camera, we are not taking into acount BeamWander losses&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;mean BeamWander loss = </span><span class="si">{</span><span class="n">a_bw</span><span class="si">}</span><span class="s2"> dB - Being the receiver a camera, we are &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;not taking into acount BeamWander losses&quot;</span>
         <span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span>
@@ -207,22 +211,28 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;optical loss Rx = </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB, includes splitting for Tracking&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RxPower on RFE with all losses  = </span><span class="si">{</span><span class="n">p_rx</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere but excl. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere including Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere including &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue - no additional RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue - no additional RX-losses&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;= </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue including RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue including RX-losses = &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;RxPower onto RFE-detector incl all losses =  </span><span class="si">{</span><span class="n">p_rx_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW, sufficient for </span><span class="si">{</span><span class="p">(</span><span class="n">p_rx_lin</span><span class="o">/</span><span class="n">ppb</span><span class="o">/</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">H</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">C</span><span class="o">/</span><span class="n">wl</span><span class="p">))</span><span class="o">/</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> Gbps at </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Photons/bit&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;RxPower onto RFE-detector incl all losses =  </span><span class="si">{</span><span class="n">p_rx_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;sufficient for </span><span class="si">{</span><span class="p">(</span><span class="n">p_rx_lin</span><span class="o">/</span><span class="n">ppb</span><span class="o">/</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">H</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">C</span><span class="o">/</span><span class="n">wl</span><span class="p">))</span><span class="o">/</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> Gbps at </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Photons/bit&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;RFE-sensitivity for </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Ppb  =  </span><span class="si">{</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW or </span><span class="si">{</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="si">}</span><span class="s2"> dBm&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;RFE-sensitivity for </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Ppb  =  </span><span class="si">{</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW or &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="si">}</span><span class="s2"> dBm&quot;</span>
         <span class="p">)</span>
         <span class="nb">print</span><span class="p">()</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Link Margin: </span><span class="si">{</span><span class="n">p_rx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="w"> </span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
@@ -255,25 +265,31 @@
 
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;//////////////////// Intensity ////////////////////&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Axial Intensity at OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after only distance and Tx-internal losses&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Axial Intensity at OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after only &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;distance and Tx-internal losses&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere including Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere including Rx-losses = &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">()</span>
 
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;////////////////////// Power //////////////////////&quot;</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue - no additional RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue - no additional RX-losses = &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
             <span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue including RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue including RX-losses = &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
             <span class="p">)</span></div>
 
 

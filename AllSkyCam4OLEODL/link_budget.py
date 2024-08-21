@@ -98,7 +98,8 @@ def printer_lb(
         print(f"Optical loss Tx = {a_tx} dB")
 
         print(
-            f"Optical loss onto RFE (incl. splitting) = {a_rx} dB - We are not taking into account optical loss as the receiver is a camera"
+            f"Optical loss onto RFE (incl. splitting) = {a_rx} dB - We are not "
+            f"taking into account optical loss as the receiver is a camera"
         )
         # if sat == "OsirisV1":
         #    print(
@@ -111,16 +112,19 @@ def printer_lb(
         print(f"Tx-antenna gain = + {g_tx} dB")
         print(f"Freespace Loss  = {a_fsl} dB")
         print(
-            f"   # axial Intensity a OGS-distance = {i_axial*1E6} µW/m^2, after only distance and Tx-internal losses"
+            f"   # axial Intensity a OGS-distance = {i_axial*1E6} µW/m^2, after "
+            f"only distance and Tx-internal losses"
         )
         print(f"   # Area of Rx-antenna = {area_rx} m^2")
         print(
-            f"   # power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = {1E6*i_axial * area_rx} µW"
+            f"   # power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, "
+            f"a_fsl, g_Rx]  = {1E6*i_axial * area_rx} µW"
         )
         print()
         print(f"atmosph. atten. = {a_atm} dB")
         print(
-            f"mean BeamWander loss = {a_bw} dB - Being the receiver a camera, we are not taking into acount BeamWander losses"
+            f"mean BeamWander loss = {a_bw} dB - Being the receiver a camera, we are "
+            f"not taking into acount BeamWander losses"
         )
 
         print(
@@ -132,22 +136,28 @@ def printer_lb(
         print(f"optical loss Rx = {a_rx} dB, includes splitting for Tracking")
         print(f"RxPower on RFE with all losses  = {p_rx} dBm")
         print(
-            f"   # intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = {int_ogs_lin *1E6} µW/m^2"
+            f"   # intensity onto OGS-apertue incl atmosphere but excl. "
+            f"Rx-losses = {int_ogs_lin *1E6} µW/m^2"
         )
         print(
-            f"   # intensity onto OGS-apertue incl atmosphere including Rx-losses = {int_ogs_lin_loss *1E6} µW/m^2"
+            f"   # intensity onto OGS-apertue incl atmosphere including "
+            f"Rx-losses = {int_ogs_lin_loss *1E6} µW/m^2"
         )
         print(
-            f"   # power into the OGS-apertue - no additional RX-losses = {(10**(p_ogs_mean/10)/1000)*1E6} µW"
+            f"   # power into the OGS-apertue - no additional RX-losses"
+            f"= {(10**(p_ogs_mean/10)/1000)*1E6} µW"
         )
         print(
-            f"   # power into the OGS-apertue including RX-losses = {(10**(p_ogs_mean_loss/10)/1000)*1E6} µW"
+            f"   # power into the OGS-apertue including RX-losses = "
+            f"{(10**(p_ogs_mean_loss/10)/1000)*1E6} µW"
         )
         print(
-            f"RxPower onto RFE-detector incl all losses =  {p_rx_lin*1E9} nW, sufficient for {(p_rx_lin/ppb/(const.H*const.C/wl))/1E9} Gbps at {ppb} Photons/bit"
+            f"RxPower onto RFE-detector incl all losses =  {p_rx_lin*1E9} nW, "
+            f"sufficient for {(p_rx_lin/ppb/(const.H*const.C/wl))/1E9} Gbps at {ppb} Photons/bit"
         )
         print(
-            f"RFE-sensitivity for {ppb} Ppb  =  {p_rfe_lin*1E9} nW or {math.log10(p_rfe_lin*1000)*10} dBm"
+            f"RFE-sensitivity for {ppb} Ppb  =  {p_rfe_lin*1E9} nW or "
+            f"{math.log10(p_rfe_lin*1000)*10} dBm"
         )
         print()
         print(f"Link Margin: {p_rx - math.log10(p_rfe_lin*1000)*10 } dBm")
@@ -180,25 +190,31 @@ def printer_lb(
 
             print("//////////////////// Intensity ////////////////////")
             print(
-                f"Axial Intensity at OGS-distance = {i_axial*1E6} µW/m^2, after only distance and Tx-internal losses"
+                f"Axial Intensity at OGS-distance = {i_axial*1E6} µW/m^2, after only "
+                f"distance and Tx-internal losses"
             )
             print(
-                f"Intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = {int_ogs_lin *1E6} µW/m^2"
+                f"Intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = "
+                f"{int_ogs_lin *1E6} µW/m^2"
             )
             print(
-                f"Intensity onto OGS-apertue incl atmosphere including Rx-losses = {int_ogs_lin_loss *1E6} µW/m^2"
+                f"Intensity onto OGS-apertue incl atmosphere including Rx-losses = "
+                f"{int_ogs_lin_loss *1E6} µW/m^2"
             )
             print()
 
             print("////////////////////// Power //////////////////////")
             print(
-                f"Power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = {1E6*i_axial * area_rx} µW"
+                f"Power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, "
+                f"g_Rx]  = {1E6*i_axial * area_rx} µW"
             )
             print(
-                f"Power into the OGS-apertue - no additional RX-losses = {(10**(p_ogs_mean/10)/1000)*1E6} µW"
+                f"Power into the OGS-apertue - no additional RX-losses = "
+                f"{(10**(p_ogs_mean/10)/1000)*1E6} µW"
             )
             print(
-                f"Power into the OGS-apertue including RX-losses = {(10**(p_ogs_mean_loss/10)/1000)*1E6} µW"
+                f"Power into the OGS-apertue including RX-losses = "
+                f"{(10**(p_ogs_mean_loss/10)/1000)*1E6} µW"
             )
 
 
