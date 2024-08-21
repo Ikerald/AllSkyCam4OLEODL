@@ -12,6 +12,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 from tkinter import ttk
 from matplotlib import dates as mdates
+from matplotlib.dates import DateFormatter, HourLocator
 import sys
 import os
 import threading
@@ -560,9 +561,11 @@ class Handler:
 
         1. If recording mode is selected, sets the plot size, data, title, and labels.
 
-        2. If a payload is chosen, its name will be added to the plot's title.
+        2. Adjust the format of the time as H:M:S.
 
-        3. Saves the plot in the same directory as the recorded frames (stored in the instance).
+        3. If a payload is chosen, its name will be added to the plot's title.
+
+        4. Saves the plot in the same directory as the recorded frames (stored in the instance).
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -570,12 +573,22 @@ class Handler:
         :no-index:
         """
         if self.mode != 0:  # Only save if in recording mode
-            plt.figure(figsize=(10, 5))
+            plt.figure(figsize=(20, 8))
             plt.plot(self.xdata, self.ydata)
+
+            # Enable the grid
+            plt.grid(True)
+
+            # Format the x-axis ticks
+            time_format = mdates.DateFormatter("%H:%M:%S")
+            plt.gca().xaxis.set_major_formatter(time_format)
+
             plt.xlabel("Time [UTC]")
             plt.ylabel("Brightness")
             plt.gcf().autofmt_xdate()  # Rotate and align the tick labels
-            plt.tight_layout()
+            # Adjust layout manually for a tighter fit, but not as tight as plt.tightlayout()
+            plt.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.1)
+            # plt.tight_layout()
             if self.payload != "None":
                 plt.title(
                     f"{self.payload} downlink on {datetime.now().strftime("%Y-%m-%d")}"
