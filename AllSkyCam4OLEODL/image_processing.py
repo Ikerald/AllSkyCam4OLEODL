@@ -150,7 +150,10 @@ def write_csv(
         "Grid Intensity[uW/m^-2]",
     ]
 
-    filename = f"{self.p}/log.csv"
+    if self.payload != "None":
+        filename = f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_{self.payload}_DL_csv.csv"
+    else:
+        filename = f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_DL_csv.csv"
     file_exists = os.path.isfile(filename)
 
     # Write csv
@@ -772,4 +775,5 @@ def frame_processing(self, cam, frame) -> None:
     cv2.moveWindow(winname, 70, 5)
     cv2.imshow(winname, window)  # Show the frame
 
-    os.remove(const.TEMP_FRAME_DIR)
+    if os.path.isfile(const.TEMP_FRAME_DIR):
+        os.remove(const.TEMP_FRAME_DIR)

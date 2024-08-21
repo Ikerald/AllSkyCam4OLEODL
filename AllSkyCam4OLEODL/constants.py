@@ -5,13 +5,13 @@
 import numpy as np
 
 # Directories
-HOT_PIXEL0_DIR: str = r"..\data\references\gain0\hot_500000.tiff"
-HOT_PIXEL1_DIR: str = r"..\data\references\gain1\hot_50000.tiff"
+HOT_PIXEL0_DIR: str = r".\data\references\gain0\hot_500000.tiff"
+HOT_PIXEL1_DIR: str = r".\data\references\gain1\hot_50000.tiff"
 BACKGROUND_FRAME_DIR: str = r".\temp_.tiff"
 TEMP_FRAME_DIR: str = r".\temp.tiff"
 
-LUT_DIR0: str = r"..\data\lut\Goldeye-G-CL-008_LinLUT_Gain0.bin"
-LUT_DIR1: str = r"..data\lut\Goldeye-G-CL-008_LinLUT_Gain1.bin"
+LUT_DIR0: str = r".\data\lut\Goldeye-G-CL-008_LinLUT_Gain0.bin"
+LUT_DIR1: str = r".\data\lut\Goldeye-G-CL-008_LinLUT_Gain1.bin"
 
 HOT_PIXEL0_THRES_VAL: int = 45
 LUT_INDEX: int = 4

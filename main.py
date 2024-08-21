@@ -20,6 +20,7 @@ from tkinter import ttk
 from datetime import datetime
 import time
 import matplotlib.pyplot as plt
+import os
 
 import AllSkyCam4OLEODL
 
@@ -172,6 +173,8 @@ def main():
                     handler.save_plot()  # Save the plot when streaming stops
                     root.quit()
                     root.destroy()
+                    if os.path.isfile(AllSkyCam4OLEODL.BACKGROUND_FRAME_DIR):
+                        os.remove(AllSkyCam4OLEODL.BACKGROUND_FRAME_DIR)
 
             start_button = ttk.Button(
                 root, text="Start Capture", command=start_streaming, width=60

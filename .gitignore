@@ -9,6 +9,8 @@ __pycache__/
 *.tiff
 *.bin
 
+data/tracking_images
+
 ### VisualStudioCode ###
 .vscode/*      # Maybe .vscode/**/* instead - see comments
 !.vscode/settings.json

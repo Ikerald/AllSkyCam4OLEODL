@@ -408,7 +408,7 @@ class Handler:
         )
 
         # Directory where the tracking frames get saved: directory of script.
-        d = r"..\data"
+        d = r".\data"
 
         self.payload = payload.get()
         # self.elevation_mode = elevation_in.get()
@@ -572,19 +572,22 @@ class Handler:
         if self.mode != 0:  # Only save if in recording mode
             plt.figure(figsize=(10, 5))
             plt.plot(self.xdata, self.ydata)
-            if self.payload != "None":
-                plt.title(
-                    f"{self.payload} downlink on {datetime.now().strftime("%Y-%m-%d")}"
-                )
-            else:
-                plt.title(f"Downlink on {datetime.now().strftime("%Y-%m-%d")}")
             plt.xlabel("Time [UTC]")
             plt.ylabel("Brightness")
             plt.gcf().autofmt_xdate()  # Rotate and align the tick labels
             plt.tight_layout()
-            plt.savefig(
-                f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_{self.payload}_DL_plot.png"
-            )
+            if self.payload != "None":
+                plt.title(
+                    f"{self.payload} downlink on {datetime.now().strftime("%Y-%m-%d")}"
+                )
+                plt.savefig(
+                    f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_{self.payload}_DL_plot.png"
+                )
+            else:
+                plt.title(f"Downlink on {datetime.now().strftime("%Y-%m-%d")}")
+                plt.savefig(
+                    f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_DL_plot.png"
+                )
             plt.close()
 
     def create_camera_control_slider(self, root: tk.Tk) -> None:
@@ -722,7 +725,7 @@ class CameraControlSlider(tk.Toplevel):
         super().__init__(master)
         self.camera_control = camera_control
         self.title("Camera Control Sliders")
-        # Dimensions adn position of the control sliders (WidthxHeight+X+Y). 
+        # Dimensions adn position of the control sliders (WidthxHeight+X+Y).
         self.geometry("370x285+900+360")
 
         # Creates a frame to hold min and max sliders side by side
