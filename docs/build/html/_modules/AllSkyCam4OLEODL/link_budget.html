@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllSkyCam4OLEODL.link_budget &mdash; AllSkyCam4OLEODL 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AllSkyCam4OLEODL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AllSkyCam4OLEODL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">AllSkyCam4OLEODL.link_budget</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for AllSkyCam4OLEODL.link_budget</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This modules manages the creation and display of the link budget.&quot;&quot;&quot;</span>
+
+<span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\03_SCRIPTS\05_LINK_BUDGET\link_budget.py</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">mplcursors</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erfinv</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">const</span>
+
+
+<div class="viewcode-block" id="printer_lb">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.link_budget.printer_lb">[docs]</a>
+<span class="k">def</span> <span class="nf">printer_lb</span><span class="p">(</span>
+    <span class="n">el</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">elevation_mode</span><span class="p">,</span>
+    <span class="n">sat</span><span class="p">,</span>
+    <span class="n">a_tx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">p_tx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">ppb</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">teta_tx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_rx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">leng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">g_tx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_fsl</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">i_axial</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">area_rx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_atm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_bw</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">g_rx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_rx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">int_ogs_lin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">int_ogs_lin_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_ogs_mean</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_ogs_mean_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_rx_lin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wl</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_rfe_lin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_sci</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints the graph or the results and summary of the link budget.</span>
+
+<span class="sd">    1. If the elevation mode is &quot;Full&quot; it will just print the graph, if not</span>
+<span class="sd">    it will print the result of the link budget.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        el (np.ndarray | int): Elevation of the satellite</span>
+<span class="sd">        elevation_mode (tk.StringVar): Container of the elevation mode.</span>
+<span class="sd">        sat (tk.StringVar): Container of the payload used.</span>
+<span class="sd">        a_tx (int): Transmitter optical loss.</span>
+<span class="sd">        p_tx (int): Transmitter power.</span>
+<span class="sd">        ppb (int): Photons/bit.</span>
+<span class="sd">        teta_tx (float): Transmitter divergence.</span>
+<span class="sd">        a_rx (int): Receiver optical loss onto RFE.</span>
+<span class="sd">        leng (np.ndarray | float): Length of the link.</span>
+<span class="sd">        g_tx (float): Transmitter antenna gain.</span>
+<span class="sd">        a_fsl (np.ndarray | float): Free-space loss.</span>
+<span class="sd">        i_axial (np.ndarray | float): Axial intensity at OGS-distance.</span>
+<span class="sd">        area_rx (float): Receiver antenna area.</span>
+<span class="sd">        a_atm (np.ndarray | float): Atmospheric attenuation loss.</span>
+<span class="sd">        a_bw (int): Mean BeamWander loss.</span>
+<span class="sd">        g_rx (float): Reveiver antenna gain.</span>
+<span class="sd">        p_rx (np.ndarray | float): Received power.</span>
+<span class="sd">        int_ogs_lin (np.ndarray | float): Intensity onto OGS-apertue exc. losses.</span>
+<span class="sd">        int_ogs_lin_loss (np.ndarray | float): Intensity onto OGS-apertue inc. losses.</span>
+<span class="sd">        p_ogs_mean (np.ndarray | float): Power into the OGS-apertue - no additional RX-losses.</span>
+<span class="sd">        p_ogs_mean_loss (np.ndarray | float): Power into the OGS-apertue including RX-losses.</span>
+<span class="sd">        p_rx_lin (np.ndarray | float): RxPower onto RFE-detector incl all losses.</span>
+<span class="sd">        wl (float): Wavelength.</span>
+<span class="sd">        p_rfe_lin (float): RFE-sensitivity for an specific Photons/bit.</span>
+<span class="sd">        a_sci (int): Scintillation loss.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">elevation_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Full&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">int_ogs_lin_loss</span><span class="p">)</span>
+        <span class="n">el</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">int_ogs_lin_loss</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Intensity onto Camera-apertue  / µW/m²&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Elevation / 1°&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sat</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2"> intensity Link Budget&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">fig_manager</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_current_fig_manager</span><span class="p">()</span>
+
+        <span class="c1"># Set the window size and position (WidthxHeight+X+Y)</span>
+        <span class="c1"># fig_manager.window.wm_geometry(&quot;335x372+565+290&quot;)</span>
+        <span class="n">fig_manager</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s2">&quot;355x372+545+290&quot;</span><span class="p">)</span>
+
+        <span class="n">mplcursors</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;///////////////////////////////////////////////////&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transmit-power = </span><span class="si">{</span><span class="n">p_tx</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Divergence = </span><span class="si">{</span><span class="p">((</span><span class="n">teta_tx</span><span class="o">*</span><span class="mf">1E6</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2"> µrad&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optical loss Tx = </span><span class="si">{</span><span class="n">a_tx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Optical loss onto RFE (incl. splitting) = </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB - We are not taking into account optical loss as the receiver is a camera&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># if sat == &quot;OsirisV1&quot;:</span>
+        <span class="c1">#    print(</span>
+        <span class="c1">#        f&quot;Optical loss onto RFE (incl. splitting) = {a_rx} dB - in OSIRISv1 from FLP -7,5dB were measured in 30cm telescope towards PowerSensor&quot;</span>
+        <span class="c1">#    )</span>
+        <span class="c1"># print(f&quot;Optical loss Rx (incl. splitting) = {a_rx} dB - in KIODO only 4% of Rx-light was on RFE-APD&quot;)</span>
+
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Link-distance  = </span><span class="si">{</span><span class="p">(</span><span class="n">leng</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mf">.1</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tx-antenna gain = + </span><span class="si">{</span><span class="n">g_tx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Freespace Loss  = </span><span class="si">{</span><span class="n">a_fsl</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # axial Intensity a OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after only distance and Tx-internal losses&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;   # Area of Rx-antenna = </span><span class="si">{</span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> m^2&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;atmosph. atten. = </span><span class="si">{</span><span class="n">a_atm</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;mean BeamWander loss = </span><span class="si">{</span><span class="n">a_bw</span><span class="si">}</span><span class="s2"> dB - Being the receiver a camera, we are not taking into acount BeamWander losses&quot;</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;scinti-loss     = </span><span class="si">{</span><span class="n">a_sci</span><span class="si">}</span><span class="s2"> dB - Once again we suppose Scintillation loss as cero&quot;</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rx-antenna gain = + </span><span class="si">{</span><span class="n">g_rx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;optical loss Rx = </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB, includes splitting for Tracking&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RxPower on RFE with all losses  = </span><span class="si">{</span><span class="n">p_rx</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # intensity onto OGS-apertue incl atmosphere including Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue - no additional RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;   # power into the OGS-apertue including RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;RxPower onto RFE-detector incl all losses =  </span><span class="si">{</span><span class="n">p_rx_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW, sufficient for </span><span class="si">{</span><span class="p">(</span><span class="n">p_rx_lin</span><span class="o">/</span><span class="n">ppb</span><span class="o">/</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">H</span><span class="o">*</span><span class="n">const</span><span class="o">.</span><span class="n">C</span><span class="o">/</span><span class="n">wl</span><span class="p">))</span><span class="o">/</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> Gbps at </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Photons/bit&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;RFE-sensitivity for </span><span class="si">{</span><span class="n">ppb</span><span class="si">}</span><span class="s2"> Ppb  =  </span><span class="si">{</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW or </span><span class="si">{</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="si">}</span><span class="s2"> dBm&quot;</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Link Margin: </span><span class="si">{</span><span class="n">p_rx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="w"> </span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;///////////////////// Summary /////////////////////&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">elevation_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Individual&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mean source power  +</span><span class="si">{</span><span class="n">p_tx</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tx-internal losses </span><span class="si">{</span><span class="n">a_tx</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tx-antenna gain    +</span><span class="si">{</span><span class="n">g_tx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pointing loss      </span><span class="si">{</span><span class="n">a_bw</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distance           </span><span class="si">{</span><span class="n">leng</span><span class="o">/</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;freespace loss     </span><span class="si">{</span><span class="n">a_fsl</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Atmospheric loss   </span><span class="si">{</span><span class="n">a_atm</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;scintillation loss </span><span class="si">{</span><span class="n">a_sci</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rx-antenna gain    +</span><span class="si">{</span><span class="n">g_rx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Power into Rx-Aper </span><span class="si">{</span><span class="n">p_ogs_mean</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rx-internal losses </span><span class="si">{</span><span class="n">a_rx</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+            <span class="n">p_rx_</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">p_tx</span> <span class="o">+</span> <span class="n">a_tx</span> <span class="o">+</span> <span class="n">g_tx</span> <span class="o">+</span> <span class="n">a_bw</span> <span class="o">+</span> <span class="n">a_fsl</span> <span class="o">+</span> <span class="n">a_atm</span> <span class="o">+</span> <span class="n">a_sci</span> <span class="o">+</span> <span class="n">g_rx</span> <span class="o">+</span> <span class="n">a_rx</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Power onto detectr </span><span class="si">{</span><span class="n">p_rx_</span><span class="si">}</span><span class="s2"> dBm&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Sensitivity of RFE </span><span class="si">{</span><span class="mi">10</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2"> dBm  /  </span><span class="si">{</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mf">1E9</span><span class="si">}</span><span class="s2"> nW&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Link Margin        </span><span class="si">{</span><span class="n">p_rx_</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p_rfe_lin</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span><span class="si">}</span><span class="s2"> dB&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;//////////////////// Intensity ////////////////////&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Axial Intensity at OGS-distance = </span><span class="si">{</span><span class="n">i_axial</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2, after only distance and Tx-internal losses&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere but excl. Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Intensity onto OGS-apertue incl atmosphere including Rx-losses = </span><span class="si">{</span><span class="n">int_ogs_lin_loss</span><span class="w"> </span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW/m^2&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;////////////////////// Power //////////////////////&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into Rx-aperture [no a_atmo nor a_pointing, only a_Tx, a_fsl, g_Rx]  = </span><span class="si">{</span><span class="mf">1E6</span><span class="o">*</span><span class="n">i_axial</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">area_rx</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue - no additional RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Power into the OGS-apertue including RX-losses = </span><span class="si">{</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="n">p_ogs_mean_loss</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span><span class="o">*</span><span class="mf">1E6</span><span class="si">}</span><span class="s2"> µW&quot;</span>
+            <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="link_budget">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.link_budget.link_budget">[docs]</a>
+<span class="k">def</span> <span class="nf">link_budget</span><span class="p">(</span><span class="n">elevation_mode</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">zenith</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs the link budget based on the parameters from the GUI:</span>
+
+<span class="sd">    1. Selects specific parameters based on the payload chosen.</span>
+
+<span class="sd">    2. Specifies the losses.</span>
+
+<span class="sd">    3. Calculates antennas dimensions.</span>
+
+<span class="sd">    4. If the elevation mode is &quot;Full&quot;, the elevation angle will be converted to an array from 0 to 90 degrees.</span>
+
+<span class="sd">    5. The rest of the parameters dependent on the elevation are calculated based on if</span>
+<span class="sd">    the elevation is just a point or the full range.</span>
+
+<span class="sd">    6. Computes the final received power at the receiver.</span>
+
+<span class="sd">    7. Calculates the intensity onto the receiver using its area.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        elevation_mode (tk.StringVar): Container of the elevation mode.</span>
+<span class="sd">        el (int): Elevation angle.</span>
+<span class="sd">        payload (tk.StringVar): Container of the payload used.</span>
+<span class="sd">        zenith (float): Final selected zenith attenuation value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;OsirisV1&quot;</span><span class="p">:</span>
+        <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">595</span>  <span class="c1"># km - Satellite height</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
+        <span class="n">p_tx</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># dBm - Transmited power</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">1e-3</span>  <span class="c1"># mrad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte f�rs CNES-Paper 1,0</span>
+        <span class="n">a_tx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
+        <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
+    <span class="c1"># diese Formel muss noch durch WL erg�nzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
+    <span class="k">elif</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;KIODO&quot;</span><span class="p">:</span>
+        <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">610</span>  <span class="c1"># km - Satellite height</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="mf">847e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
+        <span class="n">p_tx</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># dBm - Transmited power</span>
+        <span class="c1"># p_tx = 16.99</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">5.5e-6</span>  <span class="c1"># mrad - OICETS-Kirari-LUCE FWHM beam divergence</span>
+        <span class="n">a_tx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
+        <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
+        <span class="c1"># diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">595</span>  <span class="c1"># km - Satellite height</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
+        <span class="n">p_tx</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># dBm - Transmited power</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">1e-3</span>  <span class="c1"># mrad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte frs CNES-Paper 1,0</span>
+        <span class="n">a_tx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
+        <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
+        <span class="c1"># diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
+
+    <span class="n">h_orbit_m</span> <span class="o">=</span> <span class="n">h_orbit</span> <span class="o">*</span> <span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>  <span class="c1">#  m - Satellite height</span>
+    <span class="c1"># 1W mean was used in FLP-OSIRISv1 experiments with OCAM</span>
+    <span class="c1"># 100mW or 50mW mean we expect in KIODO, since the 20dBm mentioned in the book might be peak-power</span>
+
+    <span class="n">sigma_jit</span> <span class="o">=</span> <span class="mf">0.85</span> <span class="o">*</span> <span class="n">teta_tx</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># erzeugt dann -3dB BW-loss</span>
+    <span class="c1"># sigma_jit = 1E-9 # 0.85*teta_tx/2 # erzeugt dann -3dB BW-loss</span>
+    <span class="c1"># sigma_jit = teta_tx/4 # irrelevant when we set beta later below</span>
+
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">teta_tx</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">sigma_jit</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="c1"># beta = 8</span>
+    <span class="c1"># beta = 2 # produces a pointing loss of -1.7dB</span>
+    <span class="c1"># beta=1000 # no pointing loss for the plot in fig.10</span>
+
+    <span class="c1">############  RECEIVER SETTINGS  ############   -&gt; Check standalone script for noncam values</span>
+    <span class="c1"># LOSSES</span>
+    <span class="n">a_rx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Optical Receiver losses (Tx)  -</span>
+    <span class="n">a_bw</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Beam Wander losses</span>
+    <span class="n">a_sci</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Scintillation losses</span>
+
+    <span class="c1">###########  ANTENA&#39;S DIMENTIONS  ###########</span>
+    <span class="n">d_rx_o</span> <span class="o">=</span> <span class="mf">2.5e-3</span>  <span class="c1"># m - Diameter Rx-apertur in meter - Infra-FE4.41.0-17</span>
+    <span class="c1"># d_rx_o = 5.6e-3  # m - Diameter Rx-apertur in meter - Infra-FE5.61.0-</span>
+    <span class="n">area_rx</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">d_rx_o</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="c1"># m^2 - Area of a fisheye lens based on its aperture</span>
+
+    <span class="c1"># alpha = (180/math.pi) * math.asin( (const.R_E+const.H_OGS)/(const.R_E+h_orbit) * math.sin((90+el)*math.pi/180) )</span>
+    <span class="c1"># gamma = 90 - el - alpha;</span>
+    <span class="c1"># leng = math.sqrt( (const.R_E+const.H_OGS)**2 + (const.R_E+h_orbit_m)**2 - 2 * (const.R_E+const.H_OGS)*(const.R_E+h_orbit_m)*math.cos(gamma*math.pi/180) )</span>
+    <span class="k">if</span> <span class="n">elevation_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Individual&quot;</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">math</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">el</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">el</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+
+    <span class="n">leng</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+
+    <span class="n">a_fsl</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="n">wl</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">leng</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># dB - Freespace losses</span>
+
+    <span class="n">a_atm</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">zenith</span> <span class="o">**</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">el</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)))</span>
+    <span class="c1"># dB - Athmosperic Attenuation</span>
+    <span class="c1"># It is using degrees now</span>
+
+    <span class="n">g_tx</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="mf">3.33</span> <span class="o">/</span> <span class="n">teta_tx</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># dB - Gain of thetransmissor antena</span>
+
+    <span class="c1"># weitere Berechnung - sollte selbes rauskommen:  i_axial = (0.693/pi) * 10**( (a_tx+p_tx) /10)/1000  / (leng*teta_tx/2)**2 # W/m^2</span>
+    <span class="n">i_axial</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">p_tx</span>
+            <span class="o">+</span> <span class="n">a_tx</span>
+            <span class="o">+</span> <span class="n">g_tx</span>
+            <span class="o">+</span> <span class="n">a_fsl</span>
+            <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">wl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="o">/</span> <span class="mi">10</span>
+    <span class="p">)</span>  <span class="c1"># W/m^2 - Axial Intensity</span>
+
+    <span class="n">g_rx</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">area_rx</span> <span class="o">/</span> <span class="p">(</span><span class="n">wl</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="c1"># dB - Gain of the receiver antena</span>
+    <span class="c1"># g_rx = 0</span>
+
+    <span class="n">p_rx</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">p_tx</span> <span class="o">+</span> <span class="n">a_tx</span> <span class="o">+</span> <span class="n">g_tx</span> <span class="o">+</span> <span class="n">a_fsl</span> <span class="o">+</span> <span class="n">a_bw</span> <span class="o">+</span> <span class="n">a_atm</span> <span class="o">+</span> <span class="n">a_sci</span> <span class="o">+</span> <span class="n">g_rx</span> <span class="o">+</span> <span class="n">a_rx</span>
+    <span class="p">)</span>  <span class="c1"># dBm - RxPower on RFE with all losses</span>
+
+    <span class="n">p_ogs_mean</span> <span class="o">=</span> <span class="n">p_rx</span> <span class="o">-</span> <span class="n">a_rx</span>
+    <span class="c1"># dBm - power onto OGS-aperture - no Rx-internal losses</span>
+    <span class="n">p_ogs_mean_loss</span> <span class="o">=</span> <span class="n">p_rx</span>
+    <span class="c1"># dBm - power onto OGS-aperture - WITH Rx-internal losses</span>
+    <span class="n">int_ogs_lin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">p_ogs_mean</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">area_rx</span>
+    <span class="n">int_ogs_lin_loss</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">p_ogs_mean_loss</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">/</span> <span class="n">area_rx</span>
+    <span class="n">p_rx_lin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">p_rx</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span> <span class="o">/</span> <span class="mi">1000</span>  <span class="c1"># W</span>
+    <span class="n">p_rfe_lin</span> <span class="o">=</span> <span class="n">ppb</span> <span class="o">*</span> <span class="n">const</span><span class="o">.</span><span class="n">H</span> <span class="o">*</span> <span class="n">const</span><span class="o">.</span><span class="n">C</span> <span class="o">*</span> <span class="n">dr</span> <span class="o">/</span> <span class="n">wl</span>  <span class="c1"># W</span>
+
+    <span class="n">printer_lb</span><span class="p">(</span>
+        <span class="n">el</span><span class="p">,</span>
+        <span class="n">elevation_mode</span><span class="p">,</span>
+        <span class="n">payload</span><span class="p">,</span>
+        <span class="n">a_tx</span><span class="p">,</span>
+        <span class="n">p_tx</span><span class="p">,</span>
+        <span class="n">ppb</span><span class="p">,</span>
+        <span class="n">teta_tx</span><span class="p">,</span>
+        <span class="n">a_rx</span><span class="p">,</span>
+        <span class="n">leng</span><span class="p">,</span>
+        <span class="n">g_tx</span><span class="p">,</span>
+        <span class="n">a_fsl</span><span class="p">,</span>
+        <span class="n">i_axial</span><span class="p">,</span>
+        <span class="n">area_rx</span><span class="p">,</span>
+        <span class="n">a_atm</span><span class="p">,</span>
+        <span class="n">a_bw</span><span class="p">,</span>
+        <span class="n">g_rx</span><span class="p">,</span>
+        <span class="n">p_rx</span><span class="p">,</span>
+        <span class="n">int_ogs_lin</span><span class="p">,</span>
+        <span class="n">int_ogs_lin_loss</span><span class="p">,</span>
+        <span class="n">p_ogs_mean</span><span class="p">,</span>
+        <span class="n">p_ogs_mean_loss</span><span class="p">,</span>
+        <span class="n">p_rx_lin</span><span class="p">,</span>
+        <span class="n">wl</span><span class="p">,</span>
+        <span class="n">p_rfe_lin</span><span class="p">,</span>
+        <span class="n">a_sci</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Iker Aldasoro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

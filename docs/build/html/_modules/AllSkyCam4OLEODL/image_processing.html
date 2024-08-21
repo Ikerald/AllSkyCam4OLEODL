@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllSkyCam4OLEODL.image_processing &mdash; AllSkyCam4OLEODL 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            AllSkyCam4OLEODL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AllSkyCam4OLEODL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">AllSkyCam4OLEODL.image_processing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for AllSkyCam4OLEODL.image_processing</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;This module manages the processing of the frames taken by the camera.&quot;&quot;&quot;</span>
+
+<span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\image_processing.py</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">const</span>
+
+
+<div class="viewcode-block" id="dark_frame_setup">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.dark_frame_setup">[docs]</a>
+<span class="k">def</span> <span class="nf">dark_frame_setup</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepares a frame for processing:</span>
+
+<span class="sd">    1. A threshold of 45 is applied to a previously recorded image of the camera&#39;s hot pixels.</span>
+
+<span class="sd">    2. The resulting thresholded image is normalized, resulting in an image with values [0, 1].</span>
+
+<span class="sd">    3. Finally the normalized image is scaled, obtaining an image with values [0, 255].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frame (np.array): Frame with the hot pixels present.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array: Image after normalization, thresholding and scaling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Apply threshold to create a binary image</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">thresh</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span> <span class="n">const</span><span class="o">.</span><span class="n">HOT_PIXEL0_THRES_VAL</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Normalize the binary image</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span>
+        <span class="n">thresh</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">NORM_MINMAX</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">CV_32F</span>
+    <span class="p">)</span>
+    <span class="c1"># Scale the image to [0, 255]</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalized</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalized</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">normalized</span></div>
+
+
+
+<div class="viewcode-block" id="subtract_frames">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.subtract_frames">[docs]</a>
+<span class="k">def</span> <span class="nf">subtract_frames</span><span class="p">(</span><span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">frame_substracted</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Subtracts one frame from another using OpenCV:</span>
+
+<span class="sd">    1. Checks if both frames have the same dimensions and format.</span>
+
+<span class="sd">    2. Substracts both of the frames.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frame (np.array): Original frame.</span>
+<span class="sd">        frame_substracted (np.array): Frame to substract.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array: Image obtained after frame subtraction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Ensure images are the same size and format</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">frame_substracted</span><span class="o">.</span><span class="n">shape</span>
+    <span class="p">),</span> <span class="s2">&quot;Both image frames must have the same dimensions&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">frame</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">frame_substracted</span><span class="o">.</span><span class="n">dtype</span>
+    <span class="p">),</span> <span class="s2">&quot;Both image frames must have the same data type&quot;</span>
+
+    <span class="c1"># Subtract the dark frame using OpenCV</span>
+    <span class="n">subtracted_image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">frame_substracted</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">subtracted_image</span></div>
+
+
+
+<div class="viewcode-block" id="write_csv">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.write_csv">[docs]</a>
+<span class="k">def</span> <span class="nf">write_csv</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">frame_mean_pixel_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">frame_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">exposure</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">fov</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+    <span class="n">pvalue</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">pvalue_grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+    <span class="n">intensity</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">intensity_grid</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Writes a csv file with all the parameters needed to perform the analysis of the final satellite pass:</span>
+
+<span class="sd">    1. Creates the dictionaries and fields.</span>
+
+<span class="sd">    2. Writes the csv file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        self (Instance): Parsed instance from Handler in the api module, provides access to attributes and methods.</span>
+<span class="sd">        frame_mean_pixel_value (int): Mean Pixel Value of the entire frame.</span>
+<span class="sd">        frame_number (str): Frame number.</span>
+<span class="sd">        time (str): Current time where the frame as been recorded.</span>
+<span class="sd">        exposure (float): Exposure time used for that particular frame.</span>
+<span class="sd">        r (float): Radial position of the brightest point.</span>
+<span class="sd">        elevation (float): Elevation of the brightest point</span>
+<span class="sd">        azimuth (float): Azimuth of the brightest point.</span>
+<span class="sd">        fov (float): Field Of View of the camera, in degrees, at the brightest point</span>
+<span class="sd">        location (tuple): Location of the brightest point: [0] = x-axis, [1] = y-axis.</span>
+<span class="sd">        pvalue (float): Pixel Value of the brightest point [0-255].</span>
+<span class="sd">        pvalue_grid (np.uint32): Pixel Value of the whole brightest contour.</span>
+<span class="sd">        intensity (float): Intensity value of the brightest point.</span>
+<span class="sd">        intensity_grid (np.float64): Intensity value of the whole brightest contour.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="s2">&quot;Gain 1 [18dB]&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gain</span> <span class="o">=</span> <span class="s2">&quot;Gain 0 [0dB]&quot;</span>
+    <span class="n">exposure</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">mydict</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;Frame&quot;</span><span class="p">:</span> <span class="n">frame_number</span><span class="p">,</span>
+            <span class="s2">&quot;Gain Mode&quot;</span><span class="p">:</span> <span class="n">gain</span><span class="p">,</span>
+            <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+            <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">:</span> <span class="n">exposure</span><span class="p">,</span>
+            <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+            <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">:</span> <span class="n">elevation</span><span class="p">,</span>
+            <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span>
+            <span class="s2">&quot;FOV&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
+            <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+            <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
+            <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue</span><span class="p">,</span>
+            <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue_grid</span><span class="p">,</span>
+            <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity</span><span class="p">,</span>
+            <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity_grid</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;Frame&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Gain Mode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;FOV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">/log.csv&quot;</span>
+    <span class="n">file_exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Write csv</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">fields</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">file_exists</span><span class="p">:</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+        <span class="n">writer</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">mydict</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="brightest_V2">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.brightest_V2">[docs]</a>
+<span class="k">def</span> <span class="nf">brightest_V2</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">exposure</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the brightest point of the frame based on an specified minimum and maximum spot size.</span>
+
+<span class="sd">    1. Setups the calibration factor.</span>
+
+<span class="sd">    2. Depending if the daylight or nighttime is selcted a different process will be applyed:</span>
+
+<span class="sd">        In case of Daytime: Bilateral filter 3 200x200 -&gt; OTSU Thresholding.</span>
+
+<span class="sd">        In case of Nighttime: Gaussian blur 3x3 -&gt; Threshold based on black values.</span>
+
+<span class="sd">    3. Finds the contours of the figure (zones of the fram with similar pixel values).</span>
+
+<span class="sd">    4. Bounds the contours and filters them based on the minimum and maximum spot sizes values.</span>
+
+<span class="sd">    5. Select the contour with the highest mean pixel value.</span>
+
+<span class="sd">    6. Obtains the brightest pixel and the sum of all the values from the brightest contour.</span>
+
+<span class="sd">    7. Converts pixel value to intensity using the correction factor.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        self (Instance): Current instance, provides access to attributes and methods.</span>
+<span class="sd">        frame (np.array): Frame from where the brightest point will be obtained.</span>
+<span class="sd">        exposure (float): Exposure time used for that particular frame.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[tuple, float, float, float, float, float]: max_loc (tuple):Location of the brightest point:</span>
+<span class="sd">        [0] = x-axis, [1] = y-axis.</span>
+
+<span class="sd">        max_val (float): Pixel value of the brightest point [0-255].</span>
+
+<span class="sd">        intensity_brightest (float): Intensity value of the brightest point.</span>
+
+<span class="sd">        max_mean_pixel_value (float): Mean pixel value of the whole brightest contour.</span>
+
+<span class="sd">        sum_max_mean_pixel_value[0] (float): Summed pixel value of the whole brightest contour.</span>
+
+<span class="sd">        intensity_brightest_grid (float): Summed intensity value of the whole brightest contour.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_mean_pixel_value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_loc</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">intensity_brightest</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">intensity_brightest_grid</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sum_max_mean_pixel_value</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># sum_max_mean_pixel_value[0]</span>
+
+    <span class="n">exposure</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>  <span class="c1"># Exposure in us</span>
+
+    <span class="c1"># Calibration factors</span>
+    <span class="n">calibration_THOR</span> <span class="o">=</span> <span class="mf">0.139602768</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.0001</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">+</span> <span class="mf">18.545</span><span class="p">)</span>
+    <span class="n">calibration_THOR_grid</span> <span class="o">=</span> <span class="mf">0.139602768</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.0008</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">+</span> <span class="mf">443.22</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">calibration_THOR_gain</span> <span class="o">=</span> <span class="mf">0.139602768</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.4788</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">-</span> <span class="mf">82.62</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">calibration_THOR_gain</span> <span class="o">=</span> <span class="mf">0.139602768</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.2427</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">+</span> <span class="mf">1.67</span><span class="p">)</span>
+
+    <span class="n">gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cond</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Processing for Daytime - Bilateral filter and otsu thresholding</span>
+        <span class="c1"># filter = cv2.bilateralFilter(gray, 3, 100, 100)</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="c1"># filter = cv2.GaussianBlur(gray, (5, 5), 0)</span>
+        <span class="c1"># filter = cv2.GaussianBlur(gray, (3, 3), 0)</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">th</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
+            <span class="nb">filter</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span> <span class="o">+</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Processing for Nighttime - Gaussian filter and thresholding based on dark pixels pixel value</span>
+        <span class="n">thresh_val</span> <span class="o">=</span> <span class="mf">0.0004</span> <span class="o">*</span> <span class="n">exposure</span> <span class="o">+</span> <span class="mf">13.113</span>
+
+        <span class="nb">filter</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">GaussianBlur</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">th</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">thresh_val</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+
+    <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">th</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+
+    <span class="n">min_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_value</span>
+    <span class="n">max_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_value</span>
+
+    <span class="k">for</span> <span class="n">contour</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+        <span class="c1"># Filter contours based on min and max spot size</span>
+        <span class="k">if</span> <span class="n">min_size</span> <span class="o">&lt;=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">h</span> <span class="ow">and</span> <span class="n">max_size</span> <span class="o">&gt;=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">gray</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">[</span><span class="n">contour</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">mean_pixel_value</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Compares current contour with the brightest one</span>
+            <span class="k">if</span> <span class="n">mean_pixel_value</span> <span class="o">&gt;</span> <span class="n">max_mean_pixel_value</span><span class="p">:</span>
+                <span class="n">max_mean_pixel_value</span> <span class="o">=</span> <span class="n">mean_pixel_value</span>
+
+                <span class="c1"># Obtain brightest point and full brightness of the contour</span>
+                <span class="n">masked_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">gray</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+                <span class="n">sum_max_mean_pixel_value</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">sumElems</span><span class="p">(</span><span class="n">masked_gray</span><span class="p">)</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">max_loc</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minMaxLoc</span><span class="p">(</span><span class="n">masked_gray</span><span class="p">)</span>
+
+        <span class="c1"># Convert to intensity</span>
+        <span class="n">intensity_brightest</span> <span class="o">=</span> <span class="n">max_val</span> <span class="o">*</span> <span class="n">calibration_THOR</span>
+        <span class="n">intensity_brightest_grid</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">sum_max_mean_pixel_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">calibration_THOR_grid</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">max_loc</span><span class="p">,</span>
+        <span class="n">max_val</span><span class="p">,</span>
+        <span class="n">intensity_brightest</span><span class="p">,</span>
+        <span class="n">max_mean_pixel_value</span><span class="p">,</span>
+        <span class="n">sum_max_mean_pixel_value</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">intensity_brightest_grid</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_el_azi">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.calculate_el_azi">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_el_azi</span><span class="p">(</span><span class="n">max_loc</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the elevation and azimuth of the brightest point of the frame, making use of the</span>
+<span class="sd">    fisheye projections. Equidistant, equisolid and stereographic can be selected.</span>
+
+<span class="sd">    1. Calculates the distance from the center of the image to the brightest point.</span>
+
+<span class="sd">    2. Applies the projection to obtain the fov of the lens in the brightest point.</span>
+
+<span class="sd">    3. Obtains the elevation based on the fov.</span>
+
+<span class="sd">    4. Calculates the azimuth based on the center of the lens.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        max_loc (tuple): Location of the brightest point: [0] = x-axis, [1] = y-axis.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[float, float, float, float]: elevation (float): Elevation of the brightest point.</span>
+
+<span class="sd">        fov (float): Field Of View of the camera, in degrees, at the brightest point.</span>
+
+<span class="sd">        r (float): Radial position of the brightest point.</span>
+
+<span class="sd">        azimuth (float): Azimuth of the brightest point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># print(max_loc)</span>
+    <span class="c1"># print(type(max_loc))</span>
+    <span class="c1"># max_loc = np.array([[[max_loc[0], max_loc[1]]]], dtype=np.float32)</span>
+    <span class="c1"># # Undistort the point</span>
+    <span class="c1"># undist_max_loc = cv2.fisheye.undistortPoints(max_loc, const.K, const.D, P=const.K)</span>
+    <span class="c1"># undist_max_loc = undist_max_loc[0][0]</span>
+    <span class="c1"># max_loc = (int(round(undist_max_loc[0])), int(round(undist_max_loc[1])))</span>
+    <span class="c1"># print(max_loc)</span>
+
+    <span class="n">F</span> <span class="o">=</span> <span class="n">const</span><span class="o">.</span><span class="n">LENS_FOCAL_LENGTH</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">max_loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Lens Projections</span>
+    <span class="c1"># EQUIDISTANT PROJECTION</span>
+    <span class="c1"># fov_rad = (r * const.PIXEL_SIZE) / F  # rad - FOV in radians</span>
+    <span class="c1"># EQUISOLID PROJECTION</span>
+    <span class="n">fov_rad</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">asin</span><span class="p">((</span><span class="n">r</span> <span class="o">*</span> <span class="n">const</span><span class="o">.</span><span class="n">PIXEL_SIZE</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">F</span><span class="p">))</span>
+    <span class="c1"># STEREOGRAPHIC PROJECTION</span>
+    <span class="c1"># fov_rad = 2 * math.atan((r * const.PIXEL_SIZE) / (2 * F))</span>
+    <span class="c1"># RECTILINEAR PROJECTION</span>
+    <span class="c1"># fov_rad = math.atan((r * const.PIXEL_SIZE) / F)</span>
+
+    <span class="n">fov</span> <span class="o">=</span> <span class="p">(</span><span class="n">fov_rad</span> <span class="o">*</span> <span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># ° - FOV in degrees</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="p">(</span><span class="mi">180</span> <span class="o">-</span> <span class="n">fov</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Azimuth at the exact center of the frame</span>
+    <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">azimuth</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">azimuth</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">atan</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">max_loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="o">/</span> <span class="p">(</span><span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+    <span class="c1"># If point is in the upper part of the frame</span>
+    <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">azimuth</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">+</span> <span class="n">azimuth</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If point is the bottom-right part of the frame</span>
+        <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">azimuth</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">+</span> <span class="n">azimuth</span>
+
+    <span class="k">return</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">fov</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">azimuth</span></div>
+
+
+
+<div class="viewcode-block" id="frame_draw">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.frame_draw">[docs]</a>
+<span class="k">def</span> <span class="nf">frame_draw</span><span class="p">(</span>
+    <span class="n">frame</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">exposure</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">rad</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">max_bright_loc</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+    <span class="n">max_bright_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">int_bright_val</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">mean_bright_grid_val</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+    <span class="n">max_bright_grid_val</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">,</span>
+    <span class="n">int_bright_grid_val</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+    <span class="n">min_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">max_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draws the overlays on top of the frame:</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frame (np.array): Frame where the overlays will be drawn.</span>
+<span class="sd">        time (str): Actual time in that particular frame.</span>
+<span class="sd">        exposure (float): Exposure time used for that particular frame.</span>
+<span class="sd">        rad (int): Radius of the intensity grid.</span>
+<span class="sd">        max_bright_loc (tuple): Location of the brightest point: [0] = x-axis, [1] = y-axis.</span>
+<span class="sd">        max_bright_val (float): Pixel value of the brightest point [0-255].</span>
+<span class="sd">        int_bright_val (float): Intensity value of the brightest point.</span>
+<span class="sd">        mean_bright_grid_val (np.uint32): Mean pixel value of the whole brightest contour.</span>
+<span class="sd">        max_bright_grid_val (np.uint32): Summed pixel value of the whole brightest contour.</span>
+<span class="sd">        int_bright_grid_val (np.float64): Summed intensity value of the whole brightest contour.</span>
+<span class="sd">        min_size (int): Minimum spot size value used.</span>
+<span class="sd">        max_size (int): Maximum spot size value used.</span>
+<span class="sd">        elevation (float): Elevation of the brightest point.</span>
+<span class="sd">        azimuth (float): Azimuth of the brightest point.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Draw the time, exposure, coordinates and crosshair on the frame</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="n">time</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.3</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Exposure: </span><span class="si">{</span><span class="n">exposure</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2"> us&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">38</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Min Size: </span><span class="si">{</span><span class="n">min_size</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">47</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Max Size: </span><span class="si">{</span><span class="n">max_size</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">56</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;El.: </span><span class="si">{</span><span class="n">elevation</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Az.: </span><span class="si">{</span><span class="n">azimuth</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">210</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Brightness at </span><span class="si">{</span><span class="n">max_bright_loc</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">int_bright_val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> uw/m^2 -&gt; </span><span class="si">{</span><span class="n">max_bright_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">238</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_bright_val</span> <span class="o">==</span> <span class="mi">255</span><span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+            <span class="n">frame</span><span class="p">,</span>
+            <span class="s2">&quot;Saturated! Lower Exposure&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">115</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+            <span class="mf">0.25</span><span class="p">,</span>
+            <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+            <span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;Brightness </span><span class="si">{</span><span class="n">rad</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">rad</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> grid: </span><span class="si">{</span><span class="n">int_bright_grid_val</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> uw/m^2 -&gt; </span><span class="si">{</span><span class="n">max_bright_grid_val</span><span class="si">}</span><span class="s2"> (mean: </span><span class="si">{</span><span class="n">mean_bright_grid_val</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">245</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;N&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;S&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="mi">254</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;E&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;W&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">310</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;SW&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">290</span><span class="p">,</span> <span class="mi">242</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(225)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">280</span><span class="p">,</span> <span class="mi">227</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(248)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">295</span><span class="p">,</span> <span class="mi">190</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;NW&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">290</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(338)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">225</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(315)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">280</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(293)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">295</span><span class="p">,</span> <span class="mi">66</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;SE&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">242</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(135)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">227</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(113)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">190</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;NE&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.4</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(45)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">35</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span>
+        <span class="s2">&quot;(68)&quot;</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">66</span><span class="p">),</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span>
+        <span class="mf">0.25</span><span class="p">,</span>
+        <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Circle for the brightest point</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">max_bright_loc</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Crosshair</span>
+    <span class="c1"># cv2.line(frame, (159, 128), (161, 128), (255, 255, 255), 1)</span>
+    <span class="c1"># cv2.line(frame, (160, 127), (160, 129), (255, 255, 255), 1)</span>
+
+
+<div class="viewcode-block" id="frame_processing">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.frame_processing">[docs]</a>
+<span class="k">def</span> <span class="nf">frame_processing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Procceses the frame.</span>
+
+<span class="sd">    1. Grabs a temporal frame.</span>
+
+<span class="sd">    2. Depending on the selected mode by the user:</span>
+
+<span class="sd">    - Hot-pixel removal.</span>
+<span class="sd">        A frame with the hot pixels will threshold and normalized by the dark_frame_setup() fuction</span>
+<span class="sd">        and then subtracted to the the taken frame with the subtract_frames() function.</span>
+
+<span class="sd">    - Own background correction.</span>
+<span class="sd">        Substracts the temporal frame to the next grabbed frame. The subtract_frames() fuction is</span>
+<span class="sd">        applied for substracting the temporal frame, just grabbed, with the next frame.</span>
+
+<span class="sd">    - Normal operation.</span>
+<span class="sd">        The temporal frame will be used directly.</span>
+
+<span class="sd">    - Camera&#39;s own background correction.</span>
+<span class="sd">        The temporal frame will be used directly.</span>
+
+<span class="sd">    3. Obtains the brightest point thanks to the brightest_V2() function.</span>
+
+<span class="sd">    4. Obtains the elevation and azimuth of the brightest pixel with the calculate_el_azi() fuction.</span>
+
+<span class="sd">    5. Draws all the desired values on top of the frame using the frame_draw() fuction.</span>
+
+<span class="sd">    6. Just in case the Record mode is being used, both the processed and unprocessed frames,</span>
+<span class="sd">    besides the csv file, will all be saved.</span>
+
+<span class="sd">    7- Finally the frames will be display and the first temporal frame will be removed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        self (Instance): Current instance, provides access to attributes and methods.</span>
+<span class="sd">        cam (Camera): Camera object from the VMBPY API module.</span>
+<span class="sd">        frame (Frame): Frame object from the VMBPY API module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the current time with ms.</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">exposure_time</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">ExposureTime</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Stream from &#39;</span><span class="si">{}</span><span class="s2">&#39;. Press &lt;q&gt; to stop stream.&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> acquired </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cam</span><span class="p">,</span> <span class="n">frame</span><span class="p">),</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Create a temporal frame where the proccessing will be made.</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">TEMP_FRAME_DIR</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">as_opencv_image</span><span class="p">())</span>
+    <span class="n">frame_temp</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">TEMP_FRAME_DIR</span><span class="p">)</span>
+
+    <span class="c1"># Hot-pixel removal</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Setup of the hot pixels of the wanted exposure.</span>
+        <span class="n">hot</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">HOT_PIXEL0_DIR</span><span class="p">)</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">dark_frame_setup</span><span class="p">(</span><span class="n">hot</span><span class="p">)</span>
+        <span class="c1"># Removal of the dark pixels from the taken frame.</span>
+        <span class="n">frame_subs</span> <span class="o">=</span> <span class="n">subtract_frames</span><span class="p">(</span><span class="n">frame_temp</span><span class="p">,</span> <span class="n">normalized</span><span class="p">)</span>
+    <span class="c1"># Background substraction.</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">BACKGROUND_FRAME_DIR</span><span class="p">)</span>
+        <span class="c1"># background = background.astype(np.uint8)</span>
+        <span class="n">frame_subs</span> <span class="o">=</span> <span class="n">subtract_frames</span><span class="p">(</span><span class="n">frame_temp</span><span class="p">,</span> <span class="n">normalized</span><span class="p">)</span>
+        <span class="c1"># frame_subs = subtract_frames(normalized, frame_temp)  #   Chroma effect</span>
+    <span class="c1"># Normal operation or Background correction mode</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frame_subs</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">TEMP_FRAME_DIR</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the brightest point, elevation and azimuth</span>
+    <span class="n">mean_val_grid</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">(</span>
+        <span class="n">max_loc</span><span class="p">,</span>
+        <span class="n">max_val</span><span class="p">,</span>
+        <span class="n">intensity_brightest</span><span class="p">,</span>
+        <span class="n">mean_val_grid</span><span class="p">,</span>
+        <span class="n">max_val_grid</span><span class="p">,</span>
+        <span class="n">intensity_brightest_grid</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">brightest_V2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_subs</span><span class="p">,</span> <span class="n">exposure_time</span><span class="p">)</span>
+
+    <span class="n">elevation</span><span class="p">,</span> <span class="n">fov</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">azimuth</span> <span class="o">=</span> <span class="n">calculate_el_azi</span><span class="p">(</span><span class="n">max_loc</span><span class="p">)</span>
+
+    <span class="c1"># Append data for update the live graph of the GUI</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ydata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_val</span><span class="p">)</span>
+
+    <span class="c1"># Draw on-top of the frame</span>
+    <span class="n">frame_draw</span><span class="p">(</span>
+        <span class="n">frame_subs</span><span class="p">,</span>
+        <span class="n">current_time</span><span class="p">,</span>
+        <span class="n">exposure_time</span><span class="p">,</span>
+        <span class="n">const</span><span class="o">.</span><span class="n">GRID_RADIUS</span><span class="p">,</span>
+        <span class="n">max_loc</span><span class="p">,</span>
+        <span class="n">max_val</span><span class="p">,</span>
+        <span class="n">intensity_brightest</span><span class="p">,</span>
+        <span class="n">mean_val_grid</span><span class="p">,</span>
+        <span class="n">max_val_grid</span><span class="p">,</span>
+        <span class="n">intensity_brightest_grid</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_value</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># We only write the frame if the mode selected is Record.</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%M&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%S&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">_frame_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span><span class="si">}</span><span class="s2">.tiff&quot;</span><span class="p">,</span>
+            <span class="n">frame_subs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pnp</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%M&quot;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%S&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">_frame_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span><span class="si">}</span><span class="s2">.tiff&quot;</span><span class="p">,</span>
+            <span class="n">frame_temp</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Calculate mean pixel value of the frame and generate csv</span>
+        <span class="n">frame_mpv</span> <span class="o">=</span> <span class="n">frame_subs</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">frame_num</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;frame_</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">write_csv</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">frame_mpv</span><span class="p">,</span>
+            <span class="n">frame_num</span><span class="p">,</span>
+            <span class="n">current_time</span><span class="p">,</span>
+            <span class="n">exposure_time</span><span class="p">,</span>
+            <span class="n">r</span><span class="p">,</span>
+            <span class="n">elevation</span><span class="p">,</span>
+            <span class="n">azimuth</span><span class="p">,</span>
+            <span class="n">fov</span><span class="p">,</span>
+            <span class="n">max_loc</span><span class="p">,</span>
+            <span class="n">max_val</span><span class="p">,</span>
+            <span class="n">max_val_grid</span><span class="p">,</span>
+            <span class="n">intensity_brightest</span><span class="p">,</span>
+            <span class="n">intensity_brightest_grid</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Create the window for the frames</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">frame_subs</span><span class="p">,</span> <span class="n">frame_temp</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">winname</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cam</span><span class="o">.</span><span class="n">get_name</span><span class="p">())</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="n">winname</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">moveWindow</span><span class="p">(</span><span class="n">winname</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">winname</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span>  <span class="c1"># Show the frame</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">TEMP_FRAME_DIR</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Iker Aldasoro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

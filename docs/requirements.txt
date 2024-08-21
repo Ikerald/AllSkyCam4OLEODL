@@ -1,0 +1,10 @@
+sphinx
+sphinx_rtd_theme
+numpy
+opencv-python
+matplotlib
+mplcursors
+scipy
+tk
+pytz
+vmbpy

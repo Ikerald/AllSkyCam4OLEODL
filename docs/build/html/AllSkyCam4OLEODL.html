@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllSkyCam4OLEODL package &mdash; AllSkyCam4OLEODL 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="AllSkyCam4OLEODL" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            AllSkyCam4OLEODL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">AllSkyCam4OLEODL</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">AllSkyCam4OLEODL package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.constants">AllSkyCam4OLEODL.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.api">AllSkyCam4OLEODL.api module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.CameraControlSlider"><code class="docutils literal notranslate"><span class="pre">CameraControlSlider</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.Handler"><code class="docutils literal notranslate"><span class="pre">Handler</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.abort"><code class="docutils literal notranslate"><span class="pre">abort()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.feature_changed_handler"><code class="docutils literal notranslate"><span class="pre">feature_changed_handler()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.get_camera"><code class="docutils literal notranslate"><span class="pre">get_camera()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.grab_frame"><code class="docutils literal notranslate"><span class="pre">grab_frame()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.parse_args"><code class="docutils literal notranslate"><span class="pre">parse_args()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.setup_camera"><code class="docutils literal notranslate"><span class="pre">setup_camera()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.setup_pixel_format"><code class="docutils literal notranslate"><span class="pre">setup_pixel_format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.api.upload_lut"><code class="docutils literal notranslate"><span class="pre">upload_lut()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.gui">AllSkyCam4OLEODL.gui module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.gui.create_menu"><code class="docutils literal notranslate"><span class="pre">create_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.gui.update_entry"><code class="docutils literal notranslate"><span class="pre">update_entry()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.image_processing">AllSkyCam4OLEODL.image_processing module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.brightest_V2"><code class="docutils literal notranslate"><span class="pre">brightest_V2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.calculate_el_azi"><code class="docutils literal notranslate"><span class="pre">calculate_el_azi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.dark_frame_setup"><code class="docutils literal notranslate"><span class="pre">dark_frame_setup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.frame_draw"><code class="docutils literal notranslate"><span class="pre">frame_draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.frame_processing"><code class="docutils literal notranslate"><span class="pre">frame_processing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.subtract_frames"><code class="docutils literal notranslate"><span class="pre">subtract_frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.image_processing.write_csv"><code class="docutils literal notranslate"><span class="pre">write_csv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.input_checks">AllSkyCam4OLEODL.input_checks module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.input_checks.checks"><code class="docutils literal notranslate"><span class="pre">checks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.link_budget">AllSkyCam4OLEODL.link_budget module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.link_budget.link_budget"><code class="docutils literal notranslate"><span class="pre">link_budget()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.link_budget.printer_lb"><code class="docutils literal notranslate"><span class="pre">printer_lb()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.printer">AllSkyCam4OLEODL.printer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.printer.print_end_stream"><code class="docutils literal notranslate"><span class="pre">print_end_stream()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.printer.print_preamble"><code class="docutils literal notranslate"><span class="pre">print_preamble()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.printer.print_preamble_settings"><code class="docutils literal notranslate"><span class="pre">print_preamble_settings()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.printer.print_start_stream"><code class="docutils literal notranslate"><span class="pre">print_start_stream()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.printer.print_usage"><code class="docutils literal notranslate"><span class="pre">print_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-main">main.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#main.create_graph"><code class="docutils literal notranslate"><span class="pre">create_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AllSkyCam4OLEODL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">AllSkyCam4OLEODL</a></li>
+      <li class="breadcrumb-item active">AllSkyCam4OLEODL package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/AllSkyCam4OLEODL.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="allskycam4oleodl-package">
+<h1>AllSkyCam4OLEODL package<a class="headerlink" href="#allskycam4oleodl-package" title="Link to this heading"></a></h1>
+<section id="module-AllSkyCam4OLEODL.constants">
+<span id="allskycam4oleodl-constants-module"></span><h2>AllSkyCam4OLEODL.constants module<a class="headerlink" href="#module-AllSkyCam4OLEODL.constants" title="Link to this heading"></a></h2>
+<p>This module contains all the constants needed to allow the project to work correctly.</p>
+</section>
+<section id="module-AllSkyCam4OLEODL.api">
+<span id="allskycam4oleodl-api-module"></span><h2>AllSkyCam4OLEODL.api module<a class="headerlink" href="#module-AllSkyCam4OLEODL.api" title="Link to this heading"></a></h2>
+<p>This module contains the API of the Allied Vision Goldeye Camera.</p>
+<p>It has been modified in order to allow both streaming and recording. It allows processing of the
+frames without the need of writting them first.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">CameraControlSlider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#AllSkyCam4OLEODL.api.Handler" title="AllSkyCam4OLEODL.api.Handler"><span class="pre">Handler</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Toplevel</span></code></p>
+<p>Handles the sliders of the GUI menu.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the CameraControlSlider class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.setup_exposure_slider">
+<span class="sig-name descname"><span class="pre">setup_exposure_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_exposure_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.setup_exposure_slider" title="Link to this definition"></a></dt>
+<dd><p>Creates the exposure slider.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.setup_min_value_slider">
+<span class="sig-name descname"><span class="pre">setup_min_value_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_min_value_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.setup_min_value_slider" title="Link to this definition"></a></dt>
+<dd><p>Creates the minimum spot size value slider.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.setup_max_value_slider">
+<span class="sig-name descname"><span class="pre">setup_max_value_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_max_value_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.setup_max_value_slider" title="Link to this definition"></a></dt>
+<dd><p>Creates the maximum spot size value slider</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_exposure">
+<span class="sig-name descname"><span class="pre">update_exposure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_exposure" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_min_value">
+<span class="sig-name descname"><span class="pre">update_min_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_min_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_min_value" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum spot size value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_max_value">
+<span class="sig-name descname"><span class="pre">update_max_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_max_value" title="Link to this definition"></a></dt>
+<dd><p>Updates the maximum spot size value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_from_exposure_entry">
+<span class="sig-name descname"><span class="pre">update_from_exposure_entry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_exposure_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_from_exposure_entry" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value parsed through the button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_from_min_entry">
+<span class="sig-name descname"><span class="pre">update_from_min_entry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_min_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_from_min_entry" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum spot size value parsed through the button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.update_from_max_entry">
+<span class="sig-name descname"><span class="pre">update_from_max_entry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_max_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.update_from_max_entry" title="Link to this definition"></a></dt>
+<dd><p>Updates the maximum spot size value parsed through the button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider.set_initial_values">
+<span class="sig-name descname"><span class="pre">set_initial_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.set_initial_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider.set_initial_values" title="Link to this definition"></a></dt>
+<dd><p>Sets the intial values for all the varibales of the sliders.</p>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tk</strong> (<em>tk.Toplevel</em>) – Window where the slider should be created.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">set_initial_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.set_initial_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Sets the intial values for all the varibales of the sliders.</p>
+<ol class="arabic simple">
+<li><p>Gets the maximum and minimum spot size and exposure values and converts them to a logarithmic scale.</p></li>
+<li><p>Sets initial values of the sliders.</p></li>
+<li><p>Calls the update fuctions to set an inicial value for the variables.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>exposure</strong> (<em>float</em>) – Initial exposure time.</p></li>
+<li><p><strong>min_value</strong> (<em>int</em>) – Initial minimum spot size value.</p></li>
+<li><p><strong>max_value</strong> (<em>int</em>) – Initial maximum spot size value.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">setup_exposure_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_exposure_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Creates the exposure slider:</p>
+<ol class="arabic simple">
+<li><p>Initializes all slider elements and converts the exposure to a logarithmic scale.</p></li>
+<li><p>Sets up the displayed exposure value and its slider.</p></li>
+<li><p>Configures the button to manually change the exposure value.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">setup_max_value_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_max_value_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Creates the maximum spot size value slider:</p>
+<ol class="arabic simple">
+<li><p>Initializes all slider elements and converts the maximum spot size value to a logarithmic scale.</p></li>
+<li><p>Sets up the displayed maximum value and its slider.</p></li>
+<li><p>Configures the button to manually change the maximum spot size value.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">setup_min_value_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.setup_min_value_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Creates the minimum spot size value slider:</p>
+<ol class="arabic simple">
+<li><p>Initializes all slider elements and converts the minimum spot size value to a logarithmic scale.</p></li>
+<li><p>Sets up the displayed minimum value and its slider.</p></li>
+<li><p>Configures the button to manually change the minimum spot size value.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">update_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value parsed through the slider:</p>
+<ol class="arabic simple">
+<li><p>Gets the exposure from the slider and converts it to a logarithmic scale.</p></li>
+<li><p>Sends the updated exposure value to the camera.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">update_from_exposure_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_exposure_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value parsed through the button:</p>
+<p>1. Gets the exposure value and converts it to a logarithmic scale if it is in the correct range.
+If not, it raises an error.</p>
+<ol class="arabic simple" start="2">
+<li><p>Updates the exposure value calling the update_exposure() function.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Exposure time inputed in the text-box is either bigger than the maximum exposure time</p></li>
+<li><p><strong>or smaller than the smallest exposure time.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">update_from_max_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_max_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Updates the maximum spot size value parsed through the button:</p>
+<p>1. Gets the maximum spot size value and converts it to a logarithmic scale if it is bigger or
+equal to the minimum spot size values and smaller or equal than the full image.</p>
+<ol class="arabic simple" start="2">
+<li><p>Updates the maximum spot size value calling the update_max_value() function.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Maximum spot size value is either bigger than the dimensions of the whole frame or</p></li>
+<li><p><strong>smaller than the minimum spot size value.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">update_from_min_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_min_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum spot size value parsed through the button:</p>
+<p>1. Gets the minimum spot size value and converts it to a logarithmic scale if it is bigger than
+zero but smaller than the maximum value.</p>
+<ol class="arabic simple" start="2">
+<li><p>Updates the minimum spot size value calling the update_min_value() function.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Minimum spot size value is either smaller than zero or bigger than the maximum spot</p></li>
+<li><p><strong>size value.</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">update_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dd><p>Updates the maximum spot size value parsed through the slider:</p>
+<ol class="arabic simple">
+<li><p>Gets the maximum spot size value from the slider and converts it to a logarithmic scale.</p></li>
+</ol>
+<p>2. The maximum selected spot size value will be the maximum value between the minimum spot size
+value and the smaller value between the maximum spot size value selected from the slider and whole
+dimensions of the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">update_min_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_min_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum spot size value parsed through the slider:</p>
+<ol class="arabic simple">
+<li><p>Gets the minimum spot size value from the slider and converts it to a logarithmic scale.</p></li>
+</ol>
+<p>2. If the miniumum sleected spot size value is bigger than the maximum spot size value,
+the maximum spot size value is selected as the minimum spot size value. If a negative
+value is selected, it will be converted to 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>event</strong> (<em>_type_</em><em>, </em><em>optional</em>) – Nothing, just compatibility purposes. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">Handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Handles the mayority of the camera operation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the Handler class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.update" title="Link to this definition"></a></dt>
+<dd><p>Updates the live graph of the GUI.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.save_plot">
+<span class="sig-name descname"><span class="pre">save_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.save_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.save_plot" title="Link to this definition"></a></dt>
+<dd><p>Saves the plot stored in the instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.create_camera_control_slider">
+<span class="sig-name descname"><span class="pre">create_camera_control_slider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.create_camera_control_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.create_camera_control_slider" title="Link to this definition"></a></dt>
+<dd><p>Creates an slider, saves it in the instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.set_exposure">
+<span class="sig-name descname"><span class="pre">set_exposure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.set_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.set_exposure" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.set_min_max_value">
+<span class="sig-name descname"><span class="pre">set_min_max_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.set_min_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.set_min_max_value" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum or maximum spot size value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.__call__" title="Link to this definition"></a></dt>
+<dd><p>Between each frame, sends the frame for processing,</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">prepares</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">one,</span> <span class="pre">and</span> <span class="pre">checks</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">program</span> <span class="pre">has</span> <span class="pre">stopped.</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">create_camera_control_slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.create_camera_control_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd><p>Creates an slider, saves it in the current instance (self) and sets its initial values:</p>
+<ol class="arabic simple">
+<li><p>Creates a slider within the current instance using the CameraControlSlider class.</p></li>
+<li><p>Sets the initial values of the minimum and maximum spot size and the exposure with set_initial_values().</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>root</strong> (<em>tk.Tk</em>) – Main window of the GUI menu.</p></li>
+</ul>
+</dd>
+<dt class="field-even">No-index<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">save_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.save_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dd><p>Saves the plot stored in the current instance (self):</p>
+<ol class="arabic simple">
+<li><p>If recording mode is selected, sets the plot size, data, title, and labels.</p></li>
+<li><p>If a payload is chosen, its name will be added to the plot’s title.</p></li>
+<li><p>Saves the plot in the same directory as the recorded frames (stored in the instance).</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p>
+</dd>
+<dt class="field-even">No-index<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">set_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exposure_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.set_exposure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<dd><p>Updates the exposure value stored in the current instance (self).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>exposure_time</strong> (<em>int</em>) – Exposure time value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">No-index<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">set_min_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">siz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.set_min_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<dd><p>Updates the minimum or maximum spot size value stored in the current instance (self).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>value</strong> (<em>int</em>) – Final minimum or maximum spot size value.</p></li>
+<li><p><strong>siz</strong> (<em>int</em>) – Integer to differenciate if we want to change the minimum or the maximum spot size value,</p></li>
+<li><p><strong>maximum</strong> (<em>1 for the</em>)</p></li>
+<li><p><strong>minimum.</strong> (<em>0 for</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">No-index<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.update_graph">
+<span class="sig-name descname"><span class="pre">update_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Frame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">hlines</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.update_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.update_graph" title="Link to this definition"></a></dt>
+<dd><p>Updates the live graph of the GUI with new data stored in the current instance (self):</p>
+<ol class="arabic simple">
+<li><p>If data is available, plots it on the graph.</p></li>
+</ol>
+<p>2. Adjusts the graph’s horizontal and vertical limits, extends the x-axis by 60 seconds,
+and increase the y-axis limit by 10% of the maximum value.</p>
+<ol class="arabic simple" start="3">
+<li><p>Updates the graph’s format as needed.</p></li>
+<li><p>Plots the new data on the graph.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>frame</strong> (<em>Frame</em>) – Frame object from the VMBPY API module.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated graph instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plt.hlines</p>
+</dd>
+<dt class="field-even">No-index<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.abort">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">abort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#abort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.abort" title="Link to this definition"></a></dt>
+<dd><p>API propietary exiting fuction and indicate an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reason</strong> (<em>str</em>) – Reason to abort operation.</p></li>
+<li><p><strong>return_code</strong> (<em>int</em><em>, </em><em>optional</em>) – Error code raised. Defaults to 1.</p></li>
+<li><p><strong>usage</strong> (<em>bool</em><em>, </em><em>optional</em>) – Bool to check if an argument has been parsed. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.feature_changed_handler">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">feature_changed_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#feature_changed_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.feature_changed_handler" title="Link to this definition"></a></dt>
+<dd><p>API propietary printing fuction to indicate a changed of value of a feature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>feature</strong> (<em>_type_</em>) – Feature to be changed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.get_camera">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">get_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Camera</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#get_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.get_camera" title="Link to this definition"></a></dt>
+<dd><p>API propietary fuction to obtain the camera.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>camera_id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Specific camera we want to connect to.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Camera we have connected to.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Camera</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.grab_frame">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">grab_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#grab_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.grab_frame" title="Link to this definition"></a></dt>
+<dd><p>Captures a frame to be used as a temporal frame:</p>
+<ol class="arabic simple">
+<li><p>Grabs a frame from the camera.</p></li>
+<li><p>Saves the frame in the specified directory.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cam</strong> (<em>Camera</em>) – Camera object from the VMBPY API module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.parse_args">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">parse_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#parse_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.parse_args" title="Link to this definition"></a></dt>
+<dd><p>API propietary fuction to parse an argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Parsed argument.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optional[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.setup_camera">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">setup_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#setup_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.setup_camera" title="Link to this definition"></a></dt>
+<dd><p>Configures the camera based on user inputs:</p>
+<ol class="arabic simple">
+<li><p>Checks camera mode, if the own camera’s background is chosen, it needs be enabled.</p></li>
+<li><p>Sets the gain mode, either 0dB or 18dB.</p></li>
+<li><p>Selects the exposure mode, Auto or Manual. If Manual, sets the exposure value.</p></li>
+<li><p>Enables white balancing if camera supports it.</p></li>
+<li><p>Adjusts GeV packet size (just for PoE camera).</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cam</strong> (<em>Camera</em>) – Camera object from the VMBPY API module.</p></li>
+<li><p><strong>gain</strong> (<em>tk.StringVar</em>) – Container of the gain mode (0 [0 dB] or 1 [18 dB]).</p></li>
+<li><p><strong>exposure</strong> (<em>tk.StringVar</em>) – Container of the exposure mode (Manual or Auto).</p></li>
+<li><p><strong>exposure_time_value</strong> (<em>int</em>) – Specified exposure value for Manual mode.</p></li>
+<li><p><strong>iso</strong> (<em>tk.StringVar</em>) – Container of the camera mode: Normal, Hot-pixel substraction, Subtraction or Camera’s BC.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.setup_pixel_format">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">setup_pixel_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#setup_pixel_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.setup_pixel_format" title="Link to this definition"></a></dt>
+<dd><p>Configures the camera’s pixel format:</p>
+<ol class="arabic simple">
+<li><p>Retrieves all the camera’s compatible color pixel formats.</p></li>
+<li><p>Filters out formats not compatible with OpenCV.</p></li>
+<li><p>Retrieves all the camera’s compatible monochrome pixel formats.</p></li>
+<li><p>Filters out formats not compatible with OpenCV.</p></li>
+</ol>
+<p>5. Selects the OpenCV-compatible color pixel format. If none exist, attempts
+to convert an incompatible format to be compatible. If conversion is not possible,
+selects an OpenCV-compatible monochrome pixel format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cam</strong> (<em>Camera</em>) – Camera object from the VMBPY API module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.upload_lut">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">upload_lut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lut_dataset_selector_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#upload_lut"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.upload_lut" title="Link to this definition"></a></dt>
+<dd><p>Uploads and enables the LUT:</p>
+<ol class="arabic simple">
+<li><p>Checks the gain to select the correct LUT path.</p></li>
+<li><p>Opens the LUT file, loads it into the camera and runs it.</p></li>
+<li><p>Prints the directory and selected LUT.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cam</strong> (<em>Camera</em>) – Camera object from the VMBPY API module.</p></li>
+<li><p><strong>lut_dataset_selector_index</strong> (<em>int</em>) – Index of the selected LUT.</p></li>
+<li><p><strong>gain</strong> (<em>tk.StringVar</em>) – Container of the gain mode for choosing the LUT (0 [0 dB] or 1 [18 dB]).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AllSkyCam4OLEODL.gui">
+<span id="allskycam4oleodl-gui-module"></span><h2>AllSkyCam4OLEODL.gui module<a class="headerlink" href="#module-AllSkyCam4OLEODL.gui" title="Link to this heading"></a></h2>
+<p>This module manages the GUI settings menu that appears when the program is first run.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.gui.create_menu">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.gui.</span></span><span class="sig-name descname"><span class="pre">create_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tk</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Entry</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Entry</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/gui.html#create_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.gui.create_menu" title="Link to this definition"></a></dt>
+<dd><p>Creates the GUI menu to configure the initial settings:</p>
+<ol class="arabic simple">
+<li><p>Creates the variables windows with an specific size and position.</p></li>
+<li><p>Creates varibales to store the inputs.</p></li>
+<li><p>Creates dropdown menus with default values.</p></li>
+<li><p>Defines a lambda function to parse the exposure and elevation varibales to update_time_entry().</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>gain_var (tk.StringVar): Container of the gain mode (0 [0 dB] or 1 [18 dB]).</p>
+<p>check_var (tk.StringVar): Container of the streaming mode (Stream or Record).</p>
+<p>light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).</p>
+<p>payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat,
+NORSAT-TD).</p>
+<p>zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 1550nm [0.891], Good 1550nm [0.986],
+Bad 850nm [0.705], Good 850nm [0.950])</p>
+<p>elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).</p>
+<p>elevation_angle_var (tk.StringVar): Container of the elevation angle (if manual).</p>
+<p>exposure_var (tk.StringVar): Container of the exposure mode (Auto or Manual).</p>
+<p>exposure_time_var (tk.StringVar): Container of the exposure value (if manual).</p>
+<p>iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction,
+Camera’s BC).</p>
+<p>root (tk.Tk): Main window of the GUI menu.</p>
+<p>exposure_time_entry (tk.ttk.Entry): Value of the exposure.</p>
+<p>elevation_angle_entry (tk.ttk.Entry): Value of the elevation.</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.gui.update_entry">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.gui.</span></span><span class="sig-name descname"><span class="pre">update_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entry</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Entry</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/gui.html#update_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.gui.update_entry" title="Link to this definition"></a></dt>
+<dd><p>Checks for the parsed state of a variable to enable
+or disable its text box.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<em>tk.StringVar</em>) – Container of the variable to check.</p></li>
+<li><p><strong>entry</strong> (<em>tk.ttk.Entry</em>) – Container of the value and its state.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AllSkyCam4OLEODL.image_processing">
+<span id="allskycam4oleodl-image-processing-module"></span><h2>AllSkyCam4OLEODL.image_processing module<a class="headerlink" href="#module-AllSkyCam4OLEODL.image_processing" title="Link to this heading"></a></h2>
+<p>This module manages the processing of the frames taken by the camera.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.brightest_V2">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">brightest_V2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#brightest_V2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.brightest_V2" title="Link to this definition"></a></dt>
+<dd><p>Calculates the brightest point of the frame based on an specified minimum and maximum spot size.</p>
+<ol class="arabic">
+<li><p>Setups the calibration factor.</p></li>
+<li><p>Depending if the daylight or nighttime is selcted a different process will be applyed:</p>
+<blockquote>
+<div><p>In case of Daytime: Bilateral filter 3 200x200 -&gt; OTSU Thresholding.</p>
+<p>In case of Nighttime: Gaussian blur 3x3 -&gt; Threshold based on black values.</p>
+</div></blockquote>
+</li>
+<li><p>Finds the contours of the figure (zones of the fram with similar pixel values).</p></li>
+<li><p>Bounds the contours and filters them based on the minimum and maximum spot sizes values.</p></li>
+<li><p>Select the contour with the highest mean pixel value.</p></li>
+<li><p>Obtains the brightest pixel and the sum of all the values from the brightest contour.</p></li>
+<li><p>Converts pixel value to intensity using the correction factor.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>frame</strong> (<em>np.array</em>) – Frame from where the brightest point will be obtained.</p></li>
+<li><p><strong>exposure</strong> (<em>float</em>) – Exposure time used for that particular frame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>max_loc (tuple):Location of the brightest point:
+[0] = x-axis, [1] = y-axis.</p>
+<p>max_val (float): Pixel value of the brightest point [0-255].</p>
+<p>intensity_brightest (float): Intensity value of the brightest point.</p>
+<p>max_mean_pixel_value (float): Mean pixel value of the whole brightest contour.</p>
+<p>sum_max_mean_pixel_value[0] (float): Summed pixel value of the whole brightest contour.</p>
+<p>intensity_brightest_grid (float): Summed intensity value of the whole brightest contour.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[tuple, float, float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.calculate_el_azi">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">calculate_el_azi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#calculate_el_azi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.calculate_el_azi" title="Link to this definition"></a></dt>
+<dd><p>Calculates the elevation and azimuth of the brightest point of the frame, making use of the
+fisheye projections. Equidistant, equisolid and stereographic can be selected.</p>
+<ol class="arabic simple">
+<li><p>Calculates the distance from the center of the image to the brightest point.</p></li>
+<li><p>Applies the projection to obtain the fov of the lens in the brightest point.</p></li>
+<li><p>Obtains the elevation based on the fov.</p></li>
+<li><p>Calculates the azimuth based on the center of the lens.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>max_loc</strong> (<em>tuple</em>) – Location of the brightest point: [0] = x-axis, [1] = y-axis.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>elevation (float): Elevation of the brightest point.</p>
+<p>fov (float): Field Of View of the camera, in degrees, at the brightest point.</p>
+<p>r (float): Radial position of the brightest point.</p>
+<p>azimuth (float): Azimuth of the brightest point.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[float, float, float, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.dark_frame_setup">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">dark_frame_setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#dark_frame_setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.dark_frame_setup" title="Link to this definition"></a></dt>
+<dd><p>Prepares a frame for processing:</p>
+<ol class="arabic simple">
+<li><p>A threshold of 45 is applied to a previously recorded image of the camera’s hot pixels.</p></li>
+<li><p>The resulting thresholded image is normalized, resulting in an image with values [0, 1].</p></li>
+<li><p>Finally the normalized image is scaled, obtaining an image with values [0, 255].</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> (<em>np.array</em>) – Frame with the hot pixels present.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image after normalization, thresholding and scaling.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.frame_draw">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">frame_draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_bright_loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_bright_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_bright_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_bright_grid_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uint32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_bright_grid_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uint32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_bright_grid_val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#frame_draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.frame_draw" title="Link to this definition"></a></dt>
+<dd><p>Draws the overlays on top of the frame:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>np.array</em>) – Frame where the overlays will be drawn.</p></li>
+<li><p><strong>time</strong> (<em>str</em>) – Actual time in that particular frame.</p></li>
+<li><p><strong>exposure</strong> (<em>float</em>) – Exposure time used for that particular frame.</p></li>
+<li><p><strong>rad</strong> (<em>int</em>) – Radius of the intensity grid.</p></li>
+<li><p><strong>max_bright_loc</strong> (<em>tuple</em>) – Location of the brightest point: [0] = x-axis, [1] = y-axis.</p></li>
+<li><p><strong>max_bright_val</strong> (<em>float</em>) – Pixel value of the brightest point [0-255].</p></li>
+<li><p><strong>int_bright_val</strong> (<em>float</em>) – Intensity value of the brightest point.</p></li>
+<li><p><strong>mean_bright_grid_val</strong> (<em>np.uint32</em>) – Mean pixel value of the whole brightest contour.</p></li>
+<li><p><strong>max_bright_grid_val</strong> (<em>np.uint32</em>) – Summed pixel value of the whole brightest contour.</p></li>
+<li><p><strong>int_bright_grid_val</strong> (<em>np.float64</em>) – Summed intensity value of the whole brightest contour.</p></li>
+<li><p><strong>min_size</strong> (<em>int</em>) – Minimum spot size value used.</p></li>
+<li><p><strong>max_size</strong> (<em>int</em>) – Maximum spot size value used.</p></li>
+<li><p><strong>elevation</strong> (<em>float</em>) – Elevation of the brightest point.</p></li>
+<li><p><strong>azimuth</strong> (<em>float</em>) – Azimuth of the brightest point.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.frame_processing">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">frame_processing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#frame_processing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.frame_processing" title="Link to this definition"></a></dt>
+<dd><p>Procceses the frame.</p>
+<ol class="arabic simple">
+<li><p>Grabs a temporal frame.</p></li>
+<li><p>Depending on the selected mode by the user:</p></li>
+</ol>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Hot-pixel removal.</dt><dd><p>A frame with the hot pixels will threshold and normalized by the dark_frame_setup() fuction
+and then subtracted to the the taken frame with the subtract_frames() function.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Own background correction.</dt><dd><p>Substracts the temporal frame to the next grabbed frame. The subtract_frames() fuction is
+applied for substracting the temporal frame, just grabbed, with the next frame.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Normal operation.</dt><dd><p>The temporal frame will be used directly.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Camera’s own background correction.</dt><dd><p>The temporal frame will be used directly.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Obtains the brightest point thanks to the brightest_V2() function.</p></li>
+<li><p>Obtains the elevation and azimuth of the brightest pixel with the calculate_el_azi() fuction.</p></li>
+<li><p>Draws all the desired values on top of the frame using the frame_draw() fuction.</p></li>
+</ol>
+<p>6. Just in case the Record mode is being used, both the processed and unprocessed frames,
+besides the csv file, will all be saved.</p>
+<p>7- Finally the frames will be display and the first temporal frame will be removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p></li>
+<li><p><strong>cam</strong> (<em>Camera</em>) – Camera object from the VMBPY API module.</p></li>
+<li><p><strong>frame</strong> (<em>Frame</em>) – Frame object from the VMBPY API module.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.subtract_frames">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">subtract_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_substracted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">array</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#subtract_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.subtract_frames" title="Link to this definition"></a></dt>
+<dd><p>Subtracts one frame from another using OpenCV:</p>
+<ol class="arabic simple">
+<li><p>Checks if both frames have the same dimensions and format.</p></li>
+<li><p>Substracts both of the frames.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>np.array</em>) – Original frame.</p></li>
+<li><p><strong>frame_substracted</strong> (<em>np.array</em>) – Frame to substract.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image obtained after frame subtraction.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.write_csv">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_mean_pixel_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pvalue_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">uint32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float64</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#write_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.write_csv" title="Link to this definition"></a></dt>
+<dd><p>Writes a csv file with all the parameters needed to perform the analysis of the final satellite pass:</p>
+<ol class="arabic simple">
+<li><p>Creates the dictionaries and fields.</p></li>
+<li><p>Writes the csv file.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Instance</em>) – Parsed instance from Handler in the api module, provides access to attributes and methods.</p></li>
+<li><p><strong>frame_mean_pixel_value</strong> (<em>int</em>) – Mean Pixel Value of the entire frame.</p></li>
+<li><p><strong>frame_number</strong> (<em>str</em>) – Frame number.</p></li>
+<li><p><strong>time</strong> (<em>str</em>) – Current time where the frame as been recorded.</p></li>
+<li><p><strong>exposure</strong> (<em>float</em>) – Exposure time used for that particular frame.</p></li>
+<li><p><strong>r</strong> (<em>float</em>) – Radial position of the brightest point.</p></li>
+<li><p><strong>elevation</strong> (<em>float</em>) – Elevation of the brightest point</p></li>
+<li><p><strong>azimuth</strong> (<em>float</em>) – Azimuth of the brightest point.</p></li>
+<li><p><strong>fov</strong> (<em>float</em>) – Field Of View of the camera, in degrees, at the brightest point</p></li>
+<li><p><strong>location</strong> (<em>tuple</em>) – Location of the brightest point: [0] = x-axis, [1] = y-axis.</p></li>
+<li><p><strong>pvalue</strong> (<em>float</em>) – Pixel Value of the brightest point [0-255].</p></li>
+<li><p><strong>pvalue_grid</strong> (<em>np.uint32</em>) – Pixel Value of the whole brightest contour.</p></li>
+<li><p><strong>intensity</strong> (<em>float</em>) – Intensity value of the brightest point.</p></li>
+<li><p><strong>intensity_grid</strong> (<em>np.float64</em>) – Intensity value of the whole brightest contour.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AllSkyCam4OLEODL.input_checks">
+<span id="allskycam4oleodl-input-checks-module"></span><h2>AllSkyCam4OLEODL.input_checks module<a class="headerlink" href="#module-AllSkyCam4OLEODL.input_checks" title="Link to this heading"></a></h2>
+<p>This modules manages the checking and validation of the user inputs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.input_checks.checks">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.input_checks.</span></span><span class="sig-name descname"><span class="pre">checks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_angle_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/input_checks.html#checks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.input_checks.checks" title="Link to this definition"></a></dt>
+<dd><p>Based on the selected values in the GUI it preapres the exposure, elevation and
+zenith attenuation we will finally use.</p>
+<p>1. If manual exposure mode is selected, retrieves the exposure time, ensuring that the
+value is non-negative.</p>
+<p>2. If individual elevation mode is selected, retrieves the elevation angle, ensuring that the selected
+value is between 0 and 90 degrees of elevation.</p>
+<ol class="arabic simple" start="3">
+<li><p>Selects the value of the atmospheric zenith attenuation.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_in</strong> (<em>tk.StringVar</em>) – Container of the chosen elevation mode.</p></li>
+<li><p><strong>elevation_angle_in</strong> (<em>tk.StringVar</em>) – Container of the chosen elevation angle (if manual).</p></li>
+<li><p><strong>exposure_in</strong> (<em>tk.StringVar</em>) – Container of the chosen exposure mode.</p></li>
+<li><p><strong>exposure_time_in</strong> (<em>tk.StringVar</em>) – Container of the chosen exposure value (if manual).</p></li>
+<li><p><strong>zenith</strong> (<em>tk.StringVar</em>) – Container of the atmospheric zenith attenuation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – Exposure time value is a lower than zero.</p></li>
+<li><p><strong>ValueError</strong> – Elevation angle is lower than 0 or bigger than 90.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><p>elevation_angle (int): Final selected elevation angle (if individual).</p>
+<p>exposure_time_value (int): Final selected exposure value (if manual).</p>
+<p>zenith (float): Final selected zenith attenuation value</p>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[int, int, float]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AllSkyCam4OLEODL.link_budget">
+<span id="allskycam4oleodl-link-budget-module"></span><h2>AllSkyCam4OLEODL.link_budget module<a class="headerlink" href="#module-AllSkyCam4OLEODL.link_budget" title="Link to this heading"></a></h2>
+<p>This modules manages the creation and display of the link budget.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.link_budget.link_budget">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.link_budget.</span></span><span class="sig-name descname"><span class="pre">link_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/link_budget.html#link_budget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.link_budget.link_budget" title="Link to this definition"></a></dt>
+<dd><p>Performs the link budget based on the parameters from the GUI:</p>
+<ol class="arabic simple">
+<li><p>Selects specific parameters based on the payload chosen.</p></li>
+<li><p>Specifies the losses.</p></li>
+<li><p>Calculates antennas dimensions.</p></li>
+<li><p>If the elevation mode is “Full”, the elevation angle will be converted to an array from 0 to 90 degrees.</p></li>
+</ol>
+<p>5. The rest of the parameters dependent on the elevation are calculated based on if
+the elevation is just a point or the full range.</p>
+<ol class="arabic simple" start="6">
+<li><p>Computes the final received power at the receiver.</p></li>
+<li><p>Calculates the intensity onto the receiver using its area.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_mode</strong> (<em>tk.StringVar</em>) – Container of the elevation mode.</p></li>
+<li><p><strong>el</strong> (<em>int</em>) – Elevation angle.</p></li>
+<li><p><strong>payload</strong> (<em>tk.StringVar</em>) – Container of the payload used.</p></li>
+<li><p><strong>zenith</strong> (<em>float</em>) – Final selected zenith attenuation value.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.link_budget.printer_lb">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.link_budget.</span></span><span class="sig-name descname"><span class="pre">printer_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teta_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_fsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_axial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_atm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_bw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rfe_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_sci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/link_budget.html#printer_lb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.link_budget.printer_lb" title="Link to this definition"></a></dt>
+<dd><p>Prints the graph or the results and summary of the link budget.</p>
+<p>1. If the elevation mode is “Full” it will just print the graph, if not
+it will print the result of the link budget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>el</strong> (<em>np.ndarray</em><em> | </em><em>int</em>) – Elevation of the satellite</p></li>
+<li><p><strong>elevation_mode</strong> (<em>tk.StringVar</em>) – Container of the elevation mode.</p></li>
+<li><p><strong>sat</strong> (<em>tk.StringVar</em>) – Container of the payload used.</p></li>
+<li><p><strong>a_tx</strong> (<em>int</em>) – Transmitter optical loss.</p></li>
+<li><p><strong>p_tx</strong> (<em>int</em>) – Transmitter power.</p></li>
+<li><p><strong>ppb</strong> (<em>int</em>) – Photons/bit.</p></li>
+<li><p><strong>teta_tx</strong> (<em>float</em>) – Transmitter divergence.</p></li>
+<li><p><strong>a_rx</strong> (<em>int</em>) – Receiver optical loss onto RFE.</p></li>
+<li><p><strong>leng</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Length of the link.</p></li>
+<li><p><strong>g_tx</strong> (<em>float</em>) – Transmitter antenna gain.</p></li>
+<li><p><strong>a_fsl</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Free-space loss.</p></li>
+<li><p><strong>i_axial</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Axial intensity at OGS-distance.</p></li>
+<li><p><strong>area_rx</strong> (<em>float</em>) – Receiver antenna area.</p></li>
+<li><p><strong>a_atm</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Atmospheric attenuation loss.</p></li>
+<li><p><strong>a_bw</strong> (<em>int</em>) – Mean BeamWander loss.</p></li>
+<li><p><strong>g_rx</strong> (<em>float</em>) – Reveiver antenna gain.</p></li>
+<li><p><strong>p_rx</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Received power.</p></li>
+<li><p><strong>int_ogs_lin</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Intensity onto OGS-apertue exc. losses.</p></li>
+<li><p><strong>int_ogs_lin_loss</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Intensity onto OGS-apertue inc. losses.</p></li>
+<li><p><strong>p_ogs_mean</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Power into the OGS-apertue - no additional RX-losses.</p></li>
+<li><p><strong>p_ogs_mean_loss</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Power into the OGS-apertue including RX-losses.</p></li>
+<li><p><strong>p_rx_lin</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – RxPower onto RFE-detector incl all losses.</p></li>
+<li><p><strong>wl</strong> (<em>float</em>) – Wavelength.</p></li>
+<li><p><strong>p_rfe_lin</strong> (<em>float</em>) – RFE-sensitivity for an specific Photons/bit.</p></li>
+<li><p><strong>a_sci</strong> (<em>int</em>) – Scintillation loss.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-AllSkyCam4OLEODL.printer">
+<span id="allskycam4oleodl-printer-module"></span><h2>AllSkyCam4OLEODL.printer module<a class="headerlink" href="#module-AllSkyCam4OLEODL.printer" title="Link to this heading"></a></h2>
+<p>This script manages all the printing functions needed to display the results correctly.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.printer.print_end_stream">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.printer.</span></span><span class="sig-name descname"><span class="pre">print_end_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/printer.html#print_end_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.printer.print_end_stream" title="Link to this definition"></a></dt>
+<dd><p>Printing fuction - prints the end of the stream.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.printer.print_preamble">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.printer.</span></span><span class="sig-name descname"><span class="pre">print_preamble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/printer.html#print_preamble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.printer.print_preamble" title="Link to this definition"></a></dt>
+<dd><p>Printing fuction - prints program preamble.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.printer.print_preamble_settings">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.printer.</span></span><span class="sig-name descname"><span class="pre">print_preamble_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/printer.html#print_preamble_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.printer.print_preamble_settings" title="Link to this definition"></a></dt>
+<dd><p>Printing fuction - prints settings preamble.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.printer.print_start_stream">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.printer.</span></span><span class="sig-name descname"><span class="pre">print_start_stream</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/printer.html#print_start_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.printer.print_start_stream" title="Link to this definition"></a></dt>
+<dd><p>Printing fuction - prints the start of the stream.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.printer.print_usage">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.printer.</span></span><span class="sig-name descname"><span class="pre">print_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/printer.html#print_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.printer.print_usage" title="Link to this definition"></a></dt>
+<dd><p>Printing fuction - prints the usage.</p>
+</dd></dl>
+
+</section>
+<section id="module-main">
+<span id="main-py"></span><h2>main.py<a class="headerlink" href="#module-main" title="Link to this heading"></a></h2>
+<p>Main fuction of the project where everything is called.</p>
+<p>Python version:     3.12.2.
+Numpy version:      2.0.0.
+Scipy version:      1.14.0.
+Matplotlib version: 3.9.1.
+Mplcursors version: 0.5.3.
+Tkinter version:    0.1.0.
+Pytz version:       2024.1.
+OpenCV version:     4.10.0.84.</p>
+<dl class="simple">
+<dt>Author:</dt><dd><p>Iker Aldasoro - 19.04.2024</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.create_graph">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">hlines</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/main.html#create_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.create_graph" title="Link to this definition"></a></dt>
+<dd><p>Creates the live graph displayed in the GUI:</p>
+<ol class="arabic simple">
+<li><p>Creates the plot with an specific size, position, title and labels.</p></li>
+</ol>
+<p>2. If a payload with full elevation range has been chosen, the graph will be smaller to acomodate the link
+budget graph.</p>
+<ol class="arabic simple" start="3">
+<li><p>Initializes the data for the graph.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_in</strong> (<em>tk.StringVar</em>) – Container of the elevation mode (Individual or Full).</p></li>
+<li><p><strong>payload</strong> (<em>tk.StringVar</em>) – Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, NORSAT-TD).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>fig (plt.figure): Figure of the created plot.</p>
+<p>ax (plt.axes): Axes of the created plot.</p>
+<p>line (plt.hlines): Lines of the created plot.</p>
+<p>xdata (list): X-axis data from the created plot.</p>
+<p>ydata (list): Y-axis data from the created plot.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[plt.figure, plt.axes, plt.hlines, list, list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.main">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="AllSkyCam4OLEODL" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Iker Aldasoro.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
