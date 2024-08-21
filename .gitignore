@@ -6,8 +6,6 @@ __pycache__/
 *.dll
 *.log
 *.csv
-*.tiff
-*.bin
 
 data/tracking_images
 
