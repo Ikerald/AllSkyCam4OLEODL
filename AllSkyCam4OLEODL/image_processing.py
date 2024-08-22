@@ -746,7 +746,7 @@ def frame_processing(self, cam, frame) -> None:
             frame_subs,
         )
         cv2.imwrite(
-            f"{self.pnp}/{now.strftime('%Y')}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
+            f"{self.pnp}/{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_{now.strftime('%H')}"
             f"{now.strftime('%M')}{now.strftime('%S')}_frame_{str(self.counter)}.tiff",
             frame_temp,
         )
