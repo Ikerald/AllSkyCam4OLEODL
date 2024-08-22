@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "allskycam4oleodl"
-version = "0.1.0"
+version = "0.2.0"
 description = "Tracking software for OLEODL using Allied Vision cameras. Developed alongside DLR-OP-IKN."
 authors = ["Iker Aldasoro <ikeraldasorot@gmail.com>"]
 license = "MIT"
@@ -14,14 +14,14 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.12"
-numpy = "^2.1.0"
-opencv-python = "^4.10.0.84"
-matplotlib = "^3.9.2"
-mplcursors = "^0.5.3"
-scipy = "^1.14.0"
-tk = "^0.1.0"
-pytz = "^2024.1"
+python = "^3.7"
+numpy
+opencv-python
+matplotlib
+mplcursors
+scipy
+tk
+pytz
 
 
 [build-system]
