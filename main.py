@@ -68,10 +68,10 @@ def create_graph(
     ax.grid()
     if payload.get() != "None":
         ax.set_title(
-            f"{payload.get()} downlink on {datetime.now().strftime("%Y-%m-%d")}"
+            f"{payload.get()} downlink on {datetime.now().strftime('%Y-%m-%d')}"
         )
     else:
-        ax.set_title(f"Downlink on {datetime.now().strftime("%Y-%m-%d")}")
+        ax.set_title(f"Downlink on {datetime.now().strftime('%Y-%m-%d')}")
     ax.set_xlabel("Time [UTC]")
     ax.set_ylabel("Brightness")
 

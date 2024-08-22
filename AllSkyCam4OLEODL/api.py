@@ -438,62 +438,62 @@ class Handler:
             now = datetime.now()
             if exposure_time_value == 1:
                 foldername_NP = (
-                    f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                    f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                    f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                    f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                     f"exp_AUTO_GAIN{self.gain}_NP"
                 )
                 if self.background == 0:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}"
                         f"_exp_AUTO_GAIN{self.gain}"
                     )
                 elif self.background == 1:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_AUTO_GAIN{self.gain}_IS"
                     )
                 elif self.background == 2:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_AUTO_GAIN{self.gain}_CAMERA_BC"
                     )
                 else:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_AUTO_GAIN{self.gain}_HP"
                     )
             else:
                 foldername_NP = (
-                    f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                    f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                    f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                    f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                     f"exp_{exposure_time_value}us_GAIN{self.gain}_NP"
                 )
                 if self.background == 0:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}"
                     )
                 if self.background == 1:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}_IS"
                     )
                 if self.background == 2:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}_CAMERA_BC"
                     )
                 else:
                     foldername = (
-                        f"tc_{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_"
-                        f"{now.strftime("%H")}{now.strftime("%M")}{now.strftime("%S")}_"
+                        f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
+                        f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}_HP"
                     )
 
@@ -591,15 +591,15 @@ class Handler:
             # plt.tight_layout()
             if self.payload != "None":
                 plt.title(
-                    f"{self.payload} downlink on {datetime.now().strftime("%Y-%m-%d")}"
+                    f"{self.payload} downlink on {datetime.now().strftime('%Y-%m-%d')}"
                 )
                 plt.savefig(
-                    f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_{self.payload}_DL_plot.png"
+                    f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_{self.payload}_DL_plot.png"
                 )
             else:
-                plt.title(f"Downlink on {datetime.now().strftime("%Y-%m-%d")}")
+                plt.title(f"Downlink on {datetime.now().strftime('%Y-%m-%d')}")
                 plt.savefig(
-                    f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_DL_plot.png"
+                    f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_DL_plot.png"
                 )
             plt.close()
 

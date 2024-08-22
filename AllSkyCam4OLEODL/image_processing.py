@@ -151,9 +151,9 @@ def write_csv(
     ]
 
     if self.payload != "None":
-        filename = f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_{self.payload}_DL_csv.csv"
+        filename = f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_{self.payload}_DL_csv.csv"
     else:
-        filename = f"{self.p}/{datetime.now().strftime("%Y-%m-%d")}_DL_csv.csv"
+        filename = f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_DL_csv.csv"
     file_exists = os.path.isfile(filename)
 
     # Write csv
@@ -741,13 +741,13 @@ def frame_processing(self, cam, frame) -> None:
     # We only write the frame if the mode selected is Record.
     if self.mode != 0:
         cv2.imwrite(
-            f"{self.p}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
-            f"{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
+            f"{self.p}/{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_{now.strftime('%H')}"
+            f"{now.strftime('%M')}{now.strftime('%S')}_frame_{str(self.counter)}.tiff",
             frame_subs,
         )
         cv2.imwrite(
-            f"{self.pnp}/{now.strftime("%Y")}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
-            f"{now.strftime("%M")}{now.strftime("%S")}_frame_{str(self.counter)}.tiff",
+            f"{self.pnp}/{now.strftime('%Y')}{now.strftime("%m")}{now.strftime("%d")}_{now.strftime("%H")}"
+            f"{now.strftime('%M')}{now.strftime('%S')}_frame_{str(self.counter)}.tiff",
             frame_temp,
         )
 
