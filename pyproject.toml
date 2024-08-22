@@ -15,7 +15,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-vmbpy = {path = "data/vmbpy-1.0.4-py3-none-any.whl"}
+vmbpy = {url = "https://github.com/alliedvision/VmbPy/releases/download/v1.0.4/vmbpy-1.0.4-py3-none-any.whl"}
 numpy = "^2.1.0"
 opencv-python = "^4.10.0.84"
 matplotlib = "^3.9.2"
