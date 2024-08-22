@@ -9,7 +9,7 @@ __pycache__/
 
 data/tracking_images
 
-dist/
+dist/*
 ### VisualStudioCode ###
 .vscode/*      # Maybe .vscode/**/* instead - see comments
 !.vscode/settings.json
