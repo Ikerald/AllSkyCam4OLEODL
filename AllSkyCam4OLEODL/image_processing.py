@@ -3,6 +3,7 @@
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\image_processing.py
 
 from datetime import datetime
+from typing import Tuple
 import cv2
 import os
 import csv
@@ -81,7 +82,7 @@ def write_csv(
     elevation: float,
     azimuth: float,
     fov: float,
-    location: tuple,
+    location: Tuple,
     pvalue: float,
     pvalue_grid: np.uint32,
     intensity: float,
@@ -168,7 +169,7 @@ def brightest_V2(
     self,
     frame: np.array,
     exposure: float,
-) -> tuple[tuple, float, float, float, float, float]:
+) -> Tuple[Tuple, float, float, float, float, float]:
     """Calculates the brightest point of the frame based on an specified minimum and maximum spot size.
 
     1. Setups the calibration factor.
@@ -283,7 +284,7 @@ def brightest_V2(
     )
 
 
-def calculate_el_azi(max_loc: tuple) -> tuple[float, float, float, float]:
+def calculate_el_azi(max_loc: Tuple) -> Tuple[float, float, float, float]:
     """Calculates the elevation and azimuth of the brightest point of the frame, making use of the
     fisheye projections. Equidistant, equisolid and stereographic can be selected.
 
@@ -362,7 +363,7 @@ def frame_draw(
     time: str,
     exposure: float,
     rad: int,
-    max_bright_loc: tuple,
+    max_bright_loc: Tuple,
     max_bright_val: float,
     int_bright_val: float,
     mean_bright_grid_val: np.uint32,

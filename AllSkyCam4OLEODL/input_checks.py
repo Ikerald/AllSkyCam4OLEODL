@@ -2,6 +2,7 @@
 
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\input_checks.py
 
+from typing import Tuple
 
 def checks(
     elevation_in,
@@ -9,7 +10,7 @@ def checks(
     exposure_in,
     exposure_time_in,
     zenith,
-) -> tuple[int, int, float]:
+) -> Tuple[int, int, float]:
     """Based on the selected values in the GUI it preapres the exposure, elevation and
     zenith attenuation we will finally use.
 

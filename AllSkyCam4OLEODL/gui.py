@@ -3,6 +3,7 @@
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\gui.py
 
 from tkinter import ttk
+from typing import Tuple
 import tkinter as tk
 
 
@@ -22,7 +23,7 @@ def update_entry(variable: tk.StringVar, entry: tk.ttk.Entry) -> None:
 
 
 def create_menu() -> (
-    tuple[
+    Tuple[
         tk.StringVar,
         tk.StringVar,
         tk.StringVar,

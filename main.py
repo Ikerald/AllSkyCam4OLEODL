@@ -18,6 +18,7 @@ Author:
 
 from tkinter import ttk
 from datetime import datetime
+from typing import Tuple
 import time
 import matplotlib.pyplot as plt
 import os
@@ -27,7 +28,7 @@ import AllSkyCam4OLEODL
 
 def create_graph(
     elevation_in, payload
-) -> tuple[plt.figure, plt.axes, plt.hlines, list, list]:
+) -> Tuple[plt.figure, plt.axes, plt.hlines, list, list]:
     """Creates the live graph displayed in the GUI:
 
     1. Creates the plot with an specific size, position, title and labels.
