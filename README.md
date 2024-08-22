@@ -27,6 +27,32 @@ pip install './data/vmbpy-1.0.4-py3-none-any.whl[numpy,opencv]'
 ```
 ## AllSkyCam4OLEODL package
 
+Git needs to be installed first.
+
+1. Install the Pypi package
+```bash
+pip install allskycam4oleodl
+```
+2. Clone the AllSkyCam4OLEODL git repository
+```bash
+git clone https://github.com/Ikerald/AllSkyCam4OLEODL.git
+```
+3. Navigate to the AllSkyCam4OLEODL sub-directory
+```bash
+cd AllSkyCam4OLEODL/
+```
+4. Here you can manually install the Vmbpy API
+```bash
+pip install './data/vmbpy-1.0.4-py3-none-any.whl[numpy,opencv]'
+```
+
+
+
+
+
+
+
+
 
 # Usage
 
