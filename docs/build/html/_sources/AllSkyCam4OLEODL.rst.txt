@@ -57,8 +57,9 @@ AllSkyCam4OLEODL.printer module
    :undoc-members:
    :show-inheritance:
 
-main.py
--------
+
+Main.py
+========================
 
 .. automodule:: main
    :members:
