@@ -2,10 +2,12 @@
 
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\03_SCRIPTS\05_LINK_BUDGET\link_budget.py
 
+from typing import Union
+from scipy.special import erfinv
+
 import numpy as np
 import mplcursors
 import matplotlib.pyplot as plt
-from scipy.special import erfinv
 
 import math
 
@@ -13,7 +15,7 @@ from . import constants as const
 
 
 def printer_lb(
-    el: np.ndarray | int,
+    el: Union[np.ndarray, int],
     elevation_mode,
     sat,
     a_tx: int,
@@ -21,20 +23,20 @@ def printer_lb(
     ppb: int,
     teta_tx: float,
     a_rx: int,
-    leng: np.ndarray | float,
+    leng: Union[np.ndarray, float],
     g_tx: float,
-    a_fsl: np.ndarray | float,
-    i_axial: np.ndarray | float,
+    a_fsl: Union[np.ndarray, float],
+    i_axial: Union[np.ndarray, float],
     area_rx: float,
-    a_atm: np.ndarray | float,
+    a_atm: Union[np.ndarray, float],
     a_bw: int,
     g_rx: float,
-    p_rx: np.ndarray | float,
-    int_ogs_lin: np.ndarray | float,
-    int_ogs_lin_loss: np.ndarray | float,
-    p_ogs_mean: np.ndarray | float,
-    p_ogs_mean_loss: np.ndarray | float,
-    p_rx_lin: np.ndarray | float,
+    p_rx: Union[np.ndarray, float],
+    int_ogs_lin: Union[np.ndarray, float],
+    int_ogs_lin_loss: Union[np.ndarray, float],
+    p_ogs_mean: Union[np.ndarray, float],
+    p_ogs_mean_loss: Union[np.ndarray, float],
+    p_rx_lin: Union[np.ndarray, float],
     wl: float,
     p_rfe_lin: float,
     a_sci: int,
