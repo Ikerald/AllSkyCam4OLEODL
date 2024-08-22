@@ -15,6 +15,7 @@ Author:
 """
 
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\constants.py
+# Vaya
 
 from tkinter import ttk
 from datetime import datetime
