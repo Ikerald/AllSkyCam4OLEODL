@@ -40,7 +40,7 @@ def create_graph(
 
     Args:
         elevation_in (tk.StringVar): Container of the elevation mode (Individual or Full).
-        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, NORSAT-TD).
+        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).
 
     Returns:
         tuple[plt.figure, plt.axes, plt.hlines, list, list]: fig (plt.figure): Figure of the created plot.
@@ -95,6 +95,7 @@ def main():
                 check_in,
                 light_in,
                 payload_in,
+                h_ogs_in,
                 zenith_in,
                 elevation_in,
                 elevation_angle_in,
@@ -112,17 +113,19 @@ def main():
                     elevation_angle,
                     exposure_time_value,
                     zenith,
+                    h_ogs,
                 ) = AllSkyCam4OLEODL.checks(
                     elevation_in,
                     elevation_angle_in,
                     exposure_in,
                     exposure_time_in,
                     zenith_in,
+                    h_ogs_in,
                 )
 
                 if payload_in.get() != "None":
                     AllSkyCam4OLEODL.link_budget(
-                        elevation_in, elevation_angle, payload_in, zenith
+                        elevation_in, elevation_angle, payload_in, zenith, h_ogs
                     )
 
                 # Setup camera

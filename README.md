@@ -1,4 +1,4 @@
-# All Sky Camera System for Optical Low Earth Orbit Satellite DownLinks [![python version](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
+# All Sky Camera System for Optical Low Earth Orbit Satellite DownLinks [![python version](https://img.shields.io/badge/python-3.7.4+-blue.svg)](https://www.python.org/downloads/)
 
 This project was developed in collaboration with DLR-IKN in Oberpfaffenhofen as part of my Bachelor Thesis. The goal is to track and assess the quality of Optical Low Earth Orbit Satellite DownLinks (OLEODL) as a validation tool for an Optical Ground Station using Allied Vision cameras.
 

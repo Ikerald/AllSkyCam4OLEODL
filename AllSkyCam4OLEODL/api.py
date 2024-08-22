@@ -12,7 +12,6 @@ from typing import Optional
 from datetime import datetime, timedelta
 from tkinter import ttk
 from matplotlib import dates as mdates
-from matplotlib.dates import DateFormatter, HourLocator
 import sys
 import os
 import threading

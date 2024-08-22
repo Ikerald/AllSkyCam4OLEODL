@@ -10,7 +10,8 @@ def checks(
     exposure_in,
     exposure_time_in,
     zenith,
-) -> Tuple[int, int, float]:
+    h_ogs,
+) -> Tuple[int, int, float, int]:
     """Based on the selected values in the GUI it preapres the exposure, elevation and
     zenith attenuation we will finally use.
 
@@ -28,17 +29,20 @@ def checks(
         exposure_in (tk.StringVar): Container of the chosen exposure mode.
         exposure_time_in (tk.StringVar): Container of the chosen exposure value (if manual).
         zenith (tk.StringVar): Container of the atmospheric zenith attenuation.
+        h_ogs (tk.StringVar): Container of the height of the OGS used.
 
     Raises:
         ValueError: Exposure time value is a lower than zero.
         ValueError: Elevation angle is lower than 0 or bigger than 90.
 
     Returns:
-        tuple[int, int, float]: elevation_angle (int): Final selected elevation angle (if individual).
+        tuple[int, int, float, int]: elevation_angle (int): Final selected elevation angle (if individual).
 
         exposure_time_value (int): Final selected exposure value (if manual).
 
-        zenith (float): Final selected zenith attenuation value
+        zenith (float): Final selected zenith attenuation value.
+
+        h_ogs (int): Final height of the selected OGS.
     """
     # Validate exposure time
     if exposure_in.get() == "Manual":
@@ -73,13 +77,21 @@ def checks(
         zenith = 0.891
     elif zenith.get() == "Good 1550nm [0.986]":
         zenith = 0.986
-    elif zenith.get() == "Bad 800nm [0.705]":
+    elif zenith.get() == "Bad 850nm [0.705]":
         zenith = 0.705
-    else:
+    elif zenith.get() == "Good 850nm [0.950]":
         zenith = 0.950
+    else:
+        zenith = 0.963
+
+    if h_ogs.get() == "IKN-OP":
+        h_ogs = 650
+    else:
+        h_ogs = 600
 
     return (
         elevation_angle,
         exposure_time_value,
         zenith,
+        h_ogs,
     )

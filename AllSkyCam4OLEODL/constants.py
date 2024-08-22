@@ -57,13 +57,11 @@ H = 6.626e-34  # m²-kg/s - Planck's constant
 R_E = 6370e3  # m - Earth's radius
 
 # Environment constants
-H_OGS = 650  # m - Height of GSOC-OGS
-
 PSI = 0.3
 # PSI = 0  # a change according to el is not yet regarded
 # PSI = 0.1
 # PSI = 1E-8
-P_THR = 1e-1  # loss_fraction for ScintiLoss
+P_THR = 0.1  # loss_fraction for ScintiLoss
 
 # Satellite constants
 # el = 15  # ° - Elevation of the satellite

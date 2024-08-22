@@ -34,6 +34,7 @@ def create_menu() -> (
         tk.StringVar,
         tk.StringVar,
         tk.StringVar,
+        tk.StringVar,
         tk.Tk,
         tk.ttk.Entry,
         tk.ttk.Entry,
@@ -56,11 +57,13 @@ def create_menu() -> (
 
         light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).
 
-        payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat,
-        NORSAT-TD).
+        payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat or
+        CubeCat).
+
+        h_ogs_var (tk.StringVar): Container of the height of the OGS used (IKN-OP or GSOC-OP).
 
         zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 1550nm [0.891], Good 1550nm [0.986],
-        Bad 850nm [0.705], Good 850nm [0.950])
+        Bad 850nm [0.705], Good 850nm [0.950] or CubeCat 20240822 [0.963])
 
         elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).
 
@@ -70,7 +73,7 @@ def create_menu() -> (
 
         exposure_time_var (tk.StringVar): Container of the exposure value (if manual).
 
-        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction,
+        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction or
         Camera's BC).
 
         root (tk.Tk): Main window of the GUI menu.
@@ -89,6 +92,7 @@ def create_menu() -> (
     check_var = tk.StringVar(value="S")
     light_var = tk.StringVar(value="D")
     payload_var = tk.StringVar(value="")
+    h_ogs_var = tk.StringVar(value="IKN-OP")
     zenith_var = tk.StringVar(value="B_1")
     elevation_var = tk.StringVar(value="F")
     elevation_angle_var = tk.StringVar(value="")
@@ -121,7 +125,7 @@ def create_menu() -> (
             "KIODO",
             "OsirisV1",
             "Osiris4CubeSat",
-            "NORSAT-TD",
+            "CubeCat",
         ],
     )
     payload_combo.grid(row=2, column=1)
@@ -134,7 +138,14 @@ def create_menu() -> (
     check_combo.grid(row=4, column=0)
     check_combo.set("Stream")
 
-    ttk.Label(text="Zenith-attenuation:").grid(row=3, column=1, sticky="")
+    ttk.Label(text="OGS:").grid(row=3, column=1, sticky="")
+    h_ogs_combo = ttk.Combobox(
+        textvariable=h_ogs_var, values=["IKN-OP", "GSOC-OP"]
+    )
+    h_ogs_combo.grid(row=4, column=1)
+    h_ogs_combo.set("IKN-OP")
+
+    ttk.Label(text="Zenith-attenuation:").grid(row=5, column=1, sticky="")
     zenith_combo = ttk.Combobox(
         textvariable=zenith_var,
         values=[
@@ -142,9 +153,10 @@ def create_menu() -> (
             "Good 1550nm [0.986]",
             "Bad 850nm [0.705]",
             "Good 850nm [0.950]",
+            "CubeCat 20240822 [0.963]",
         ],
     )
-    zenith_combo.grid(row=4, column=1)
+    zenith_combo.grid(row=6, column=1)
     zenith_combo.set("Bad 1550nm [0.891]")
 
     ttk.Label(text="Time of the day:").grid(row=5, column=0, sticky="")
@@ -154,16 +166,16 @@ def create_menu() -> (
     light_combo.grid(row=6, column=0)
     light_combo.set("Daytime")
 
-    ttk.Label(text="Elevation:").grid(row=5, column=1, sticky="")
+    ttk.Label(text="Elevation:").grid(row=7, column=1, sticky="")
     elevation_combo = ttk.Combobox(
         textvariable=elevation_var, values=["Full", "Individual"]
     )
-    elevation_combo.grid(row=6, column=1)
+    elevation_combo.grid(row=8, column=1)
     elevation_combo.set("Full")
 
-    ttk.Label(text="Elevation Angle (°):").grid(row=7, column=1, sticky="")
+    ttk.Label(text="Elevation Angle (°):").grid(row=9, column=1, sticky="")
     elevation_angle_entry = ttk.Entry(textvariable=elevation_angle_var)
-    elevation_angle_entry.grid(row=8, column=1)
+    elevation_angle_entry.grid(row=10, column=1)
 
     ttk.Label(text="Exposure:").grid(row=7, column=0, sticky="")
     exposure_combo = ttk.Combobox(
@@ -205,6 +217,7 @@ def create_menu() -> (
         check_var,
         light_var,
         payload_var,
+        h_ogs_var,
         zenith_var,
         elevation_var,
         elevation_angle_var,

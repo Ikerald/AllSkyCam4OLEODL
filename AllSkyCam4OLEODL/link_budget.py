@@ -220,7 +220,7 @@ def printer_lb(
             )
 
 
-def link_budget(elevation_mode, el: int, payload, zenith: float) -> None:
+def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> None:
     """Performs the link budget based on the parameters from the GUI:
 
     1. Selects specific parameters based on the payload chosen.
@@ -243,12 +243,13 @@ def link_budget(elevation_mode, el: int, payload, zenith: float) -> None:
         el (int): Elevation angle.
         payload (tk.StringVar): Container of the payload used.
         zenith (float): Final selected zenith attenuation value.
+        h_ogs (int): Final height of the selected OGS.
     """
     if payload.get() == "OsirisV1":
         h_orbit = 595  # km - Satellite height
         wl = 1545e-9  # m - Wavelenght of the downlink
         p_tx = 30  # dBm - Transmited power
-        teta_tx = 1e-3  # mrad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte f�rs CNES-Paper 1,0
+        teta_tx = 1e-3  # rad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte f�rs CNES-Paper 1,0
         a_tx = -1  # dB - Optical Transmissor losses (Tx)
         dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
         ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
@@ -258,10 +259,20 @@ def link_budget(elevation_mode, el: int, payload, zenith: float) -> None:
         wl = 847e-9  # m - Wavelenght of the downlink
         p_tx = 20  # dBm - Transmited power
         # p_tx = 16.99
-        teta_tx = 5.5e-6  # mrad - OICETS-Kirari-LUCE FWHM beam divergence
+        teta_tx = 5.5e-6  # rad - OICETS-Kirari-LUCE FWHM beam divergence
         a_tx = -1  # dB - Optical Transmissor losses (Tx)
         dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
         ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
+        # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
+    elif payload.get() == "CubeCat":
+        h_orbit = 455  # km - Satellite height
+        wl = 1545e-9  # m - Wavelenght of the downlink
+        p_tx = 24.7712  # dBm - Transmited power [300 mW]
+        # p_tx = 16.99
+        teta_tx = 104E-6  # rad - collimator F220FC-1550
+        a_tx = 0  # dB - Optical Transmissor losses (Tx)
+        #dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
+        #ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
         # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
     else:
         h_orbit = 595  # km - Satellite height
@@ -298,9 +309,9 @@ def link_budget(elevation_mode, el: int, payload, zenith: float) -> None:
     area_rx = math.pi * (d_rx_o / 2) ** 2
     # m^2 - Area of a fisheye lens based on its aperture
 
-    # alpha = (180/math.pi) * math.asin( (const.R_E+const.H_OGS)/(const.R_E+h_orbit) * math.sin((90+el)*math.pi/180) )
+    # alpha = (180/math.pi) * math.asin( (const.R_E+h_ogs)/(const.R_E+h_orbit) * math.sin((90+el)*math.pi/180) )
     # gamma = 90 - el - alpha;
-    # leng = math.sqrt( (const.R_E+const.H_OGS)**2 + (const.R_E+h_orbit_m)**2 - 2 * (const.R_E+const.H_OGS)*(const.R_E+h_orbit_m)*math.cos(gamma*math.pi/180) )
+    # leng = math.sqrt( (const.R_E+h_ogs)**2 + (const.R_E+h_orbit_m)**2 - 2 * (const.R_E+h_ogs)*(const.R_E+h_orbit_m)*math.cos(gamma*math.pi/180) )
     if elevation_mode.get() == "Individual":
         a = math
         grad = el * math.pi / 180
@@ -310,10 +321,10 @@ def link_budget(elevation_mode, el: int, payload, zenith: float) -> None:
         grad = np.radians(el)
 
     leng = a.sqrt(
-        (const.R_E + const.H_OGS) ** 2 * a.sin(grad) ** 2
-        + 2 * (h_orbit_m - const.H_OGS) * (const.R_E + const.H_OGS)
-        + (h_orbit_m - const.H_OGS) ** 2
-    ) - (const.R_E + const.H_OGS) * a.sin(grad)
+        (const.R_E + h_ogs) ** 2 * a.sin(grad) ** 2
+        + 2 * (h_orbit_m - h_ogs) * (const.R_E + h_ogs)
+        + (h_orbit_m - h_ogs) ** 2
+    ) - (const.R_E + h_ogs) * a.sin(grad)
 
     a_fsl = 10 * a.log10((wl / (4 * math.pi * leng)) ** 2)
     # dB - Freespace losses
