@@ -91,6 +91,7 @@
 
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -102,7 +103,7 @@
 <a class="viewcode-back" href="../AllSkyCam4OLEODL.html#main.create_graph">[docs]</a>
 <span class="k">def</span> <span class="nf">create_graph</span><span class="p">(</span>
     <span class="n">elevation_in</span><span class="p">,</span> <span class="n">payload</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates the live graph displayed in the GUI:</span>
 
 <span class="sd">    1. Creates the plot with an specific size, position, title and labels.</span>
@@ -114,7 +115,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        elevation_in (tk.StringVar): Container of the elevation mode (Individual or Full).</span>
-<span class="sd">        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, NORSAT-TD).</span>
+<span class="sd">        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[plt.figure, plt.axes, plt.hlines, list, list]: fig (plt.figure): Figure of the created plot.</span>
@@ -133,9 +134,11 @@
         <span class="c1"># Size and position of the intensity graph.</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">5.38</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s2">&quot;+5+290&quot;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.11</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.92</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.13</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">8.9</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s2">&quot;+5+290&quot;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.92</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.13</span><span class="p">)</span>
 
     <span class="p">(</span><span class="n">line</span><span class="p">,)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([],</span> <span class="p">[],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
@@ -143,10 +146,10 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2"> downlink on </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2"> downlink on </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downlink on </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downlink on </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [UTC]&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Brightness&quot;</span><span class="p">)</span>
 
@@ -172,6 +175,7 @@
                 <span class="n">check_in</span><span class="p">,</span>
                 <span class="n">light_in</span><span class="p">,</span>
                 <span class="n">payload_in</span><span class="p">,</span>
+                <span class="n">h_ogs_in</span><span class="p">,</span>
                 <span class="n">zenith_in</span><span class="p">,</span>
                 <span class="n">elevation_in</span><span class="p">,</span>
                 <span class="n">elevation_angle_in</span><span class="p">,</span>
@@ -189,17 +193,19 @@
                     <span class="n">elevation_angle</span><span class="p">,</span>
                     <span class="n">exposure_time_value</span><span class="p">,</span>
                     <span class="n">zenith</span><span class="p">,</span>
+                    <span class="n">h_ogs</span><span class="p">,</span>
                 <span class="p">)</span> <span class="o">=</span> <span class="n">AllSkyCam4OLEODL</span><span class="o">.</span><span class="n">checks</span><span class="p">(</span>
                     <span class="n">elevation_in</span><span class="p">,</span>
                     <span class="n">elevation_angle_in</span><span class="p">,</span>
                     <span class="n">exposure_in</span><span class="p">,</span>
                     <span class="n">exposure_time_in</span><span class="p">,</span>
                     <span class="n">zenith_in</span><span class="p">,</span>
+                    <span class="n">h_ogs_in</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">payload_in</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
                     <span class="n">AllSkyCam4OLEODL</span><span class="o">.</span><span class="n">link_budget</span><span class="p">(</span>
-                        <span class="n">elevation_in</span><span class="p">,</span> <span class="n">elevation_angle</span><span class="p">,</span> <span class="n">payload_in</span><span class="p">,</span> <span class="n">zenith</span>
+                        <span class="n">elevation_in</span><span class="p">,</span> <span class="n">elevation_angle</span><span class="p">,</span> <span class="n">payload_in</span><span class="p">,</span> <span class="n">zenith</span><span class="p">,</span> <span class="n">h_ogs</span>
                     <span class="p">)</span>
 
                 <span class="c1"># Setup camera</span>

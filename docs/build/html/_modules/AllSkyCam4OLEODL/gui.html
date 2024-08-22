@@ -76,6 +76,7 @@
 <span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\gui.py</span>
 
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
 
 
@@ -100,7 +101,8 @@
 <div class="viewcode-block" id="create_menu">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.gui.create_menu">[docs]</a>
 <span class="k">def</span> <span class="nf">create_menu</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">(</span>
-    <span class="nb">tuple</span><span class="p">[</span>
+    <span class="n">Tuple</span><span class="p">[</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">,</span>
         <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">,</span>
         <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">,</span>
         <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">,</span>
@@ -133,11 +135,13 @@
 
 <span class="sd">        light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).</span>
 
-<span class="sd">        payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat,</span>
-<span class="sd">        NORSAT-TD).</span>
+<span class="sd">        payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat or</span>
+<span class="sd">        CubeCat).</span>
+
+<span class="sd">        h_ogs_var (tk.StringVar): Container of the height of the OGS used (IKN-OP or GSOC-OP).</span>
 
 <span class="sd">        zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 1550nm [0.891], Good 1550nm [0.986],</span>
-<span class="sd">        Bad 850nm [0.705], Good 850nm [0.950])</span>
+<span class="sd">        Bad 850nm [0.705], Good 850nm [0.950] or CubeCat 20240822 [0.963])</span>
 
 <span class="sd">        elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).</span>
 
@@ -147,7 +151,7 @@
 
 <span class="sd">        exposure_time_var (tk.StringVar): Container of the exposure value (if manual).</span>
 
-<span class="sd">        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction,</span>
+<span class="sd">        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction or</span>
 <span class="sd">        Camera&#39;s BC).</span>
 
 <span class="sd">        root (tk.Tk): Main window of the GUI menu.</span>
@@ -166,6 +170,7 @@
     <span class="n">check_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
     <span class="n">light_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;D&quot;</span><span class="p">)</span>
     <span class="n">payload_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">h_ogs_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;IKN-OP&quot;</span><span class="p">)</span>
     <span class="n">zenith_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;B_1&quot;</span><span class="p">)</span>
     <span class="n">elevation_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
     <span class="n">elevation_angle_var</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">StringVar</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -198,7 +203,7 @@
             <span class="s2">&quot;KIODO&quot;</span><span class="p">,</span>
             <span class="s2">&quot;OsirisV1&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Osiris4CubeSat&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;NORSAT-TD&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CubeCat&quot;</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">)</span>
     <span class="n">payload_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -211,7 +216,14 @@
     <span class="n">check_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">check_combo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Stream&quot;</span><span class="p">)</span>
 
-    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Zenith-attenuation:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;OGS:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">h_ogs_combo</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span>
+        <span class="n">textvariable</span><span class="o">=</span><span class="n">h_ogs_var</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;IKN-OP&quot;</span><span class="p">,</span> <span class="s2">&quot;GSOC-OP&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">h_ogs_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">h_ogs_combo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;IKN-OP&quot;</span><span class="p">)</span>
+
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Zenith-attenuation:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">zenith_combo</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span>
         <span class="n">textvariable</span><span class="o">=</span><span class="n">zenith_var</span><span class="p">,</span>
         <span class="n">values</span><span class="o">=</span><span class="p">[</span>
@@ -219,9 +231,10 @@
             <span class="s2">&quot;Good 1550nm [0.986]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Bad 850nm [0.705]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Good 850nm [0.950]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CubeCat 20240822 [0.963]&quot;</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">)</span>
-    <span class="n">zenith_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">zenith_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">zenith_combo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Bad 1550nm [0.891]&quot;</span><span class="p">)</span>
 
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Time of the day:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
@@ -231,16 +244,16 @@
     <span class="n">light_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">light_combo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Daytime&quot;</span><span class="p">)</span>
 
-    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Elevation:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Elevation:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">elevation_combo</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span>
         <span class="n">textvariable</span><span class="o">=</span><span class="n">elevation_var</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Full&quot;</span><span class="p">,</span> <span class="s2">&quot;Individual&quot;</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">elevation_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">elevation_combo</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">elevation_combo</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;Full&quot;</span><span class="p">)</span>
 
-    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Elevation Angle (°):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Elevation Angle (°):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">elevation_angle_entry</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">textvariable</span><span class="o">=</span><span class="n">elevation_angle_var</span><span class="p">)</span>
-    <span class="n">elevation_angle_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">elevation_angle_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">ttk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Exposure:&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">exposure_combo</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span>
@@ -282,6 +295,7 @@
         <span class="n">check_var</span><span class="p">,</span>
         <span class="n">light_var</span><span class="p">,</span>
         <span class="n">payload_var</span><span class="p">,</span>
+        <span class="n">h_ogs_var</span><span class="p">,</span>
         <span class="n">zenith_var</span><span class="p">,</span>
         <span class="n">elevation_var</span><span class="p">,</span>
         <span class="n">elevation_angle_var</span><span class="p">,</span>

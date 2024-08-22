@@ -75,10 +75,12 @@
 
 <span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\03_SCRIPTS\05_LINK_BUDGET\link_budget.py</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erfinv</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">mplcursors</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erfinv</span>
 
 <span class="kn">import</span> <span class="nn">math</span>
 
@@ -88,7 +90,7 @@
 <div class="viewcode-block" id="printer_lb">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.link_budget.printer_lb">[docs]</a>
 <span class="k">def</span> <span class="nf">printer_lb</span><span class="p">(</span>
-    <span class="n">el</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">el</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
     <span class="n">elevation_mode</span><span class="p">,</span>
     <span class="n">sat</span><span class="p">,</span>
     <span class="n">a_tx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -96,20 +98,20 @@
     <span class="n">ppb</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">teta_tx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">a_rx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">leng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">leng</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">g_tx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">a_fsl</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">i_axial</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_fsl</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">i_axial</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">area_rx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">a_atm</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">a_atm</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">a_bw</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">g_rx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">p_rx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">int_ogs_lin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">int_ogs_lin_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">p_ogs_mean</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">p_ogs_mean_loss</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">p_rx_lin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">p_rx</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">int_ogs_lin</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">int_ogs_lin_loss</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">p_ogs_mean</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">p_ogs_mean_loss</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">p_rx_lin</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">wl</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">p_rfe_lin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">a_sci</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -155,6 +157,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">int_ogs_lin_loss</span> <span class="o">*</span> <span class="mf">1e6</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Intensity onto Camera-apertue  / µW/m²&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Elevation / 1°&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.17</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.92</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.13</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sat</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2"> intensity Link Budget&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
@@ -296,7 +299,7 @@
 
 <div class="viewcode-block" id="link_budget">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.link_budget.link_budget">[docs]</a>
-<span class="k">def</span> <span class="nf">link_budget</span><span class="p">(</span><span class="n">elevation_mode</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">zenith</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">link_budget</span><span class="p">(</span><span class="n">elevation_mode</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">zenith</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_ogs</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs the link budget based on the parameters from the GUI:</span>
 
 <span class="sd">    1. Selects specific parameters based on the payload chosen.</span>
@@ -319,12 +322,13 @@
 <span class="sd">        el (int): Elevation angle.</span>
 <span class="sd">        payload (tk.StringVar): Container of the payload used.</span>
 <span class="sd">        zenith (float): Final selected zenith attenuation value.</span>
+<span class="sd">        h_ogs (int): Final height of the selected OGS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;OsirisV1&quot;</span><span class="p">:</span>
         <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">595</span>  <span class="c1"># km - Satellite height</span>
         <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
         <span class="n">p_tx</span> <span class="o">=</span> <span class="mi">30</span>  <span class="c1"># dBm - Transmited power</span>
-        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">1e-3</span>  <span class="c1"># mrad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte f�rs CNES-Paper 1,0</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">1e-3</span>  <span class="c1"># rad - OSIRISv1: 1.0E-3 oder 1.2E-3 mrad - die Dokumente sagen immer 1,2 aber CF meinte f�rs CNES-Paper 1,0</span>
         <span class="n">a_tx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
         <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
         <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
@@ -334,8 +338,17 @@
         <span class="n">wl</span> <span class="o">=</span> <span class="mf">847e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
         <span class="n">p_tx</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># dBm - Transmited power</span>
         <span class="c1"># p_tx = 16.99</span>
-        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">5.5e-6</span>  <span class="c1"># mrad - OICETS-Kirari-LUCE FWHM beam divergence</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">5.5e-6</span>  <span class="c1"># rad - OICETS-Kirari-LUCE FWHM beam divergence</span>
         <span class="n">a_tx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
+        <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
+    <span class="k">elif</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;CubeCat&quot;</span><span class="p">:</span>
+        <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">455</span>  <span class="c1"># km - Satellite height</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
+        <span class="n">p_tx</span> <span class="o">=</span> <span class="mf">24.7712</span>  <span class="c1"># dBm - Transmited power [300 mW]</span>
+        <span class="c1"># p_tx = 16.99</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">104E-6</span>  <span class="c1"># rad - collimator F220FC-1550</span>
+        <span class="n">a_tx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
         <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
         <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
         <span class="c1"># diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
@@ -374,9 +387,9 @@
     <span class="n">area_rx</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">d_rx_o</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="c1"># m^2 - Area of a fisheye lens based on its aperture</span>
 
-    <span class="c1"># alpha = (180/math.pi) * math.asin( (const.R_E+const.H_OGS)/(const.R_E+h_orbit) * math.sin((90+el)*math.pi/180) )</span>
+    <span class="c1"># alpha = (180/math.pi) * math.asin( (const.R_E+h_ogs)/(const.R_E+h_orbit) * math.sin((90+el)*math.pi/180) )</span>
     <span class="c1"># gamma = 90 - el - alpha;</span>
-    <span class="c1"># leng = math.sqrt( (const.R_E+const.H_OGS)**2 + (const.R_E+h_orbit_m)**2 - 2 * (const.R_E+const.H_OGS)*(const.R_E+h_orbit_m)*math.cos(gamma*math.pi/180) )</span>
+    <span class="c1"># leng = math.sqrt( (const.R_E+h_ogs)**2 + (const.R_E+h_orbit_m)**2 - 2 * (const.R_E+h_ogs)*(const.R_E+h_orbit_m)*math.cos(gamma*math.pi/180) )</span>
     <span class="k">if</span> <span class="n">elevation_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Individual&quot;</span><span class="p">:</span>
         <span class="n">a</span> <span class="o">=</span> <span class="n">math</span>
         <span class="n">grad</span> <span class="o">=</span> <span class="n">el</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
@@ -386,10 +399,10 @@
         <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
 
     <span class="n">leng</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span>
-        <span class="o">+</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-    <span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">const</span><span class="o">.</span><span class="n">H_OGS</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">h_ogs</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">h_ogs</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">h_ogs</span><span class="p">)</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">h_orbit_m</span> <span class="o">-</span> <span class="n">h_ogs</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">R_E</span> <span class="o">+</span> <span class="n">h_ogs</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
 
     <span class="n">a_fsl</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">a</span><span class="o">.</span><span class="n">log10</span><span class="p">((</span><span class="n">wl</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">leng</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="c1"># dB - Freespace losses</span>

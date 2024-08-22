@@ -82,6 +82,7 @@ def printer_lb(
         plt.plot(el, int_ogs_lin_loss * 1e6, "-", color="r", linewidth=2)
         plt.ylabel("Intensity onto Camera-apertue  / µW/m²")
         plt.xlabel("Elevation / 1°")
+        plt.subplots_adjust(left=0.17, right=0.95, top=0.92, bottom=0.13)
         plt.title(f"{sat.get()} intensity Link Budget")
         plt.grid(True)
 
@@ -263,7 +264,6 @@ def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> 
         a_tx = -1  # dB - Optical Transmissor losses (Tx)
         dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
         ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
-        # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
     elif payload.get() == "CubeCat":
         h_orbit = 455  # km - Satellite height
         wl = 1545e-9  # m - Wavelenght of the downlink
@@ -271,8 +271,8 @@ def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> 
         # p_tx = 16.99
         teta_tx = 104E-6  # rad - collimator F220FC-1550
         a_tx = 0  # dB - Optical Transmissor losses (Tx)
-        #dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
-        #ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
+        dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
+        ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
         # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
     else:
         h_orbit = 595  # km - Satellite height

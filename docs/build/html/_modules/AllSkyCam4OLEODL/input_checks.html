@@ -75,6 +75,7 @@
 
 <span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\input_checks.py</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 <div class="viewcode-block" id="checks">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.input_checks.checks">[docs]</a>
@@ -84,7 +85,8 @@
     <span class="n">exposure_in</span><span class="p">,</span>
     <span class="n">exposure_time_in</span><span class="p">,</span>
     <span class="n">zenith</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="n">h_ogs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on the selected values in the GUI it preapres the exposure, elevation and</span>
 <span class="sd">    zenith attenuation we will finally use.</span>
 
@@ -102,17 +104,20 @@
 <span class="sd">        exposure_in (tk.StringVar): Container of the chosen exposure mode.</span>
 <span class="sd">        exposure_time_in (tk.StringVar): Container of the chosen exposure value (if manual).</span>
 <span class="sd">        zenith (tk.StringVar): Container of the atmospheric zenith attenuation.</span>
+<span class="sd">        h_ogs (tk.StringVar): Container of the height of the OGS used.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: Exposure time value is a lower than zero.</span>
 <span class="sd">        ValueError: Elevation angle is lower than 0 or bigger than 90.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        tuple[int, int, float]: elevation_angle (int): Final selected elevation angle (if individual).</span>
+<span class="sd">        tuple[int, int, float, int]: elevation_angle (int): Final selected elevation angle (if individual).</span>
 
 <span class="sd">        exposure_time_value (int): Final selected exposure value (if manual).</span>
 
-<span class="sd">        zenith (float): Final selected zenith attenuation value</span>
+<span class="sd">        zenith (float): Final selected zenith attenuation value.</span>
+
+<span class="sd">        h_ogs (int): Final height of the selected OGS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Validate exposure time</span>
     <span class="k">if</span> <span class="n">exposure_in</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Manual&quot;</span><span class="p">:</span>
@@ -147,15 +152,23 @@
         <span class="n">zenith</span> <span class="o">=</span> <span class="mf">0.891</span>
     <span class="k">elif</span> <span class="n">zenith</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Good 1550nm [0.986]&quot;</span><span class="p">:</span>
         <span class="n">zenith</span> <span class="o">=</span> <span class="mf">0.986</span>
-    <span class="k">elif</span> <span class="n">zenith</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Bad 800nm [0.705]&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">zenith</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Bad 850nm [0.705]&quot;</span><span class="p">:</span>
         <span class="n">zenith</span> <span class="o">=</span> <span class="mf">0.705</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">zenith</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Good 850nm [0.950]&quot;</span><span class="p">:</span>
         <span class="n">zenith</span> <span class="o">=</span> <span class="mf">0.950</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">zenith</span> <span class="o">=</span> <span class="mf">0.963</span>
+
+    <span class="k">if</span> <span class="n">h_ogs</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;IKN-OP&quot;</span><span class="p">:</span>
+        <span class="n">h_ogs</span> <span class="o">=</span> <span class="mi">650</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">h_ogs</span> <span class="o">=</span> <span class="mi">600</span>
 
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">elevation_angle</span><span class="p">,</span>
         <span class="n">exposure_time_value</span><span class="p">,</span>
         <span class="n">zenith</span><span class="p">,</span>
+        <span class="n">h_ogs</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 </pre></div>

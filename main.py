@@ -59,9 +59,11 @@ def create_graph(
         # Size and position of the intensity graph.
         fig.set_size_inches(5.38, 3.3)
         fig.canvas.manager.window.wm_geometry("+5+290")
+        fig.subplots_adjust(left=0.11, right=0.95, top=0.92, bottom=0.13)
     else:
         fig.set_size_inches(8.9, 3.3)
         fig.canvas.manager.window.wm_geometry("+5+290")
+        fig.subplots_adjust(left=0.08, right=0.97, top=0.92, bottom=0.13)
 
     (line,) = ax.plot([], [], lw=2)
 
