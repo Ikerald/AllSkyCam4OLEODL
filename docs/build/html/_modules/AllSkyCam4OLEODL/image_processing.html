@@ -84,6 +84,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">constants</span> <span class="k">as</span> <span class="n">const</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">input_checks</span> <span class="k">as</span> <span class="n">inp</span>
 
 
 <div class="viewcode-block" id="dark_frame_setup">
@@ -196,45 +197,103 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">gain</span> <span class="o">=</span> <span class="s2">&quot;Gain 0 [0dB]&quot;</span>
     <span class="n">exposure</span> <span class="o">=</span> <span class="n">exposure</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-    <span class="n">mydict</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;Frame&quot;</span><span class="p">:</span> <span class="n">frame_number</span><span class="p">,</span>
-            <span class="s2">&quot;Gain Mode&quot;</span><span class="p">:</span> <span class="n">gain</span><span class="p">,</span>
-            <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
-            <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">:</span> <span class="n">exposure</span><span class="p">,</span>
-            <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
-            <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">:</span> <span class="n">elevation</span><span class="p">,</span>
-            <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span>
-            <span class="s2">&quot;FOV&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
-            <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
-            <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
-            <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue</span><span class="p">,</span>
-            <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue_grid</span><span class="p">,</span>
-            <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity</span><span class="p">,</span>
-            <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity_grid</span><span class="p">,</span>
-        <span class="p">}</span>
-    <span class="p">]</span>
-
-    <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;Frame&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Gain Mode&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;FOV&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;R&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">,</span>
-    <span class="p">]</span>
-
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elev_mod</span> <span class="o">==</span> <span class="s2">&quot;Full&quot;</span><span class="p">:</span>
+            <span class="n">payload_int</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">get_value_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">el_lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_lb</span><span class="p">,</span> <span class="n">elevation</span><span class="p">)</span>
+            <span class="n">payload_int_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">payload_int</span><span class="p">)</span>
+            <span class="n">payload_int_u</span> <span class="o">=</span> <span class="n">payload_int</span> <span class="o">*</span> <span class="mf">1e6</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;payload db </span><span class="si">{</span><span class="n">payload_int_db</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">inten_grid_w</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">*</span> <span class="mf">1e-6</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the intensity grid in w </span><span class="si">{</span><span class="n">inten_grid_w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">intensity_grid_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">inten_grid_w</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the intensity grid in db </span><span class="si">{</span><span class="n">intensity_grid_db</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">dif</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">-</span> <span class="n">payload_int_u</span>
+            <span class="n">dif_db</span> <span class="o">=</span> <span class="n">intensity_grid_db</span> <span class="o">-</span> <span class="n">payload_int_db</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">payload_int</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
+            <span class="n">dif</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
+            <span class="n">dif_db</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
+
+        <span class="n">mydict</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Frame&quot;</span><span class="p">:</span> <span class="n">frame_number</span><span class="p">,</span>
+                <span class="s2">&quot;Gain Mode&quot;</span><span class="p">:</span> <span class="n">gain</span><span class="p">,</span>
+                <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+                <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">:</span> <span class="n">exposure</span><span class="p">,</span>
+                <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+                <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">:</span> <span class="n">elevation</span><span class="p">,</span>
+                <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span>
+                <span class="s2">&quot;FOV&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
+                <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+                <span class="s2">&quot;Mean Pixel Value of the frame [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
+                <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue</span><span class="p">,</span>
+                <span class="s2">&quot;Intensity Brightest Pixel [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity</span><span class="p">,</span>
+                <span class="s2">&quot;Summed Brightest Contour Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue_grid</span><span class="p">,</span>
+                <span class="s2">&quot;Summed Brightest Contour Intensity [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity_grid</span><span class="p">,</span>
+                <span class="s2">&quot;Payload&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">,</span>
+                <span class="s2">&quot;Payload Intensity [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">payload_int_u</span><span class="p">,</span>
+                <span class="s2">&quot;Intensity received - expected [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">dif</span><span class="p">,</span>
+                <span class="s2">&quot;Intensity received - expected [dB]&quot;</span><span class="p">:</span> <span class="n">dif_db</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Frame&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Gain Mode&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FOV&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Mean Pixel Value of the frame [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Intensity Brightest Pixel [uW/m^-2]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Summed Brightest Contour Pixel Value [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Summed Brightest Contour Intensity [uW/m^-2]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Payload&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Payload Intensity [uW/m^-2]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Intensity received - expected [uW/m^-2]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Intensity received - expected [dB]&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="si">}</span><span class="s2">_DL_csv.csv&quot;</span>
     <span class="k">else</span><span class="p">:</span>
+        <span class="n">mydict</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;Frame&quot;</span><span class="p">:</span> <span class="n">frame_number</span><span class="p">,</span>
+                <span class="s2">&quot;Gain Mode&quot;</span><span class="p">:</span> <span class="n">gain</span><span class="p">,</span>
+                <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">:</span> <span class="n">time</span><span class="p">,</span>
+                <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">:</span> <span class="n">exposure</span><span class="p">,</span>
+                <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">:</span> <span class="n">location</span><span class="p">,</span>
+                <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">:</span> <span class="n">elevation</span><span class="p">,</span>
+                <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span>
+                <span class="s2">&quot;FOV&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
+                <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+                <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
+                <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue</span><span class="p">,</span>
+                <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue_grid</span><span class="p">,</span>
+                <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity</span><span class="p">,</span>
+                <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity_grid</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Frame&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Gain Mode&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Time [CEST]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Exposure [us]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Location [x, y]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Elevation [°]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;FOV&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;R&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Mean Pixel Value [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Grid Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Intensity [uW/m^-2]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Grid Intensity[uW/m^-2]&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_DL_csv.csv&quot;</span>
     <span class="n">file_exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
@@ -372,8 +431,9 @@
 <div class="viewcode-block" id="calculate_el_azi">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.image_processing.calculate_el_azi">[docs]</a>
 <span class="k">def</span> <span class="nf">calculate_el_azi</span><span class="p">(</span><span class="n">max_loc</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the elevation and azimuth of the brightest point of the frame, making use of the</span>
-<span class="sd">    fisheye projections. Equidistant, equisolid and stereographic can be selected.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the elevation and azimuth of the brightest point of the frame,</span>
+<span class="sd">    making  use of the fisheye projections. Equidistant, equisolid and stereographic</span>
+<span class="sd">    can be selected.</span>
 
 <span class="sd">    1. Calculates the distance from the center of the image to the brightest point.</span>
 
@@ -421,7 +481,7 @@
     <span class="c1"># fov_rad = math.atan((r * const.PIXEL_SIZE) / F)</span>
 
     <span class="n">fov</span> <span class="o">=</span> <span class="p">(</span><span class="n">fov_rad</span> <span class="o">*</span> <span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># ° - FOV in degrees</span>
-    <span class="n">elevation</span> <span class="o">=</span> <span class="p">(</span><span class="mi">180</span> <span class="o">-</span> <span class="n">fov</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="mi">180</span> <span class="o">-</span> <span class="n">fov</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="c1"># Azimuth at the exact center of the frame</span>
     <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
@@ -739,12 +799,14 @@
 <span class="sd">    2. Depending on the selected mode by the user:</span>
 
 <span class="sd">    - Hot-pixel removal.</span>
-<span class="sd">        A frame with the hot pixels will threshold and normalized by the dark_frame_setup() fuction</span>
-<span class="sd">        and then subtracted to the the taken frame with the subtract_frames() function.</span>
+<span class="sd">        A frame with the hot pixels will threshold and normalized by the</span>
+<span class="sd">        dark_frame_setup() fuction and then subtracted to the the taken frame</span>
+<span class="sd">        with the subtract_frames() function.</span>
 
 <span class="sd">    - Own background correction.</span>
-<span class="sd">        Substracts the temporal frame to the next grabbed frame. The subtract_frames() fuction is</span>
-<span class="sd">        applied for substracting the temporal frame, just grabbed, with the next frame.</span>
+<span class="sd">        Substracts the temporal frame to the next grabbed frame. The</span>
+<span class="sd">        subtract_frames() fuction is applied for substracting the temporal frame,</span>
+<span class="sd">        just grabbed, with the next frame.</span>
 
 <span class="sd">    - Normal operation.</span>
 <span class="sd">        The temporal frame will be used directly.</span>
@@ -787,7 +849,7 @@
         <span class="n">normalized</span> <span class="o">=</span> <span class="n">dark_frame_setup</span><span class="p">(</span><span class="n">hot</span><span class="p">)</span>
         <span class="c1"># Removal of the dark pixels from the taken frame.</span>
         <span class="n">frame_subs</span> <span class="o">=</span> <span class="n">subtract_frames</span><span class="p">(</span><span class="n">frame_temp</span><span class="p">,</span> <span class="n">normalized</span><span class="p">)</span>
-    <span class="c1"># Background substraction.</span>
+    <span class="c1"># Background subsNotraction.</span>
     <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">normalized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">const</span><span class="o">.</span><span class="n">BACKGROUND_FRAME_DIR</span><span class="p">)</span>
         <span class="c1"># background = background.astype(np.uint8)</span>

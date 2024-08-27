@@ -4,6 +4,9 @@
 
 from typing import Tuple
 
+import numpy as np
+
+
 def checks(
     elevation_in,
     elevation_angle_in,
@@ -15,10 +18,10 @@ def checks(
     """Based on the selected values in the GUI it preapres the exposure, elevation and
     zenith attenuation we will finally use.
 
-    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that 
+    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that
     the value is non-negative.
 
-    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring 
+    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring
     that the selected value is between 0 and 90 degrees of elevation.
 
     3. Selects the value of the atmospheric zenith attenuation.
@@ -95,3 +98,21 @@ def checks(
         zenith,
         h_ogs,
     )
+
+
+def get_value_list(elevation, intensity, value):
+    """If value is present in elevation it get the coorespondent value of intensity.
+
+    Args:
+        elevation (np.ndarray): Elevation of the satellite.
+        intensity (np.ndarray): Intensity onto OGS-apertue inc. losses.
+        value (_type_): _description_
+
+    Returns:
+        numpy.float64: Intensity obtained from the link budget with value.
+    """
+    index = np.where(elevation == value)[0]
+    if len(index) > 0:
+        return intensity[index[0]]
+    else:
+        return 0  # or any other value to indicate the value wasn't found

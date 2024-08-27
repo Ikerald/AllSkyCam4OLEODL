@@ -73,8 +73,8 @@
   <h1>Source code for AllSkyCam4OLEODL.api</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;This module contains the API of the Allied Vision Goldeye Camera.</span>
 
-<span class="sd">It has been modified in order to allow both streaming and recording. It allows processing of the</span>
-<span class="sd">frames without the need of writting them first.</span>
+<span class="sd">It has been modified in order to allow both streaming and recording. It</span>
+<span class="sd">allows processing of the frames without the need of writting them first.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\api.py</span>
@@ -428,8 +428,8 @@
 
 <span class="sd">        set_min_max_value:              Updates the minimum or maximum spot size value.</span>
 
-<span class="sd">        __call__:                       Between each frame, sends the frame for processing,</span>
-<span class="sd">        prepares for the next one, and checks if the program has stopped.</span>
+<span class="sd">        __call__:                       Between each frame, sends the frame for</span>
+<span class="sd">        processing, prepares for the next one, and checks if the program has stopped.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Handler.__init__">
@@ -449,15 +449,17 @@
         <span class="n">line</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">,</span>
         <span class="n">xdata</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
         <span class="n">ydata</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+        <span class="n">el_lb</span><span class="p">,</span>
+        <span class="n">int_lb</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the Handler class with the specified camera and plotting parameters,</span>
-<span class="sd">        and creates a directory for storing the frames:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes the Handler class with the specified camera and plotting</span>
+<span class="sd">        parameters, and creates a directory for storing the frames:</span>
 
 <span class="sd">        1. Sets up all necessary instances based on the chosen settings.</span>
 
 <span class="sd">        2. Creates the directory for saving frames according to the specified settings</span>
-<span class="sd">        (will be saves in the data directory on the root folder of the project, inside a folder</span>
-<span class="sd">        called tracking_images).</span>
+<span class="sd">        (will be saves in the data directory on the root folder of the project,</span>
+<span class="sd">        inside a folder called tracking_images).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -474,6 +476,8 @@
 <span class="sd">            line (plt.hlines): Lines for the GUI plot</span>
 <span class="sd">            xdata (list): Data for the x-axis for the GUI plot</span>
 <span class="sd">            ydata (list): Data for the y-axis for the GUI plot</span>
+<span class="sd">            el_lb (numpy.ndarray): Elevation values from the link_budget</span>
+<span class="sd">            int_lb(numpy.ndarray): Intensity values from the link budget</span>
 
 <span class="sd">        :no-index:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -498,6 +502,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">line</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xdata</span> <span class="o">=</span> <span class="n">xdata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ydata</span> <span class="o">=</span> <span class="n">ydata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">el_lb</span> <span class="o">=</span> <span class="n">el_lb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">int_lb</span> <span class="o">=</span> <span class="n">int_lb</span>
 
         <span class="c1"># Graph&#39;s update</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ani</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span>
@@ -511,21 +517,22 @@
         <span class="c1"># Directory where the tracking frames get saved: directory of script.</span>
         <span class="n">d</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;.\data&quot;</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">elev_mod</span> <span class="o">=</span> <span class="n">elevation_in</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="c1"># self.elevation_mode = elevation_in.get()</span>
+
         <span class="k">if</span> <span class="n">gain</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;1 [18 dB]&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="mi">0</span>
 
-        <span class="k">if</span> <span class="n">iso</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Normal&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">iso</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Hot-pixel substraction&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="k">elif</span> <span class="n">iso</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Subtraction&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">elif</span> <span class="n">iso</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Camera&#39;s BC&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">if</span> <span class="n">light</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Daytime&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cond</span> <span class="o">=</span> <span class="mi">0</span>
@@ -578,13 +585,13 @@
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_&quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;exp_</span><span class="si">{</span><span class="n">exposure_time_value</span><span class="si">}</span><span class="s2">us_GAIN</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">foldername</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;tc_</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_&quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_&quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;exp_</span><span class="si">{</span><span class="n">exposure_time_value</span><span class="si">}</span><span class="s2">us_GAIN</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="si">}</span><span class="s2">_IS&quot;</span>
                     <span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">background</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="n">foldername</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;tc_</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_&quot;</span>
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span><span class="si">}{</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">_&quot;</span>
@@ -615,8 +622,8 @@
 
 <span class="sd">        1. If data is available, plots it on the graph.</span>
 
-<span class="sd">        2. Adjusts the graph&#39;s horizontal and vertical limits, extends the x-axis by 60 seconds,</span>
-<span class="sd">        and increase the y-axis limit by 10% of the maximum value.</span>
+<span class="sd">        2. Adjusts the graph&#39;s horizontal and vertical limits, extends the x-axis by 60</span>
+<span class="sd">        seconds, and increase the y-axis limit by 10% of the maximum value.</span>
 
 <span class="sd">        3. Updates the graph&#39;s format as needed.</span>
 
@@ -671,7 +678,8 @@
 
 <span class="sd">        3. If a payload is chosen, its name will be added to the plot&#39;s title.</span>
 
-<span class="sd">        4. Saves the plot in the same directory as the recorded frames (stored in the instance).</span>
+<span class="sd">        4. Saves the plot in the same directory as the recorded frames (stored in the</span>
+<span class="sd">        instance).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -690,7 +698,7 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">time_format</span><span class="p">)</span>
 
             <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time [UTC]&quot;</span><span class="p">)</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Brightness&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Pixel Value [DN]&quot;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>  <span class="c1"># Rotate and align the tick labels</span>
             <span class="c1"># Adjust layout manually for a tighter fit, but not as tight as plt.tightlayout()</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
@@ -713,11 +721,14 @@
 <div class="viewcode-block" id="Handler.create_camera_control_slider">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.api.Handler.create_camera_control_slider">[docs]</a>
     <span class="k">def</span> <span class="nf">create_camera_control_slider</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates an slider, saves it in the current instance (self) and sets its initial values:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates an slider, saves it in the current instance (self) and sets its</span>
+<span class="sd">        initial values:</span>
 
-<span class="sd">        1. Creates a slider within the current instance using the CameraControlSlider class.</span>
+<span class="sd">        1. Creates a slider within the current instance using the CameraControlSlider</span>
+<span class="sd">        class.</span>
 
-<span class="sd">        2. Sets the initial values of the minimum and maximum spot size and the exposure with set_initial_values().</span>
+<span class="sd">        2. Sets the initial values of the minimum and maximum spot size and the</span>
+<span class="sd">        exposure with set_initial_values().</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -751,7 +762,8 @@
 <div class="viewcode-block" id="Handler.set_min_max_value">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.api.Handler.set_min_max_value">[docs]</a>
     <span class="k">def</span> <span class="nf">set_min_max_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">siz</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the minimum or maximum spot size value stored in the current instance (self).</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the minimum or maximum spot size value stored in the current</span>
+<span class="sd">        instance (self).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -772,14 +784,16 @@
 <div class="viewcode-block" id="Handler.__call__">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.api.Handler.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cam</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">stream</span><span class="p">:</span> <span class="n">Stream</span><span class="p">,</span> <span class="n">frame</span><span class="p">:</span> <span class="n">Frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: F405</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Between each frame, sends the current frame for processing, prepares for the next</span>
-<span class="sd">        one, and checks if the program has stopped:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Between each frame, sends the current frame for processing, prepares for</span>
+<span class="sd">        the next one, and checks if the program has stopped:</span>
 
 <span class="sd">        1. If program shutdown is activated, exits the fuction.</span>
 
-<span class="sd">        2. If a frame has been grabbed, increments the counter and starts image processing.</span>
+<span class="sd">        2. If a frame has been grabbed, increments the counter and starts image</span>
+<span class="sd">        processing.</span>
 
-<span class="sd">        3. Prepares for the next frame and checks if program is stopped (by pressing q / Q)</span>
+<span class="sd">        3. Prepares for the next frame and checks if program is stopped (by</span>
+<span class="sd">        pressing q / Q)</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -1042,16 +1056,6 @@
             <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_max_exposure</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_min_exposure</span><span class="p">)</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_min_exposure</span>
         <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the log_value in update_exposure is </span><span class="si">{</span><span class="n">log_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;the self.exposure_slider.get() in update_exposure is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">exposure_slider</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;the self.log_max_exposure in update_exposure is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">log_max_exposure</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;the self.log_min_exposure in update_exposure is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">log_min_exposure</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="p">)</span>
         <span class="n">exposure</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="n">log_value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exposure_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Exposure: </span><span class="si">{</span><span class="n">exposure</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> µs&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">camera_control</span><span class="o">.</span><span class="n">set_exposure</span><span class="p">(</span><span class="n">exposure</span><span class="p">)</span>
@@ -1066,9 +1070,9 @@
 
 <span class="sd">        1. Gets the minimum spot size value from the slider and converts it to a logarithmic scale.</span>
 
-<span class="sd">        2. If the miniumum sleected spot size value is bigger than the maximum spot size value,</span>
-<span class="sd">        the maximum spot size value is selected as the minimum spot size value. If a negative</span>
-<span class="sd">        value is selected, it will be converted to 0.</span>
+<span class="sd">        2. If the miniumum sleected spot size value is bigger than the maximum</span>
+<span class="sd">        spot size value, the maximum spot size value is selected as the minimum</span>
+<span class="sd">        spot size value. If a negative value is selected, it will be converted to 0.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -1096,9 +1100,9 @@
 
 <span class="sd">        1. Gets the maximum spot size value from the slider and converts it to a logarithmic scale.</span>
 
-<span class="sd">        2. The maximum selected spot size value will be the maximum value between the minimum spot size</span>
-<span class="sd">        value and the smaller value between the maximum spot size value selected from the slider and whole</span>
-<span class="sd">        dimensions of the image.</span>
+<span class="sd">        2. The maximum selected spot size value will be the maximum value between</span>
+<span class="sd">        the minimum spot size value and the smaller value between the maximum spot</span>
+<span class="sd">        size value selected from the slider and whole dimensions of the image.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            self (Instance): Current instance, provides access to attributes and methods.</span>
@@ -1126,8 +1130,8 @@
     <span class="k">def</span> <span class="nf">update_from_exposure_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the exposure value parsed through the button:</span>
 
-<span class="sd">        1. Gets the exposure value and converts it to a logarithmic scale if it is in the correct range.</span>
-<span class="sd">        If not, it raises an error.</span>
+<span class="sd">        1. Gets the exposure value and converts it to a logarithmic scale if it</span>
+<span class="sd">        is in the correct range. If not, it raises an error.</span>
 
 <span class="sd">        2. Updates the exposure value calling the update_exposure() function.</span>
 
@@ -1136,8 +1140,8 @@
 <span class="sd">            event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Exposure time inputed in the text-box is either bigger than the maximum exposure time</span>
-<span class="sd">            or smaller than the smallest exposure time.</span>
+<span class="sd">            ValueError: Exposure time inputed in the text-box is either bigger than the</span>
+<span class="sd">            maximum exposure time or smaller than the smallest exposure time.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">exposure</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exposure_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
@@ -1164,8 +1168,8 @@
     <span class="k">def</span> <span class="nf">update_from_min_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the minimum spot size value parsed through the button:</span>
 
-<span class="sd">        1. Gets the minimum spot size value and converts it to a logarithmic scale if it is bigger than</span>
-<span class="sd">        zero but smaller than the maximum value.</span>
+<span class="sd">        1. Gets the minimum spot size value and converts it to a logarithmic scale if</span>
+<span class="sd">        it is bigger than zero but smaller than the maximum value.</span>
 
 <span class="sd">        2. Updates the minimum spot size value calling the update_min_value() function.</span>
 
@@ -1174,8 +1178,8 @@
 <span class="sd">            event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Minimum spot size value is either smaller than zero or bigger than the maximum spot</span>
-<span class="sd">            size value.</span>
+<span class="sd">            ValueError: Minimum spot size value is either smaller than zero or bigger</span>
+<span class="sd">            than the maximum spot size value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">min_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
@@ -1201,8 +1205,9 @@
     <span class="k">def</span> <span class="nf">update_from_max_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates the maximum spot size value parsed through the button:</span>
 
-<span class="sd">        1. Gets the maximum spot size value and converts it to a logarithmic scale if it is bigger or</span>
-<span class="sd">        equal to the minimum spot size values and smaller or equal than the full image.</span>
+<span class="sd">        1. Gets the maximum spot size value and converts it to a logarithmic scale</span>
+<span class="sd">        if it is bigger or equal to the minimum spot size values and smaller or equal</span>
+<span class="sd">        than the full image.</span>
 
 <span class="sd">        2. Updates the maximum spot size value calling the update_max_value() function.</span>
 
@@ -1211,8 +1216,8 @@
 <span class="sd">            event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            ValueError: Maximum spot size value is either bigger than the dimensions of the whole frame or</span>
-<span class="sd">            smaller than the minimum spot size value.</span>
+<span class="sd">            ValueError: Maximum spot size value is either bigger than the dimensions of</span>
+<span class="sd">            the whole frame or smaller than the minimum spot size value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">max_value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>

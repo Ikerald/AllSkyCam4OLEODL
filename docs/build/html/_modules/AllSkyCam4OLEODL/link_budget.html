@@ -75,7 +75,7 @@
 
 <span class="c1"># C:\Users\alda_ik\Documents\04_PROGRAMMING\03_SCRIPTS\05_LINK_BUDGET\link_budget.py</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">erfinv</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -115,7 +115,7 @@
     <span class="n">wl</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">p_rfe_lin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">a_sci</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints the graph or the results and summary of the link budget.</span>
 
 <span class="sd">    1. If the elevation mode is &quot;Full&quot; it will just print the graph, if not</span>
@@ -299,7 +299,9 @@
 
 <div class="viewcode-block" id="link_budget">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.link_budget.link_budget">[docs]</a>
-<span class="k">def</span> <span class="nf">link_budget</span><span class="p">(</span><span class="n">elevation_mode</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">zenith</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_ogs</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">link_budget</span><span class="p">(</span>
+    <span class="n">elevation_mode</span><span class="p">,</span> <span class="n">el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">zenith</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">h_ogs</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs the link budget based on the parameters from the GUI:</span>
 
 <span class="sd">    1. Selects specific parameters based on the payload chosen.</span>
@@ -323,6 +325,10 @@
 <span class="sd">        payload (tk.StringVar): Container of the payload used.</span>
 <span class="sd">        zenith (float): Final selected zenith attenuation value.</span>
 <span class="sd">        h_ogs (int): Final height of the selected OGS.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: el (np.ndarray | int): Elevation of the satellite.</span>
+<span class="sd">        int_ogs_lin_loss (np.ndarray | float): Intensity onto OGS-apertue inc. losses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;OsirisV1&quot;</span><span class="p">:</span>
         <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">595</span>  <span class="c1"># km - Satellite height</span>
@@ -347,7 +353,7 @@
         <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
         <span class="n">p_tx</span> <span class="o">=</span> <span class="mf">24.7712</span>  <span class="c1"># dBm - Transmited power [300 mW]</span>
         <span class="c1"># p_tx = 16.99</span>
-        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">104E-6</span>  <span class="c1"># rad - collimator F220FC-1550</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">104e-6</span>  <span class="c1"># rad - collimator F220FC-1550</span>
         <span class="n">a_tx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
         <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
         <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
@@ -469,7 +475,9 @@
         <span class="n">wl</span><span class="p">,</span>
         <span class="n">p_rfe_lin</span><span class="p">,</span>
         <span class="n">a_sci</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">int_ogs_lin_loss</span><span class="p">)</span></div>
 
 </pre></div>
 

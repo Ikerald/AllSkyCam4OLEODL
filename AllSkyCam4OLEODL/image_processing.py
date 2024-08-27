@@ -11,6 +11,7 @@ import math
 import numpy as np
 
 from . import constants as const
+from . import input_checks as inp
 
 
 def dark_frame_setup(frame: np.array) -> np.array:
@@ -115,45 +116,103 @@ def write_csv(
     else:
         gain = "Gain 0 [0dB]"
     exposure = exposure.get()
-    mydict = [
-        {
-            "Frame": frame_number,
-            "Gain Mode": gain,
-            "Time [CEST]": time,
-            "Exposure [us]": exposure,
-            "Location [x, y]": location,
-            "Elevation [°]": elevation,
-            "Azimuth [°]": azimuth,
-            "FOV": fov,
-            "R": r,
-            "Mean Pixel Value [DN]": frame_mean_pixel_value,
-            "Brightest Pixel Value [DN]": pvalue,
-            "Grid Brightest Pixel Value [DN]": pvalue_grid,
-            "Intensity [uW/m^-2]": intensity,
-            "Grid Intensity[uW/m^-2]": intensity_grid,
-        }
-    ]
-
-    fields = [
-        "Frame",
-        "Gain Mode",
-        "Time [CEST]",
-        "Exposure [us]",
-        "Location [x, y]",
-        "Elevation [°]",
-        "Azimuth [°]",
-        "FOV",
-        "R",
-        "Mean Pixel Value [DN]",
-        "Brightest Pixel Value [DN]",
-        "Grid Brightest Pixel Value [DN]",
-        "Intensity [uW/m^-2]",
-        "Grid Intensity[uW/m^-2]",
-    ]
-
     if self.payload != "None":
+        if self.elev_mod == "Full":
+            payload_int = inp.get_value_list(self.el_lb, self.int_lb, elevation)
+            payload_int_db = 10 * math.log10(payload_int)
+            payload_int_u = payload_int * 1e6
+            print(f"payload db {payload_int_db}")
+            inten_grid_w = intensity_grid * 1e-6
+            print(f"the intensity grid in w {inten_grid_w}")
+            intensity_grid_db = 10 * math.log10(inten_grid_w)
+            print(f"the intensity grid in db {intensity_grid_db}")
+            dif = intensity_grid - payload_int_u
+            dif_db = intensity_grid_db - payload_int_db
+        else:
+            payload_int = "Fixed"
+            dif = "Fixed"
+            dif_db = "Fixed"
+
+        mydict = [
+            {
+                "Frame": frame_number,
+                "Gain Mode": gain,
+                "Time [CEST]": time,
+                "Exposure [us]": exposure,
+                "Location [x, y]": location,
+                "Elevation [°]": elevation,
+                "Azimuth [°]": azimuth,
+                "FOV": fov,
+                "R": r,
+                "Mean Pixel Value of the frame [DN]": frame_mean_pixel_value,
+                "Brightest Pixel Value [DN]": pvalue,
+                "Intensity Brightest Pixel [uW/m^-2]": intensity,
+                "Summed Brightest Contour Pixel Value [DN]": pvalue_grid,
+                "Summed Brightest Contour Intensity [uW/m^-2]": intensity_grid,
+                "Payload": self.payload,
+                "Payload Intensity [uW/m^-2]": payload_int_u,
+                "Intensity received - expected [uW/m^-2]": dif,
+                "Intensity received - expected [dB]": dif_db,
+            }
+        ]
+
+        fields = [
+            "Frame",
+            "Gain Mode",
+            "Time [CEST]",
+            "Exposure [us]",
+            "Location [x, y]",
+            "Elevation [°]",
+            "Azimuth [°]",
+            "FOV",
+            "R",
+            "Mean Pixel Value of the frame [DN]",
+            "Brightest Pixel Value [DN]",
+            "Intensity Brightest Pixel [uW/m^-2]",
+            "Summed Brightest Contour Pixel Value [DN]",
+            "Summed Brightest Contour Intensity [uW/m^-2]",
+            "Payload",
+            "Payload Intensity [uW/m^-2]",
+            "Intensity received - expected [uW/m^-2]",
+            "Intensity received - expected [dB]",
+        ]
         filename = f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_{self.payload}_DL_csv.csv"
     else:
+        mydict = [
+            {
+                "Frame": frame_number,
+                "Gain Mode": gain,
+                "Time [CEST]": time,
+                "Exposure [us]": exposure,
+                "Location [x, y]": location,
+                "Elevation [°]": elevation,
+                "Azimuth [°]": azimuth,
+                "FOV": fov,
+                "R": r,
+                "Mean Pixel Value [DN]": frame_mean_pixel_value,
+                "Brightest Pixel Value [DN]": pvalue,
+                "Grid Brightest Pixel Value [DN]": pvalue_grid,
+                "Intensity [uW/m^-2]": intensity,
+                "Grid Intensity[uW/m^-2]": intensity_grid,
+            }
+        ]
+
+        fields = [
+            "Frame",
+            "Gain Mode",
+            "Time [CEST]",
+            "Exposure [us]",
+            "Location [x, y]",
+            "Elevation [°]",
+            "Azimuth [°]",
+            "FOV",
+            "R",
+            "Mean Pixel Value [DN]",
+            "Brightest Pixel Value [DN]",
+            "Grid Brightest Pixel Value [DN]",
+            "Intensity [uW/m^-2]",
+            "Grid Intensity[uW/m^-2]",
+        ]
         filename = f"{self.p}/{datetime.now().strftime('%Y-%m-%d')}_DL_csv.csv"
     file_exists = os.path.isfile(filename)
 
@@ -196,7 +255,7 @@ def brightest_V2(
         exposure (float): Exposure time used for that particular frame.
 
     Returns:
-        tuple[tuple, float, float, float, float, float]: max_loc (tuple):Location of the brightest point: 
+        tuple[tuple, float, float, float, float, float]: max_loc (tuple):Location of the brightest point:
         [0] = x-axis, [1] = y-axis.
 
         max_val (float): Pixel value of the brightest point [0-255].
@@ -285,8 +344,8 @@ def brightest_V2(
 
 
 def calculate_el_azi(max_loc: Tuple) -> Tuple[float, float, float, float]:
-    """Calculates the elevation and azimuth of the brightest point of the frame, 
-    making  use of the fisheye projections. Equidistant, equisolid and stereographic 
+    """Calculates the elevation and azimuth of the brightest point of the frame,
+    making  use of the fisheye projections. Equidistant, equisolid and stereographic
     can be selected.
 
     1. Calculates the distance from the center of the image to the brightest point.
@@ -335,7 +394,7 @@ def calculate_el_azi(max_loc: Tuple) -> Tuple[float, float, float, float]:
     # fov_rad = math.atan((r * const.PIXEL_SIZE) / F)
 
     fov = (fov_rad * (180 / math.pi)) * 2  # ° - FOV in degrees
-    elevation = (180 - fov) / 2
+    elevation = round((180 - fov) / 2)
 
     # Azimuth at the exact center of the frame
     if max_loc[1] == const.FISH_CENTER[1]:
@@ -647,13 +706,13 @@ def frame_processing(self, cam, frame) -> None:
     2. Depending on the selected mode by the user:
 
     - Hot-pixel removal.
-        A frame with the hot pixels will threshold and normalized by the 
-        dark_frame_setup() fuction and then subtracted to the the taken frame 
+        A frame with the hot pixels will threshold and normalized by the
+        dark_frame_setup() fuction and then subtracted to the the taken frame
         with the subtract_frames() function.
 
     - Own background correction.
-        Substracts the temporal frame to the next grabbed frame. The 
-        subtract_frames() fuction is applied for substracting the temporal frame, 
+        Substracts the temporal frame to the next grabbed frame. The
+        subtract_frames() fuction is applied for substracting the temporal frame,
         just grabbed, with the next frame.
 
     - Normal operation.

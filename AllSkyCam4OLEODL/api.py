@@ -1,6 +1,6 @@
 """This module contains the API of the Allied Vision Goldeye Camera.
 
-It has been modified in order to allow both streaming and recording. It 
+It has been modified in order to allow both streaming and recording. It
 allows processing of the frames without the need of writting them first.
 """
 
@@ -329,7 +329,7 @@ class Handler:
 
         set_min_max_value:              Updates the minimum or maximum spot size value.
 
-        __call__:                       Between each frame, sends the frame for 
+        __call__:                       Between each frame, sends the frame for
         processing, prepares for the next one, and checks if the program has stopped.
     """
 
@@ -348,14 +348,16 @@ class Handler:
         line: plt.hlines,
         xdata: list,
         ydata: list,
+        el_lb,
+        int_lb,
     ):
-        """Initializes the Handler class with the specified camera and plotting 
+        """Initializes the Handler class with the specified camera and plotting
         parameters, and creates a directory for storing the frames:
 
         1. Sets up all necessary instances based on the chosen settings.
 
         2. Creates the directory for saving frames according to the specified settings
-        (will be saves in the data directory on the root folder of the project, 
+        (will be saves in the data directory on the root folder of the project,
         inside a folder called tracking_images).
 
         Args:
@@ -373,6 +375,8 @@ class Handler:
             line (plt.hlines): Lines for the GUI plot
             xdata (list): Data for the x-axis for the GUI plot
             ydata (list): Data for the y-axis for the GUI plot
+            el_lb (numpy.ndarray): Elevation values from the link_budget
+            int_lb(numpy.ndarray): Intensity values from the link budget
 
         :no-index:
         """
@@ -397,6 +401,8 @@ class Handler:
         self.line = line
         self.xdata = xdata
         self.ydata = ydata
+        self.el_lb = el_lb
+        self.int_lb = int_lb
 
         # Graph's update
         self.ani = animation.FuncAnimation(
@@ -410,21 +416,22 @@ class Handler:
         # Directory where the tracking frames get saved: directory of script.
         d = r".\data"
 
+        self.elev_mod = elevation_in.get()
         self.payload = payload.get()
-        # self.elevation_mode = elevation_in.get()
+
         if gain.get() == "1 [18 dB]":
             self.gain = 1
         else:
             self.gain = 0
 
-        if iso.get() == "Normal":
-            self.background = 0
+        if iso.get() == "Hot-pixel substraction":
+            self.background = 3
         elif iso.get() == "Subtraction":
             self.background = 1
         elif iso.get() == "Camera's BC":
             self.background = 2
         else:
-            self.background = 3
+            self.background = 0
 
         if light.get() == "Daytime":
             self.cond = 0
@@ -477,13 +484,13 @@ class Handler:
                         f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}"
                     )
-                if self.background == 1:
+                elif self.background == 1:
                     foldername = (
                         f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
                         f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
                         f"exp_{exposure_time_value}us_GAIN{self.gain}_IS"
                     )
-                if self.background == 2:
+                elif self.background == 2:
                     foldername = (
                         f"tc_{now.strftime('%Y')}{now.strftime('%m')}{now.strftime('%d')}_"
                         f"{now.strftime('%H')}{now.strftime('%m')}{now.strftime('%S')}_"
@@ -511,7 +518,7 @@ class Handler:
 
         1. If data is available, plots it on the graph.
 
-        2. Adjusts the graph's horizontal and vertical limits, extends the x-axis by 60 
+        2. Adjusts the graph's horizontal and vertical limits, extends the x-axis by 60
         seconds, and increase the y-axis limit by 10% of the maximum value.
 
         3. Updates the graph's format as needed.
@@ -564,7 +571,7 @@ class Handler:
 
         3. If a payload is chosen, its name will be added to the plot's title.
 
-        4. Saves the plot in the same directory as the recorded frames (stored in the 
+        4. Saves the plot in the same directory as the recorded frames (stored in the
         instance).
 
         Args:
@@ -604,13 +611,13 @@ class Handler:
             plt.close()
 
     def create_camera_control_slider(self, root: tk.Tk) -> None:
-        """Creates an slider, saves it in the current instance (self) and sets its 
+        """Creates an slider, saves it in the current instance (self) and sets its
         initial values:
 
-        1. Creates a slider within the current instance using the CameraControlSlider 
+        1. Creates a slider within the current instance using the CameraControlSlider
         class.
 
-        2. Sets the initial values of the minimum and maximum spot size and the 
+        2. Sets the initial values of the minimum and maximum spot size and the
         exposure with set_initial_values().
 
         Args:
@@ -639,7 +646,7 @@ class Handler:
             print("Failed to set exposure time")
 
     def set_min_max_value(self, value: int, siz: int) -> None:
-        """Updates the minimum or maximum spot size value stored in the current 
+        """Updates the minimum or maximum spot size value stored in the current
         instance (self).
 
         Args:
@@ -658,15 +665,15 @@ class Handler:
             print(f"Min value set to: {value}")
 
     def __call__(self, cam: Camera, stream: Stream, frame: Frame) -> None:  # noqa: F405
-        """Between each frame, sends the current frame for processing, prepares for 
+        """Between each frame, sends the current frame for processing, prepares for
         the next one, and checks if the program has stopped:
 
         1. If program shutdown is activated, exits the fuction.
 
-        2. If a frame has been grabbed, increments the counter and starts image 
+        2. If a frame has been grabbed, increments the counter and starts image
         processing.
 
-        3. Prepares for the next frame and checks if program is stopped (by 
+        3. Prepares for the next frame and checks if program is stopped (by
         pressing q / Q)
 
         Args:
@@ -912,16 +919,6 @@ class CameraControlSlider(tk.Toplevel):
             * (self.log_max_exposure - self.log_min_exposure)
             + self.log_min_exposure
         )
-        print(f"the log_value in update_exposure is {log_value}")
-        print(
-            f"the self.exposure_slider.get() in update_exposure is {self.exposure_slider.get()}"
-        )
-        print(
-            f"the self.log_max_exposure in update_exposure is {self.log_max_exposure}"
-        )
-        print(
-            f"the self.log_min_exposure in update_exposure is {self.log_min_exposure}"
-        )
         exposure = round(10**log_value)
         self.exposure_label.config(text=f"Exposure: {exposure:.2f} µs")
         self.camera_control.set_exposure(exposure)
@@ -933,8 +930,8 @@ class CameraControlSlider(tk.Toplevel):
 
         1. Gets the minimum spot size value from the slider and converts it to a logarithmic scale.
 
-        2. If the miniumum sleected spot size value is bigger than the maximum 
-        spot size value, the maximum spot size value is selected as the minimum 
+        2. If the miniumum sleected spot size value is bigger than the maximum
+        spot size value, the maximum spot size value is selected as the minimum
         spot size value. If a negative value is selected, it will be converted to 0.
 
         Args:
@@ -960,8 +957,8 @@ class CameraControlSlider(tk.Toplevel):
 
         1. Gets the maximum spot size value from the slider and converts it to a logarithmic scale.
 
-        2. The maximum selected spot size value will be the maximum value between 
-        the minimum spot size value and the smaller value between the maximum spot 
+        2. The maximum selected spot size value will be the maximum value between
+        the minimum spot size value and the smaller value between the maximum spot
         size value selected from the slider and whole dimensions of the image.
 
         Args:
@@ -987,7 +984,7 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_exposure_entry(self, event=None) -> None:
         """Updates the exposure value parsed through the button:
 
-        1. Gets the exposure value and converts it to a logarithmic scale if it 
+        1. Gets the exposure value and converts it to a logarithmic scale if it
         is in the correct range. If not, it raises an error.
 
         2. Updates the exposure value calling the update_exposure() function.
@@ -997,7 +994,7 @@ class CameraControlSlider(tk.Toplevel):
             event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.
 
         Raises:
-            ValueError: Exposure time inputed in the text-box is either bigger than the 
+            ValueError: Exposure time inputed in the text-box is either bigger than the
             maximum exposure time or smaller than the smallest exposure time.
         """
         try:
@@ -1022,7 +1019,7 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_min_entry(self, event=None) -> None:
         """Updates the minimum spot size value parsed through the button:
 
-        1. Gets the minimum spot size value and converts it to a logarithmic scale if 
+        1. Gets the minimum spot size value and converts it to a logarithmic scale if
         it is bigger than zero but smaller than the maximum value.
 
         2. Updates the minimum spot size value calling the update_min_value() function.
@@ -1056,8 +1053,8 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_max_entry(self, event=None) -> None:
         """Updates the maximum spot size value parsed through the button:
 
-        1. Gets the maximum spot size value and converts it to a logarithmic scale 
-        if it is bigger or equal to the minimum spot size values and smaller or equal 
+        1. Gets the maximum spot size value and converts it to a logarithmic scale
+        if it is bigger or equal to the minimum spot size values and smaller or equal
         than the full image.
 
         2. Updates the maximum spot size value calling the update_max_value() function.
@@ -1067,7 +1064,7 @@ class CameraControlSlider(tk.Toplevel):
             event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.
 
         Raises:
-            ValueError: Maximum spot size value is either bigger than the dimensions of 
+            ValueError: Maximum spot size value is either bigger than the dimensions of
             the whole frame or smaller than the minimum spot size value.
         """
         try:

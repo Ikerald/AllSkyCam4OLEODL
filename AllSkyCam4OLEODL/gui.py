@@ -4,7 +4,10 @@
 
 from tkinter import ttk
 from typing import Tuple
+from datetime import datetime
+
 import tkinter as tk
+import matplotlib.pyplot as plt
 
 
 def update_entry(variable: tk.StringVar, entry: tk.ttk.Entry) -> None:
@@ -57,13 +60,13 @@ def create_menu() -> (
 
         light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).
 
-        payload_var (tk.StringVar): Container of the payload used (None, KIODO, 
+        payload_var (tk.StringVar): Container of the payload used (None, KIODO,
         OsirisV1, Osiris4CubeSat or CubeCat).
 
         h_ogs_var (tk.StringVar): Container of the height of the OGS used (IKN-OP or GSOC-OP).
 
-        zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 
-        1550nm [0.891], Good 1550nm [0.986], Bad 850nm [0.705], Good 850nm 
+        zenith_var (tk.StringVar): Container of the zenith attenuation (Bad
+        1550nm [0.891], Good 1550nm [0.986], Bad 850nm [0.705], Good 850nm
         [0.950] or CubeCat 20240822 [0.963])
 
         elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).
@@ -74,7 +77,7 @@ def create_menu() -> (
 
         exposure_time_var (tk.StringVar): Container of the exposure value (if manual).
 
-        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel 
+        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel
         substraction, Subtraction ormCamera's BC).
 
         root (tk.Tk): Main window of the GUI menu.
@@ -229,3 +232,61 @@ def create_menu() -> (
         exposure_time_entry,
         elevation_angle_entry,
     )
+
+
+def create_graph(
+    elevation_in, payload
+) -> Tuple[plt.figure, plt.axes, plt.hlines, list, list]:
+    """Creates the live graph displayed in the GUI:
+
+    1. Creates the plot with an specific size, position, title and labels.
+
+    2. If a payload with full elevation range has been chosen, the graph will be smaller
+    to acomodate the link budget graph.
+
+    3. Initializes the data for the graph.
+
+    Args:
+        elevation_in (tk.StringVar): Container of the elevation mode (Individual or Full).
+        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).
+
+    Returns:
+        tuple[plt.figure, plt.axes, plt.hlines, list, list]: fig (plt.figure): Figure of the created plot.
+
+        ax (plt.axes): Axes of the created plot.
+
+        line (plt.hlines): Lines of the created plot.
+
+        xdata (list): X-axis data from the created plot.
+
+        ydata (list): Y-axis data from the created plot.
+    """
+    # Create figure and axis objects
+    fig, ax = plt.subplots()
+    if elevation_in.get() == "Full" and payload.get() != "None":
+        # Size and position of the intensity graph.
+        fig.set_size_inches(5.38, 3.3)
+        fig.canvas.manager.window.wm_geometry("+5+290")
+        fig.subplots_adjust(left=0.11, right=0.95, top=0.92, bottom=0.13)
+    else:
+        fig.set_size_inches(8.9, 3.3)
+        fig.canvas.manager.window.wm_geometry("+5+290")
+        fig.subplots_adjust(left=0.08, right=0.97, top=0.92, bottom=0.13)
+
+    (line,) = ax.plot([], [], lw=2)
+
+    ax.set_ylim(0, 255)
+    ax.grid()
+    if payload.get() != "None":
+        ax.set_title(
+            f"{payload.get()} downlink on {datetime.now().strftime('%Y-%m-%d')}"
+        )
+    else:
+        ax.set_title(f"Downlink on {datetime.now().strftime('%Y-%m-%d')}")
+    ax.set_xlabel("Time [UTC]")
+    ax.set_ylabel("Brightness")
+
+    # Initialize empty data
+    xdata, ydata = [], []
+
+    return fig, ax, line, xdata, ydata

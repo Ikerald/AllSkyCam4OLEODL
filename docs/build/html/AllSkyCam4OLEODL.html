@@ -62,6 +62,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.gui">AllSkyCam4OLEODL.gui module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.gui.create_graph"><code class="docutils literal notranslate"><span class="pre">create_graph()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.gui.create_menu"><code class="docutils literal notranslate"><span class="pre">create_menu()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.gui.update_entry"><code class="docutils literal notranslate"><span class="pre">update_entry()</span></code></a></li>
 </ul>
@@ -78,6 +79,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.input_checks">AllSkyCam4OLEODL.input_checks module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.input_checks.checks"><code class="docutils literal notranslate"><span class="pre">checks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#AllSkyCam4OLEODL.input_checks.get_value_list"><code class="docutils literal notranslate"><span class="pre">get_value_list()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-AllSkyCam4OLEODL.link_budget">AllSkyCam4OLEODL.link_budget module</a><ul>
@@ -96,7 +98,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-main">Main.py</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#main.create_graph"><code class="docutils literal notranslate"><span class="pre">create_graph()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#main.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
@@ -138,8 +139,8 @@
 <section id="module-AllSkyCam4OLEODL.api">
 <span id="allskycam4oleodl-api-module"></span><h2>AllSkyCam4OLEODL.api module<a class="headerlink" href="#module-AllSkyCam4OLEODL.api" title="Link to this heading"></a></h2>
 <p>This module contains the API of the Allied Vision Goldeye Camera.</p>
-<p>It has been modified in order to allow both streaming and recording. It allows processing of the
-frames without the need of writting them first.</p>
+<p>It has been modified in order to allow both streaming and recording. It
+allows processing of the frames without the need of writting them first.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.CameraControlSlider">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">CameraControlSlider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">master</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_control</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#AllSkyCam4OLEODL.api.Handler" title="AllSkyCam4OLEODL.api.Handler"><span class="pre">Handler</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.CameraControlSlider" title="Link to this definition"></a></dt>
@@ -307,8 +308,8 @@ frames without the need of writting them first.</p>
 <dt class="sig sig-object py" id="id5">
 <span class="sig-name descname"><span class="pre">update_from_exposure_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_exposure_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
 <dd><p>Updates the exposure value parsed through the button:</p>
-<p>1. Gets the exposure value and converts it to a logarithmic scale if it is in the correct range.
-If not, it raises an error.</p>
+<p>1. Gets the exposure value and converts it to a logarithmic scale if it
+is in the correct range. If not, it raises an error.</p>
 <ol class="arabic simple" start="2">
 <li><p>Updates the exposure value calling the update_exposure() function.</p></li>
 </ol>
@@ -321,8 +322,8 @@ If not, it raises an error.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – Exposure time inputed in the text-box is either bigger than the maximum exposure time</p></li>
-<li><p><strong>or smaller than the smallest exposure time.</strong> – </p></li>
+<li><p><strong>ValueError</strong> – Exposure time inputed in the text-box is either bigger than the</p></li>
+<li><p><strong>maximum exposure time</strong><strong> or </strong><strong>smaller than the smallest exposure time.</strong> – </p></li>
 </ul>
 </dd>
 </dl>
@@ -332,8 +333,9 @@ If not, it raises an error.</p>
 <dt class="sig sig-object py" id="id6">
 <span class="sig-name descname"><span class="pre">update_from_max_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_max_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
 <dd><p>Updates the maximum spot size value parsed through the button:</p>
-<p>1. Gets the maximum spot size value and converts it to a logarithmic scale if it is bigger or
-equal to the minimum spot size values and smaller or equal than the full image.</p>
+<p>1. Gets the maximum spot size value and converts it to a logarithmic scale
+if it is bigger or equal to the minimum spot size values and smaller or equal
+than the full image.</p>
 <ol class="arabic simple" start="2">
 <li><p>Updates the maximum spot size value calling the update_max_value() function.</p></li>
 </ol>
@@ -346,8 +348,8 @@ equal to the minimum spot size values and smaller or equal than the full image.<
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – Maximum spot size value is either bigger than the dimensions of the whole frame or</p></li>
-<li><p><strong>smaller than the minimum spot size value.</strong> – </p></li>
+<li><p><strong>ValueError</strong> – Maximum spot size value is either bigger than the dimensions of</p></li>
+<li><p><strong>the whole frame</strong><strong> or </strong><strong>smaller than the minimum spot size value.</strong> – </p></li>
 </ul>
 </dd>
 </dl>
@@ -357,8 +359,8 @@ equal to the minimum spot size values and smaller or equal than the full image.<
 <dt class="sig sig-object py" id="id7">
 <span class="sig-name descname"><span class="pre">update_from_min_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#CameraControlSlider.update_from_min_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
 <dd><p>Updates the minimum spot size value parsed through the button:</p>
-<p>1. Gets the minimum spot size value and converts it to a logarithmic scale if it is bigger than
-zero but smaller than the maximum value.</p>
+<p>1. Gets the minimum spot size value and converts it to a logarithmic scale if
+it is bigger than zero but smaller than the maximum value.</p>
 <ol class="arabic simple" start="2">
 <li><p>Updates the minimum spot size value calling the update_min_value() function.</p></li>
 </ol>
@@ -371,8 +373,8 @@ zero but smaller than the maximum value.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – Minimum spot size value is either smaller than zero or bigger than the maximum spot</p></li>
-<li><p><strong>size value.</strong> – </p></li>
+<li><p><strong>ValueError</strong> – Minimum spot size value is either smaller than zero or bigger</p></li>
+<li><p><strong>than the maximum spot size value.</strong> – </p></li>
 </ul>
 </dd>
 </dl>
@@ -385,9 +387,9 @@ zero but smaller than the maximum value.</p>
 <ol class="arabic simple">
 <li><p>Gets the maximum spot size value from the slider and converts it to a logarithmic scale.</p></li>
 </ol>
-<p>2. The maximum selected spot size value will be the maximum value between the minimum spot size
-value and the smaller value between the maximum spot size value selected from the slider and whole
-dimensions of the image.</p>
+<p>2. The maximum selected spot size value will be the maximum value between
+the minimum spot size value and the smaller value between the maximum spot
+size value selected from the slider and whole dimensions of the image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -405,9 +407,9 @@ dimensions of the image.</p>
 <ol class="arabic simple">
 <li><p>Gets the minimum spot size value from the slider and converts it to a logarithmic scale.</p></li>
 </ol>
-<p>2. If the miniumum sleected spot size value is bigger than the maximum spot size value,
-the maximum spot size value is selected as the minimum spot size value. If a negative
-value is selected, it will be converted to 0.</p>
+<p>2. If the miniumum sleected spot size value is bigger than the maximum
+spot size value, the maximum spot size value is selected as the minimum
+spot size value. If a negative value is selected, it will be converted to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -422,7 +424,7 @@ value is selected, it will be converted to 0.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">Handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.api.</span></span><span class="sig-name descname"><span class="pre">Handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Camera</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">light</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iso</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StringVar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hlines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">el_lb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_lb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Handles the mayority of the camera operation.</p>
 <dl class="py method">
@@ -464,22 +466,23 @@ value is selected, it will be converted to 0.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.api.Handler.__call__">
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.api.Handler.__call__" title="Link to this definition"></a></dt>
-<dd><p>Between each frame, sends the frame for processing,</p>
+<dd><p>Between each frame, sends the frame for</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">prepares</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">one,</span> <span class="pre">and</span> <span class="pre">checks</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">program</span> <span class="pre">has</span> <span class="pre">stopped.</span></span></dt>
+<span class="sig-name descname"><span class="pre">processing,</span> <span class="pre">prepares</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">one,</span> <span class="pre">and</span> <span class="pre">checks</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">program</span> <span class="pre">has</span> <span class="pre">stopped.</span></span></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="id10">
 <span class="sig-name descname"><span class="pre">create_camera_control_slider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tk</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.create_camera_control_slider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
-<dd><p>Creates an slider, saves it in the current instance (self) and sets its initial values:</p>
-<ol class="arabic simple">
-<li><p>Creates a slider within the current instance using the CameraControlSlider class.</p></li>
-<li><p>Sets the initial values of the minimum and maximum spot size and the exposure with set_initial_values().</p></li>
-</ol>
+<dd><p>Creates an slider, saves it in the current instance (self) and sets its
+initial values:</p>
+<p>1. Creates a slider within the current instance using the CameraControlSlider
+class.</p>
+<p>2. Sets the initial values of the minimum and maximum spot size and the
+exposure with set_initial_values().</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -500,8 +503,9 @@ value is selected, it will be converted to 0.</p>
 <li><p>If recording mode is selected, sets the plot size, data, title, and labels.</p></li>
 <li><p>Adjust the format of the time as H:M:S.</p></li>
 <li><p>If a payload is chosen, its name will be added to the plot’s title.</p></li>
-<li><p>Saves the plot in the same directory as the recorded frames (stored in the instance).</p></li>
 </ol>
+<p>4. Saves the plot in the same directory as the recorded frames (stored in the
+instance).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Instance</em>) – Current instance, provides access to attributes and methods.</p>
@@ -530,7 +534,8 @@ value is selected, it will be converted to 0.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="id13">
 <span class="sig-name descname"><span class="pre">set_min_max_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">siz</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/api.html#Handler.set_min_max_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
-<dd><p>Updates the minimum or maximum spot size value stored in the current instance (self).</p>
+<dd><p>Updates the minimum or maximum spot size value stored in the current
+instance (self).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -553,8 +558,8 @@ value is selected, it will be converted to 0.</p>
 <ol class="arabic simple">
 <li><p>If data is available, plots it on the graph.</p></li>
 </ol>
-<p>2. Adjusts the graph’s horizontal and vertical limits, extends the x-axis by 60 seconds,
-and increase the y-axis limit by 10% of the maximum value.</p>
+<p>2. Adjusts the graph’s horizontal and vertical limits, extends the x-axis by 60
+seconds, and increase the y-axis limit by 10% of the maximum value.</p>
 <ol class="arabic simple" start="3">
 <li><p>Updates the graph’s format as needed.</p></li>
 <li><p>Plots the new data on the graph.</p></li>
@@ -720,6 +725,39 @@ selects an OpenCV-compatible monochrome pixel format.</p>
 <span id="allskycam4oleodl-gui-module"></span><h2>AllSkyCam4OLEODL.gui module<a class="headerlink" href="#module-AllSkyCam4OLEODL.gui" title="Link to this heading"></a></h2>
 <p>This module manages the GUI settings menu that appears when the program is first run.</p>
 <dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.gui.create_graph">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.gui.</span></span><span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">hlines</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/gui.html#create_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.gui.create_graph" title="Link to this definition"></a></dt>
+<dd><p>Creates the live graph displayed in the GUI:</p>
+<ol class="arabic simple">
+<li><p>Creates the plot with an specific size, position, title and labels.</p></li>
+</ol>
+<p>2. If a payload with full elevation range has been chosen, the graph will be smaller
+to acomodate the link budget graph.</p>
+<ol class="arabic simple" start="3">
+<li><p>Initializes the data for the graph.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation_in</strong> (<em>tk.StringVar</em>) – Container of the elevation mode (Individual or Full).</p></li>
+<li><p><strong>payload</strong> (<em>tk.StringVar</em>) – Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>fig (plt.figure): Figure of the created plot.</p>
+<p>ax (plt.axes): Axes of the created plot.</p>
+<p>line (plt.hlines): Lines of the created plot.</p>
+<p>xdata (list): X-axis data from the created plot.</p>
+<p>ydata (list): Y-axis data from the created plot.</p>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[plt.figure, plt.axes, plt.hlines, list, list]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.gui.create_menu">
 <span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.gui.</span></span><span class="sig-name descname"><span class="pre">create_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">StringVar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tk</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Entry</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Entry</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/gui.html#create_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.gui.create_menu" title="Link to this definition"></a></dt>
 <dd><p>Creates the GUI menu to configure the initial settings:</p>
@@ -734,17 +772,18 @@ selects an OpenCV-compatible monochrome pixel format.</p>
 <dd class="field-odd"><p><p>gain_var (tk.StringVar): Container of the gain mode (0 [0 dB] or 1 [18 dB]).</p>
 <p>check_var (tk.StringVar): Container of the streaming mode (Stream or Record).</p>
 <p>light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).</p>
-<p>payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat or
-CubeCat).</p>
+<p>payload_var (tk.StringVar): Container of the payload used (None, KIODO,
+OsirisV1, Osiris4CubeSat or CubeCat).</p>
 <p>h_ogs_var (tk.StringVar): Container of the height of the OGS used (IKN-OP or GSOC-OP).</p>
-<p>zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 1550nm [0.891], Good 1550nm [0.986],
-Bad 850nm [0.705], Good 850nm [0.950] or CubeCat 20240822 [0.963])</p>
+<p>zenith_var (tk.StringVar): Container of the zenith attenuation (Bad
+1550nm [0.891], Good 1550nm [0.986], Bad 850nm [0.705], Good 850nm
+[0.950] or CubeCat 20240822 [0.963])</p>
 <p>elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).</p>
 <p>elevation_angle_var (tk.StringVar): Container of the elevation angle (if manual).</p>
 <p>exposure_var (tk.StringVar): Container of the exposure mode (Auto or Manual).</p>
 <p>exposure_time_var (tk.StringVar): Container of the exposure value (if manual).</p>
-<p>iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction or
-Camera’s BC).</p>
+<p>iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel
+substraction, Subtraction ormCamera’s BC).</p>
 <p>root (tk.Tk): Main window of the GUI menu.</p>
 <p>exposure_time_entry (tk.ttk.Entry): Value of the exposure.</p>
 <p>elevation_angle_entry (tk.ttk.Entry): Value of the elevation.</p>
@@ -820,8 +859,9 @@ or disable its text box.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.image_processing.calculate_el_azi">
 <span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.image_processing.</span></span><span class="sig-name descname"><span class="pre">calculate_el_azi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/image_processing.html#calculate_el_azi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.image_processing.calculate_el_azi" title="Link to this definition"></a></dt>
-<dd><p>Calculates the elevation and azimuth of the brightest point of the frame, making use of the
-fisheye projections. Equidistant, equisolid and stereographic can be selected.</p>
+<dd><p>Calculates the elevation and azimuth of the brightest point of the frame,
+making  use of the fisheye projections. Equidistant, equisolid and stereographic
+can be selected.</p>
 <ol class="arabic simple">
 <li><p>Calculates the distance from the center of the image to the brightest point.</p></li>
 <li><p>Applies the projection to obtain the fov of the lens in the brightest point.</p></li>
@@ -903,14 +943,16 @@ fisheye projections. Equidistant, equisolid and stereographic can be selected.</
 </ol>
 <ul class="simple">
 <li><dl class="simple">
-<dt>Hot-pixel removal.</dt><dd><p>A frame with the hot pixels will threshold and normalized by the dark_frame_setup() fuction
-and then subtracted to the the taken frame with the subtract_frames() function.</p>
+<dt>Hot-pixel removal.</dt><dd><p>A frame with the hot pixels will threshold and normalized by the
+dark_frame_setup() fuction and then subtracted to the the taken frame
+with the subtract_frames() function.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>Own background correction.</dt><dd><p>Substracts the temporal frame to the next grabbed frame. The subtract_frames() fuction is
-applied for substracting the temporal frame, just grabbed, with the next frame.</p>
+<dt>Own background correction.</dt><dd><p>Substracts the temporal frame to the next grabbed frame. The
+subtract_frames() fuction is applied for substracting the temporal frame,
+just grabbed, with the next frame.</p>
 </dd>
 </dl>
 </li>
@@ -1007,10 +1049,10 @@ besides the csv file, will all be saved.</p>
 <span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.input_checks.</span></span><span class="sig-name descname"><span class="pre">checks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_angle_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exposure_time_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zenith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h_ogs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/input_checks.html#checks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.input_checks.checks" title="Link to this definition"></a></dt>
 <dd><p>Based on the selected values in the GUI it preapres the exposure, elevation and
 zenith attenuation we will finally use.</p>
-<p>1. If manual exposure mode is selected, retrieves the exposure time, ensuring that the
-value is non-negative.</p>
-<p>2. If individual elevation mode is selected, retrieves the elevation angle, ensuring that the selected
-value is between 0 and 90 degrees of elevation.</p>
+<p>1. If manual exposure mode is selected, retrieves the exposure time, ensuring that
+the value is non-negative.</p>
+<p>2. If individual elevation mode is selected, retrieves the elevation angle, ensuring
+that the selected value is between 0 and 90 degrees of elevation.</p>
 <ol class="arabic simple" start="3">
 <li><p>Selects the value of the atmospheric zenith attenuation.</p></li>
 </ol>
@@ -1040,6 +1082,27 @@ value is between 0 and 90 degrees of elevation.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>tuple[int, int, float, int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="AllSkyCam4OLEODL.input_checks.get_value_list">
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.input_checks.</span></span><span class="sig-name descname"><span class="pre">get_value_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/input_checks.html#get_value_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.input_checks.get_value_list" title="Link to this definition"></a></dt>
+<dd><p>If value is present in elevation it get the coorespondent value of intensity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevation</strong> (<em>np.ndarray</em>) – Elevation of the satellite.</p></li>
+<li><p><strong>intensity</strong> (<em>np.ndarray</em>) – Intensity onto OGS-apertue inc. losses.</p></li>
+<li><p><strong>value</strong> (<em>_type_</em>) – _description_</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Intensity obtained from the link budget with value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.float64</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1074,12 +1137,19 @@ the elevation is just a point or the full range.</p>
 <li><p><strong>h_ogs</strong> (<em>int</em>) – Final height of the selected OGS.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>el (np.ndarray | int): Elevation of the satellite.
+int_ogs_lin_loss (np.ndarray | float): Intensity onto OGS-apertue inc. losses.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="AllSkyCam4OLEODL.link_budget.printer_lb">
-<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.link_budget.</span></span><span class="sig-name descname"><span class="pre">printer_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teta_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_fsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_axial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_atm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_bw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rfe_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_sci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/link_budget.html#printer_lb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.link_budget.printer_lb" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">AllSkyCam4OLEODL.link_budget.</span></span><span class="sig-name descname"><span class="pre">printer_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">el</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ppb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">teta_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leng</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_tx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_fsl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_axial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_atm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_bw</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">int_ogs_lin_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_ogs_mean_loss</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rx_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rfe_lin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_sci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/AllSkyCam4OLEODL/link_budget.html#printer_lb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#AllSkyCam4OLEODL.link_budget.printer_lb" title="Link to this definition"></a></dt>
 <dd><p>Prints the graph or the results and summary of the link budget.</p>
 <p>1. If the elevation mode is “Full” it will just print the graph, if not
 it will print the result of the link budget.</p>
@@ -1167,39 +1237,6 @@ OpenCV version:     4.10.0.84.</p>
 <dt>Author:</dt><dd><p>Iker Aldasoro - 19.04.2024</p>
 </dd>
 </dl>
-<dl class="py function">
-<dt class="sig sig-object py" id="main.create_graph">
-<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">create_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elevation_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">hlines</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/main.html#create_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.create_graph" title="Link to this definition"></a></dt>
-<dd><p>Creates the live graph displayed in the GUI:</p>
-<ol class="arabic simple">
-<li><p>Creates the plot with an specific size, position, title and labels.</p></li>
-</ol>
-<p>2. If a payload with full elevation range has been chosen, the graph will be smaller to acomodate the link
-budget graph.</p>
-<ol class="arabic simple" start="3">
-<li><p>Initializes the data for the graph.</p></li>
-</ol>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>elevation_in</strong> (<em>tk.StringVar</em>) – Container of the elevation mode (Individual or Full).</p></li>
-<li><p><strong>payload</strong> (<em>tk.StringVar</em>) – Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><p>fig (plt.figure): Figure of the created plot.</p>
-<p>ax (plt.axes): Axes of the created plot.</p>
-<p>line (plt.hlines): Lines of the created plot.</p>
-<p>xdata (list): X-axis data from the created plot.</p>
-<p>ydata (list): Y-axis data from the created plot.</p>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[plt.figure, plt.axes, plt.hlines, list, list]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="main.main">
 <span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.main" title="Link to this definition"></a></dt>

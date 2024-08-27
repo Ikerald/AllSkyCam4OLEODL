@@ -2,7 +2,7 @@
 
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\03_SCRIPTS\05_LINK_BUDGET\link_budget.py
 
-from typing import Union
+from typing import Union, Tuple
 from scipy.special import erfinv
 
 import numpy as np
@@ -40,7 +40,7 @@ def printer_lb(
     wl: float,
     p_rfe_lin: float,
     a_sci: int,
-) -> None:
+) -> Tuple[Union[np.ndarray, int], Union[np.ndarray, float]]:
     """Prints the graph or the results and summary of the link budget.
 
     1. If the elevation mode is "Full" it will just print the graph, if not
@@ -221,7 +221,9 @@ def printer_lb(
             )
 
 
-def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> None:
+def link_budget(
+    elevation_mode, el: int, payload, zenith: float, h_ogs: int
+) -> None:
     """Performs the link budget based on the parameters from the GUI:
 
     1. Selects specific parameters based on the payload chosen.
@@ -245,6 +247,10 @@ def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> 
         payload (tk.StringVar): Container of the payload used.
         zenith (float): Final selected zenith attenuation value.
         h_ogs (int): Final height of the selected OGS.
+
+    Returns:
+        tuple: el (np.ndarray | int): Elevation of the satellite.
+        int_ogs_lin_loss (np.ndarray | float): Intensity onto OGS-apertue inc. losses.
     """
     if payload.get() == "OsirisV1":
         h_orbit = 595  # km - Satellite height
@@ -269,7 +275,7 @@ def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> 
         wl = 1545e-9  # m - Wavelenght of the downlink
         p_tx = 24.7712  # dBm - Transmited power [300 mW]
         # p_tx = 16.99
-        teta_tx = 104E-6  # rad - collimator F220FC-1550
+        teta_tx = 104e-6  # rad - collimator F220FC-1550
         a_tx = 0  # dB - Optical Transmissor losses (Tx)
         dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
         ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
@@ -392,3 +398,5 @@ def link_budget(elevation_mode, el: int, payload, zenith: float, h_ogs: int) -> 
         p_rfe_lin,
         a_sci,
     )
+
+    return (el, int_ogs_lin_loss)

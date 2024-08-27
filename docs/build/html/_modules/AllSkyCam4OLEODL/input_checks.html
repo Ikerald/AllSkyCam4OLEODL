@@ -77,6 +77,9 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
 <div class="viewcode-block" id="checks">
 <a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.input_checks.checks">[docs]</a>
 <span class="k">def</span> <span class="nf">checks</span><span class="p">(</span>
@@ -90,11 +93,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Based on the selected values in the GUI it preapres the exposure, elevation and</span>
 <span class="sd">    zenith attenuation we will finally use.</span>
 
-<span class="sd">    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that the</span>
-<span class="sd">    value is non-negative.</span>
+<span class="sd">    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that</span>
+<span class="sd">    the value is non-negative.</span>
 
-<span class="sd">    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring that the selected</span>
-<span class="sd">    value is between 0 and 90 degrees of elevation.</span>
+<span class="sd">    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring</span>
+<span class="sd">    that the selected value is between 0 and 90 degrees of elevation.</span>
 
 <span class="sd">    3. Selects the value of the atmospheric zenith attenuation.</span>
 
@@ -170,6 +173,27 @@
         <span class="n">zenith</span><span class="p">,</span>
         <span class="n">h_ogs</span><span class="p">,</span>
     <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_value_list">
+<a class="viewcode-back" href="../../AllSkyCam4OLEODL.html#AllSkyCam4OLEODL.input_checks.get_value_list">[docs]</a>
+<span class="k">def</span> <span class="nf">get_value_list</span><span class="p">(</span><span class="n">elevation</span><span class="p">,</span> <span class="n">intensity</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;If value is present in elevation it get the coorespondent value of intensity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        elevation (np.ndarray): Elevation of the satellite.</span>
+<span class="sd">        intensity (np.ndarray): Intensity onto OGS-apertue inc. losses.</span>
+<span class="sd">        value (_type_): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.float64: Intensity obtained from the link budget with value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">elevation</span> <span class="o">==</span> <span class="n">value</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">intensity</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># or any other value to indicate the value wasn&#39;t found</span></div>
 
 </pre></div>
 

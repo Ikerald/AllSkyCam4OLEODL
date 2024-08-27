@@ -17,71 +17,11 @@ Author:
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\constants.py
 
 from tkinter import ttk
-from datetime import datetime
-from typing import Tuple
 import time
 import matplotlib.pyplot as plt
 import os
 
 import AllSkyCam4OLEODL
-
-
-def create_graph(
-    elevation_in, payload
-) -> Tuple[plt.figure, plt.axes, plt.hlines, list, list]:
-    """Creates the live graph displayed in the GUI:
-
-    1. Creates the plot with an specific size, position, title and labels.
-
-    2. If a payload with full elevation range has been chosen, the graph will be smaller 
-    to acomodate the link budget graph.
-
-    3. Initializes the data for the graph.
-
-    Args:
-        elevation_in (tk.StringVar): Container of the elevation mode (Individual or Full).
-        payload (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat, CubeCat).
-
-    Returns:
-        tuple[plt.figure, plt.axes, plt.hlines, list, list]: fig (plt.figure): Figure of the created plot.
-
-        ax (plt.axes): Axes of the created plot.
-
-        line (plt.hlines): Lines of the created plot.
-
-        xdata (list): X-axis data from the created plot.
-
-        ydata (list): Y-axis data from the created plot.
-    """
-    # Create figure and axis objects
-    fig, ax = plt.subplots()
-    if elevation_in.get() == "Full" and payload.get() != "None":
-        # Size and position of the intensity graph.
-        fig.set_size_inches(5.38, 3.3)
-        fig.canvas.manager.window.wm_geometry("+5+290")
-        fig.subplots_adjust(left=0.11, right=0.95, top=0.92, bottom=0.13)
-    else:
-        fig.set_size_inches(8.9, 3.3)
-        fig.canvas.manager.window.wm_geometry("+5+290")
-        fig.subplots_adjust(left=0.08, right=0.97, top=0.92, bottom=0.13)
-
-    (line,) = ax.plot([], [], lw=2)
-
-    ax.set_ylim(0, 255)
-    ax.grid()
-    if payload.get() != "None":
-        ax.set_title(
-            f"{payload.get()} downlink on {datetime.now().strftime('%Y-%m-%d')}"
-        )
-    else:
-        ax.set_title(f"Downlink on {datetime.now().strftime('%Y-%m-%d')}")
-    ax.set_xlabel("Time [UTC]")
-    ax.set_ylabel("Brightness")
-
-    # Initialize empty data
-    xdata, ydata = [], []
-
-    return fig, ax, line, xdata, ydata
 
 
 def main():
@@ -126,9 +66,12 @@ def main():
                 )
 
                 if payload_in.get() != "None":
-                    AllSkyCam4OLEODL.link_budget(
+                    el_lb, int_lb = AllSkyCam4OLEODL.link_budget(
                         elevation_in, elevation_angle, payload_in, zenith, h_ogs
                     )
+                else:
+                    el_lb = 0
+                    int_lb = 0
 
                 # Setup camera
                 AllSkyCam4OLEODL.upload_lut(
@@ -142,7 +85,7 @@ def main():
                 AllSkyCam4OLEODL.print_start_stream()
 
                 # Create graph
-                fig, ax, line, xdata, ydata = create_graph(
+                fig, ax, line, xdata, ydata = AllSkyCam4OLEODL.create_graph(
                     elevation_in, payload_in
                 )
                 # plt.show(block=False)  # Show the plot window without blocking
@@ -161,6 +104,8 @@ def main():
                     line,
                     xdata,
                     ydata,
+                    el_lb,
+                    int_lb,
                 )
                 handler.create_camera_control_slider(root)
                 plt.ion()  # Turn on interactive mode
