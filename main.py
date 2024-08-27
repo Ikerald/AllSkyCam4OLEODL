@@ -33,8 +33,8 @@ def create_graph(
 
     1. Creates the plot with an specific size, position, title and labels.
 
-    2. If a payload with full elevation range has been chosen, the graph will be smaller to acomodate the link
-    budget graph.
+    2. If a payload with full elevation range has been chosen, the graph will be smaller 
+    to acomodate the link budget graph.
 
     3. Initializes the data for the graph.
 

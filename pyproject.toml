@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "allskycam4oleodl"
-version = "0.3.0"
+version = "0.3.1"
 description = "Tracking software for OLEODL using Allied Vision cameras. Developed alongside DLR-OP-IKN."
 authors = ["Iker Aldasoro <ikeraldasorot@gmail.com>"]
 license = "MIT"

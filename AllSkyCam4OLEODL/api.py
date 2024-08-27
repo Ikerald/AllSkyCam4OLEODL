@@ -1,7 +1,7 @@
 """This module contains the API of the Allied Vision Goldeye Camera.
 
-It has been modified in order to allow both streaming and recording. It allows processing of the
-frames without the need of writting them first.
+It has been modified in order to allow both streaming and recording. It 
+allows processing of the frames without the need of writting them first.
 """
 
 # C:\Users\alda_ik\Documents\04_PROGRAMMING\02_FINAL_PROJECT\api.py
@@ -329,8 +329,8 @@ class Handler:
 
         set_min_max_value:              Updates the minimum or maximum spot size value.
 
-        __call__:                       Between each frame, sends the frame for processing,
-        prepares for the next one, and checks if the program has stopped.
+        __call__:                       Between each frame, sends the frame for 
+        processing, prepares for the next one, and checks if the program has stopped.
     """
 
     def __init__(
@@ -349,14 +349,14 @@ class Handler:
         xdata: list,
         ydata: list,
     ):
-        """Initializes the Handler class with the specified camera and plotting parameters,
-        and creates a directory for storing the frames:
+        """Initializes the Handler class with the specified camera and plotting 
+        parameters, and creates a directory for storing the frames:
 
         1. Sets up all necessary instances based on the chosen settings.
 
         2. Creates the directory for saving frames according to the specified settings
-        (will be saves in the data directory on the root folder of the project, inside a folder
-        called tracking_images).
+        (will be saves in the data directory on the root folder of the project, 
+        inside a folder called tracking_images).
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -511,8 +511,8 @@ class Handler:
 
         1. If data is available, plots it on the graph.
 
-        2. Adjusts the graph's horizontal and vertical limits, extends the x-axis by 60 seconds,
-        and increase the y-axis limit by 10% of the maximum value.
+        2. Adjusts the graph's horizontal and vertical limits, extends the x-axis by 60 
+        seconds, and increase the y-axis limit by 10% of the maximum value.
 
         3. Updates the graph's format as needed.
 
@@ -564,7 +564,8 @@ class Handler:
 
         3. If a payload is chosen, its name will be added to the plot's title.
 
-        4. Saves the plot in the same directory as the recorded frames (stored in the instance).
+        4. Saves the plot in the same directory as the recorded frames (stored in the 
+        instance).
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -583,7 +584,7 @@ class Handler:
             plt.gca().xaxis.set_major_formatter(time_format)
 
             plt.xlabel("Time [UTC]")
-            plt.ylabel("Brightness")
+            plt.ylabel("Pixel Value [DN]")
             plt.gcf().autofmt_xdate()  # Rotate and align the tick labels
             # Adjust layout manually for a tighter fit, but not as tight as plt.tightlayout()
             plt.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.1)
@@ -603,11 +604,14 @@ class Handler:
             plt.close()
 
     def create_camera_control_slider(self, root: tk.Tk) -> None:
-        """Creates an slider, saves it in the current instance (self) and sets its initial values:
+        """Creates an slider, saves it in the current instance (self) and sets its 
+        initial values:
 
-        1. Creates a slider within the current instance using the CameraControlSlider class.
+        1. Creates a slider within the current instance using the CameraControlSlider 
+        class.
 
-        2. Sets the initial values of the minimum and maximum spot size and the exposure with set_initial_values().
+        2. Sets the initial values of the minimum and maximum spot size and the 
+        exposure with set_initial_values().
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -635,7 +639,8 @@ class Handler:
             print("Failed to set exposure time")
 
     def set_min_max_value(self, value: int, siz: int) -> None:
-        """Updates the minimum or maximum spot size value stored in the current instance (self).
+        """Updates the minimum or maximum spot size value stored in the current 
+        instance (self).
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -653,14 +658,16 @@ class Handler:
             print(f"Min value set to: {value}")
 
     def __call__(self, cam: Camera, stream: Stream, frame: Frame) -> None:  # noqa: F405
-        """Between each frame, sends the current frame for processing, prepares for the next
-        one, and checks if the program has stopped:
+        """Between each frame, sends the current frame for processing, prepares for 
+        the next one, and checks if the program has stopped:
 
         1. If program shutdown is activated, exits the fuction.
 
-        2. If a frame has been grabbed, increments the counter and starts image processing.
+        2. If a frame has been grabbed, increments the counter and starts image 
+        processing.
 
-        3. Prepares for the next frame and checks if program is stopped (by pressing q / Q)
+        3. Prepares for the next frame and checks if program is stopped (by 
+        pressing q / Q)
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -926,9 +933,9 @@ class CameraControlSlider(tk.Toplevel):
 
         1. Gets the minimum spot size value from the slider and converts it to a logarithmic scale.
 
-        2. If the miniumum sleected spot size value is bigger than the maximum spot size value,
-        the maximum spot size value is selected as the minimum spot size value. If a negative
-        value is selected, it will be converted to 0.
+        2. If the miniumum sleected spot size value is bigger than the maximum 
+        spot size value, the maximum spot size value is selected as the minimum 
+        spot size value. If a negative value is selected, it will be converted to 0.
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -953,9 +960,9 @@ class CameraControlSlider(tk.Toplevel):
 
         1. Gets the maximum spot size value from the slider and converts it to a logarithmic scale.
 
-        2. The maximum selected spot size value will be the maximum value between the minimum spot size
-        value and the smaller value between the maximum spot size value selected from the slider and whole
-        dimensions of the image.
+        2. The maximum selected spot size value will be the maximum value between 
+        the minimum spot size value and the smaller value between the maximum spot 
+        size value selected from the slider and whole dimensions of the image.
 
         Args:
             self (Instance): Current instance, provides access to attributes and methods.
@@ -980,8 +987,8 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_exposure_entry(self, event=None) -> None:
         """Updates the exposure value parsed through the button:
 
-        1. Gets the exposure value and converts it to a logarithmic scale if it is in the correct range.
-        If not, it raises an error.
+        1. Gets the exposure value and converts it to a logarithmic scale if it 
+        is in the correct range. If not, it raises an error.
 
         2. Updates the exposure value calling the update_exposure() function.
 
@@ -990,8 +997,8 @@ class CameraControlSlider(tk.Toplevel):
             event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.
 
         Raises:
-            ValueError: Exposure time inputed in the text-box is either bigger than the maximum exposure time
-            or smaller than the smallest exposure time.
+            ValueError: Exposure time inputed in the text-box is either bigger than the 
+            maximum exposure time or smaller than the smallest exposure time.
         """
         try:
             exposure = float(self.exposure_entry.get())
@@ -1015,8 +1022,8 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_min_entry(self, event=None) -> None:
         """Updates the minimum spot size value parsed through the button:
 
-        1. Gets the minimum spot size value and converts it to a logarithmic scale if it is bigger than
-        zero but smaller than the maximum value.
+        1. Gets the minimum spot size value and converts it to a logarithmic scale if 
+        it is bigger than zero but smaller than the maximum value.
 
         2. Updates the minimum spot size value calling the update_min_value() function.
 
@@ -1025,8 +1032,8 @@ class CameraControlSlider(tk.Toplevel):
             event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.
 
         Raises:
-            ValueError: Minimum spot size value is either smaller than zero or bigger than the maximum spot
-            size value.
+            ValueError: Minimum spot size value is either smaller than zero or bigger
+            than the maximum spot size value.
         """
         try:
             min_value = int(self.min_entry.get())
@@ -1049,8 +1056,9 @@ class CameraControlSlider(tk.Toplevel):
     def update_from_max_entry(self, event=None) -> None:
         """Updates the maximum spot size value parsed through the button:
 
-        1. Gets the maximum spot size value and converts it to a logarithmic scale if it is bigger or
-        equal to the minimum spot size values and smaller or equal than the full image.
+        1. Gets the maximum spot size value and converts it to a logarithmic scale 
+        if it is bigger or equal to the minimum spot size values and smaller or equal 
+        than the full image.
 
         2. Updates the maximum spot size value calling the update_max_value() function.
 
@@ -1059,8 +1067,8 @@ class CameraControlSlider(tk.Toplevel):
             event (_type_, optional): Nothing, just compatibility purposes. Defaults to None.
 
         Raises:
-            ValueError: Maximum spot size value is either bigger than the dimensions of the whole frame or
-            smaller than the minimum spot size value.
+            ValueError: Maximum spot size value is either bigger than the dimensions of 
+            the whole frame or smaller than the minimum spot size value.
         """
         try:
             max_value = int(self.max_entry.get())

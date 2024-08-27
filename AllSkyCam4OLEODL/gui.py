@@ -57,13 +57,14 @@ def create_menu() -> (
 
         light_var (tk.StringVar): Container of the time of the day (Daytime or Nighttime).
 
-        payload_var (tk.StringVar): Container of the payload used (None, KIODO, OsirisV1, Osiris4CubeSat or
-        CubeCat).
+        payload_var (tk.StringVar): Container of the payload used (None, KIODO, 
+        OsirisV1, Osiris4CubeSat or CubeCat).
 
         h_ogs_var (tk.StringVar): Container of the height of the OGS used (IKN-OP or GSOC-OP).
 
-        zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 1550nm [0.891], Good 1550nm [0.986],
-        Bad 850nm [0.705], Good 850nm [0.950] or CubeCat 20240822 [0.963])
+        zenith_var (tk.StringVar): Container of the zenith attenuation (Bad 
+        1550nm [0.891], Good 1550nm [0.986], Bad 850nm [0.705], Good 850nm 
+        [0.950] or CubeCat 20240822 [0.963])
 
         elevation_var (tk.StringVar): Container of the elevation mode (Individual or Full).
 
@@ -73,8 +74,8 @@ def create_menu() -> (
 
         exposure_time_var (tk.StringVar): Container of the exposure value (if manual).
 
-        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel substraction, Subtraction or
-        Camera's BC).
+        iso_var (tk.StringVar): Container of the main camera mode (Normal, Hot-pixel 
+        substraction, Subtraction ormCamera's BC).
 
         root (tk.Tk): Main window of the GUI menu.
 

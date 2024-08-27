@@ -196,7 +196,7 @@ def brightest_V2(
         exposure (float): Exposure time used for that particular frame.
 
     Returns:
-        tuple[tuple, float, float, float, float, float]: max_loc (tuple):Location of the brightest point:
+        tuple[tuple, float, float, float, float, float]: max_loc (tuple):Location of the brightest point: 
         [0] = x-axis, [1] = y-axis.
 
         max_val (float): Pixel value of the brightest point [0-255].
@@ -285,8 +285,9 @@ def brightest_V2(
 
 
 def calculate_el_azi(max_loc: Tuple) -> Tuple[float, float, float, float]:
-    """Calculates the elevation and azimuth of the brightest point of the frame, making use of the
-    fisheye projections. Equidistant, equisolid and stereographic can be selected.
+    """Calculates the elevation and azimuth of the brightest point of the frame, 
+    making  use of the fisheye projections. Equidistant, equisolid and stereographic 
+    can be selected.
 
     1. Calculates the distance from the center of the image to the brightest point.
 
@@ -646,12 +647,14 @@ def frame_processing(self, cam, frame) -> None:
     2. Depending on the selected mode by the user:
 
     - Hot-pixel removal.
-        A frame with the hot pixels will threshold and normalized by the dark_frame_setup() fuction
-        and then subtracted to the the taken frame with the subtract_frames() function.
+        A frame with the hot pixels will threshold and normalized by the 
+        dark_frame_setup() fuction and then subtracted to the the taken frame 
+        with the subtract_frames() function.
 
     - Own background correction.
-        Substracts the temporal frame to the next grabbed frame. The subtract_frames() fuction is
-        applied for substracting the temporal frame, just grabbed, with the next frame.
+        Substracts the temporal frame to the next grabbed frame. The 
+        subtract_frames() fuction is applied for substracting the temporal frame, 
+        just grabbed, with the next frame.
 
     - Normal operation.
         The temporal frame will be used directly.
@@ -694,7 +697,7 @@ def frame_processing(self, cam, frame) -> None:
         normalized = dark_frame_setup(hot)
         # Removal of the dark pixels from the taken frame.
         frame_subs = subtract_frames(frame_temp, normalized)
-    # Background substraction.
+    # Background subsNotraction.
     elif self.background == 1:
         normalized = cv2.imread(const.BACKGROUND_FRAME_DIR)
         # background = background.astype(np.uint8)

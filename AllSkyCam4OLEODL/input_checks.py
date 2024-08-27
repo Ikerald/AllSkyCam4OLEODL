@@ -15,11 +15,11 @@ def checks(
     """Based on the selected values in the GUI it preapres the exposure, elevation and
     zenith attenuation we will finally use.
 
-    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that the
-    value is non-negative.
+    1. If manual exposure mode is selected, retrieves the exposure time, ensuring that 
+    the value is non-negative.
 
-    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring that the selected
-    value is between 0 and 90 degrees of elevation.
+    2. If individual elevation mode is selected, retrieves the elevation angle, ensuring 
+    that the selected value is between 0 and 90 degrees of elevation.
 
     3. Selects the value of the atmospheric zenith attenuation.
 
