@@ -119,15 +119,21 @@ def write_csv(
     if self.payload != "None":
         if self.elev_mod == "Full":
             payload_int = inp.get_value_list(self.el_lb, self.int_lb, elevation)
-            payload_int_db = 10 * math.log10(payload_int)
-            payload_int_u = payload_int * 1e6
-            print(f"payload db {payload_int_db}")
-            inten_grid_w = intensity_grid * 1e-6
-            print(f"the intensity grid in w {inten_grid_w}")
-            intensity_grid_db = 10 * math.log10(inten_grid_w)
-            print(f"the intensity grid in db {intensity_grid_db}")
-            dif = intensity_grid - payload_int_u
-            dif_db = intensity_grid_db - payload_int_db
+            #print(payload_int)
+            if payload_int != 0:
+                payload_int_db = 10 * math.log10(payload_int)
+                payload_int_u = payload_int * 1e6
+                #print(f"payload db {payload_int_db}")
+                inten_grid_w = intensity_grid * 1e-6
+                #print(f"the intensity grid in w {inten_grid_w}")
+                intensity_grid_db = 10 * math.log10(inten_grid_w)
+                #print(f"the intensity grid in db {intensity_grid_db}")
+                dif = intensity_grid - payload_int_u
+                dif_db = intensity_grid_db - payload_int_db
+            else:
+                dif = "Fixed"
+                dif_db = "Fixed"
+
         else:
             payload_int = "Fixed"
             dif = "Fixed"
