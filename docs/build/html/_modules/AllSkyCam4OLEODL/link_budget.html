@@ -358,6 +358,16 @@
         <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
         <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
         <span class="c1"># diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
+    <span class="k">elif</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Osiris4CubeSat&quot;</span><span class="p">:</span>
+        <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">560</span>  <span class="c1"># km - Satellite height</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="mf">1550e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>
+        <span class="n">p_tx</span> <span class="o">=</span> <span class="mf">19.29</span>  <span class="c1"># dBm - Transmited power [85 mW]</span>
+        <span class="c1"># p_tx = 16.99</span>
+        <span class="n">teta_tx</span> <span class="o">=</span> <span class="mf">120e-6</span>  <span class="c1"># rad - collimator F220FC-1550</span>
+        <span class="n">a_tx</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># dB - Optical Transmissor losses (Tx)</span>
+        <span class="n">dr</span> <span class="o">=</span> <span class="mf">39e6</span>  <span class="c1"># bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP</span>
+        <span class="n">ppb</span> <span class="o">=</span> <span class="mi">250</span>  <span class="c1"># ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW</span>
+        <span class="c1"># diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">h_orbit</span> <span class="o">=</span> <span class="mi">595</span>  <span class="c1"># km - Satellite height</span>
         <span class="n">wl</span> <span class="o">=</span> <span class="mf">1545e-9</span>  <span class="c1"># m - Wavelenght of the downlink</span>

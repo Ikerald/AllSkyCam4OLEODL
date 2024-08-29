@@ -119,15 +119,15 @@ def write_csv(
     if self.payload != "None":
         if self.elev_mod == "Full":
             payload_int = inp.get_value_list(self.el_lb, self.int_lb, elevation)
-            #print(payload_int)
+            # print(payload_int)
             if payload_int != 0:
                 payload_int_db = 10 * math.log10(payload_int)
                 payload_int_u = payload_int * 1e6
-                #print(f"payload db {payload_int_db}")
+                # print(f"payload db {payload_int_db}")
                 inten_grid_w = intensity_grid * 1e-6
-                #print(f"the intensity grid in w {inten_grid_w}")
+                # print(f"the intensity grid in w {inten_grid_w}")
                 intensity_grid_db = 10 * math.log10(inten_grid_w)
-                #print(f"the intensity grid in db {intensity_grid_db}")
+                # print(f"the intensity grid in db {intensity_grid_db}")
                 dif = intensity_grid - payload_int_u
                 dif_db = intensity_grid_db - payload_int_db
             else:
@@ -413,13 +413,14 @@ def calculate_el_azi(max_loc: Tuple) -> Tuple[float, float, float, float]:
             )
         ) * (180 / math.pi)
 
-    # If point is in the upper part of the frame
+    # If point is in the bottom of the frame
     if max_loc[1] >= const.FISH_CENTER[1]:
         azimuth = 180 + azimuth
     else:
-        # If point is the bottom-right part of the frame
+        # If point is the upper-right part of the frame
         if max_loc[0] >= const.FISH_CENTER[0]:
             azimuth = 360 + azimuth
+        # If point is the upper-left we wont do anything
 
     return elevation, fov, r, azimuth
 
@@ -788,6 +789,8 @@ def frame_processing(self, cam, frame) -> None:
     # Append data for update the live graph of the GUI
     self.xdata.append(now)
     self.ydata.append(max_val)
+    # self.ydata.append(max_val_grid)
+    # self.ydata.append(intensity_brightest_grid)
 
     # Draw on-top of the frame
     frame_draw(

@@ -200,15 +200,21 @@
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">payload</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elev_mod</span> <span class="o">==</span> <span class="s2">&quot;Full&quot;</span><span class="p">:</span>
             <span class="n">payload_int</span> <span class="o">=</span> <span class="n">inp</span><span class="o">.</span><span class="n">get_value_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">el_lb</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_lb</span><span class="p">,</span> <span class="n">elevation</span><span class="p">)</span>
-            <span class="n">payload_int_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">payload_int</span><span class="p">)</span>
-            <span class="n">payload_int_u</span> <span class="o">=</span> <span class="n">payload_int</span> <span class="o">*</span> <span class="mf">1e6</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;payload db </span><span class="si">{</span><span class="n">payload_int_db</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">inten_grid_w</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">*</span> <span class="mf">1e-6</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the intensity grid in w </span><span class="si">{</span><span class="n">inten_grid_w</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">intensity_grid_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">inten_grid_w</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the intensity grid in db </span><span class="si">{</span><span class="n">intensity_grid_db</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">dif</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">-</span> <span class="n">payload_int_u</span>
-            <span class="n">dif_db</span> <span class="o">=</span> <span class="n">intensity_grid_db</span> <span class="o">-</span> <span class="n">payload_int_db</span>
+            <span class="c1"># print(payload_int)</span>
+            <span class="k">if</span> <span class="n">payload_int</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">payload_int_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">payload_int</span><span class="p">)</span>
+                <span class="n">payload_int_u</span> <span class="o">=</span> <span class="n">payload_int</span> <span class="o">*</span> <span class="mf">1e6</span>
+                <span class="c1"># print(f&quot;payload db {payload_int_db}&quot;)</span>
+                <span class="n">inten_grid_w</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">*</span> <span class="mf">1e-6</span>
+                <span class="c1"># print(f&quot;the intensity grid in w {inten_grid_w}&quot;)</span>
+                <span class="n">intensity_grid_db</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">inten_grid_w</span><span class="p">)</span>
+                <span class="c1"># print(f&quot;the intensity grid in db {intensity_grid_db}&quot;)</span>
+                <span class="n">dif</span> <span class="o">=</span> <span class="n">intensity_grid</span> <span class="o">-</span> <span class="n">payload_int_u</span>
+                <span class="n">dif_db</span> <span class="o">=</span> <span class="n">intensity_grid_db</span> <span class="o">-</span> <span class="n">payload_int_db</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dif</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
+                <span class="n">dif_db</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="n">payload_int</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
             <span class="n">dif</span> <span class="o">=</span> <span class="s2">&quot;Fixed&quot;</span>
@@ -225,7 +231,7 @@
                 <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span>
                 <span class="s2">&quot;FOV&quot;</span><span class="p">:</span> <span class="n">fov</span><span class="p">,</span>
                 <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
-                <span class="s2">&quot;Mean Pixel Value of the frame [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
+                <span class="s2">&quot;Mean Pixel Value of the Frame [DN]&quot;</span><span class="p">:</span> <span class="n">frame_mean_pixel_value</span><span class="p">,</span>
                 <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue</span><span class="p">,</span>
                 <span class="s2">&quot;Intensity Brightest Pixel [uW/m^-2]&quot;</span><span class="p">:</span> <span class="n">intensity</span><span class="p">,</span>
                 <span class="s2">&quot;Summed Brightest Contour Pixel Value [DN]&quot;</span><span class="p">:</span> <span class="n">pvalue_grid</span><span class="p">,</span>
@@ -247,7 +253,7 @@
             <span class="s2">&quot;Azimuth [°]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;FOV&quot;</span><span class="p">,</span>
             <span class="s2">&quot;R&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Mean Pixel Value of the frame [DN]&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Mean Pixel Value of the Frame [DN]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Brightest Pixel Value [DN]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Intensity Brightest Pixel [uW/m^-2]&quot;</span><span class="p">,</span>
             <span class="s2">&quot;Summed Brightest Contour Pixel Value [DN]&quot;</span><span class="p">,</span>
@@ -494,13 +500,14 @@
             <span class="p">)</span>
         <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
-    <span class="c1"># If point is in the upper part of the frame</span>
+    <span class="c1"># If point is in the bottom of the frame</span>
     <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="n">azimuth</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">+</span> <span class="n">azimuth</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># If point is the bottom-right part of the frame</span>
+        <span class="c1"># If point is the upper-right part of the frame</span>
         <span class="k">if</span> <span class="n">max_loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">const</span><span class="o">.</span><span class="n">FISH_CENTER</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="n">azimuth</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">+</span> <span class="n">azimuth</span>
+        <span class="c1"># If point is the upper-left we wont do anything</span>
 
     <span class="k">return</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">fov</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">azimuth</span></div>
 
@@ -875,6 +882,8 @@
     <span class="c1"># Append data for update the live graph of the GUI</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">xdata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ydata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_val</span><span class="p">)</span>
+    <span class="c1"># self.ydata.append(max_val_grid)</span>
+    <span class="c1"># self.ydata.append(intensity_brightest_grid)</span>
 
     <span class="c1"># Draw on-top of the frame</span>
     <span class="n">frame_draw</span><span class="p">(</span>

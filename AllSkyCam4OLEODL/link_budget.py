@@ -280,6 +280,16 @@ def link_budget(
         dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
         ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
         # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
+    elif payload.get() == "Osiris4CubeSat":
+        h_orbit = 560  # km - Satellite height
+        wl = 1550e-9  # m - Wavelenght of the downlink
+        p_tx = 19.29  # dBm - Transmited power [85 mW]
+        # p_tx = 16.99
+        teta_tx = 120e-6  # rad - collimator F220FC-1550
+        a_tx = 0  # dB - Optical Transmissor losses (Tx)
+        dr = 39e6  # bps - datarate in KIODO, 39Mbps in OSIRIS-FLP for OCAM and some tests to OP
+        ppb = 250  # ppb - Photons per bit required bei RFE at BER=1E-3 at first OSIRIS with APD-RFE-100-OLD, 320Photons for RFE-300-NEW
+        # diese Formel muss noch durch WL ergnzt werden:   D_tx=0.2; teta_tx = 100E-6 * 0.01/D_tx; % estimate for near-optimum cut-gauss Tx
     else:
         h_orbit = 595  # km - Satellite height
         wl = 1545e-9  # m - Wavelenght of the downlink

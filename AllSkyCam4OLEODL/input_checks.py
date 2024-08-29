@@ -65,7 +65,7 @@ def checks(
         try:
             elevation_angle = int(elevation_angle_in.get())
             print(elevation_angle)
-            if elevation_angle <= 0 or elevation_angle >= 90:
+            if elevation_angle <= 0 or elevation_angle >= 91:
                 raise ValueError
         # Error validation
         except ValueError:
